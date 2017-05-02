@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateClinicaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGroup>
+                    <p:selectOneRadio id="tipoCadastro" value = "#{clinicaController.CPF}"> 
+                        <f:selectItem itemValue = "SIM" itemLabel = "#{bundle.CreatePessoaTitle_cpf}" />
+                        <f:selectItem itemValue = "NAO" itemLabel = "#{bundle.CreateEmpresaTitle_cnpj}" />                   
+                        <f:ajax render="dadosPessoais" event="click" />
+                    </p:selectOneRadio>
+                </h:panelGroup>
+                <h:panelGroup id="dadosPessoais">
+                    <h:panelGrid columns="2" rendered="#{not clinicaController.renderizarFormCNPJ()}">
+                        <h:outputLabel value="#{bundle.CreatePessoaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{clinicaController.pessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                        <h:outputLabel value="#{bundle.CreatePessoaLabel_cpf}" for="cpf" />
+                        <p:inputMask id="cpf" value="#{clinicaController.pessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" mask="999.999.999-99" validator="cpfValidator" validatorMessage="#{bundle.CPFInvalido}">
+                            <p:ajax event="blur" update="messagePanel"/>
+                        </p:inputMask>
+
+                        <h:outputLabel value="#{bundle.CreatePessoaLabel_rg}" for="rg" />
+                        <p:inputText id="rg" value="#{clinicaController.pessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+                        
+                    </h:panelGrid>                
+                    <h:panelGrid columns="2" rendered="#{clinicaController.renderizarFormCNPJ()}">
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_razaoSocial}" for="razaoSocial" />
+                        <p:inputText id="razaoSocial" value="#{clinicaController.empresa.razaoSocial}" title="#{bundle.CreateEmpresaTitle_razaoSocial}" />
+
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_nomeFantasia}" for="nomeFantasia" />
+                        <p:inputText id="nomeFantasia" value="#{clinicaController.empresa.nomeFantasia}" title="#{bundle.CreateEmpresaTitle_nomeFantasia}" />
+
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_cnpj}" for="cnpj" />
+                        <p:inputMask id="cnpj" value="#{clinicaController.empresa.cnpj}" title="#{bundle.CreateEmpresaTitle_cnpj}" mask="99.999.999/9999-99" validator="cnpjValidator" validatorMessage="#{bundle.CNPJInvalido}">
+                            <p:ajax event="blur" update="messagePanel"/>
+                        </p:inputMask>
+
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_inscricaoEstadual}" for="inscricaoEstadual" />
+                        <p:inputText id="inscricaoEstadual" value="#{clinicaController.empresa.inscricaoEstadual}" title="#{bundle.CreateEmpresaTitle_inscricaoEstadual}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+                <h:panelGrid columns="2">                      
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_horaAbertura}" for="horaAbertura" />
+                    <p:selectOneMenu value="#{clinicaController.horarioAbertura}">                        
+                        <f:selectItems value="#{clinicaController.horarios}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.valorRelogio}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_horaFechamento}" for="horaFechamento" />
+                    <p:selectOneMenu value="#{clinicaController.horarioFechamento}">                        
+                        <f:selectItems value="#{clinicaController.horarios}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.valorRelogio}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_tempoAtendimento}" for="tempoAtendimento" />
+                    <p:calendar id="tempoAtendimento" value="#{clinicaController.tempoAtendimento}" pattern="HH:mm" timeOnly="true"  title="#{bundle.CreateAgendamentoTitle_tempoAtendimento}"/>
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_timezone}" for="timezone" />
+                    <p:selectOneMenu value="#{clinicaController.fusoHorario}">                        
+                        <f:selectItems value="#{clinicaController.fusoHorarios}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.fuso}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_tipoPagamentoProfissional}" for="tipoPagamentoProfissional" />
+                    <p:selectOneMenu value="#{clinicaController.pagamentoProfissional}">                        
+                        <f:selectItems value="#{clinicaController.pagamentosProfissional}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.pagamento}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_tipoLancamentoCartaoCredito}" for="tipoLancamentoCartaoCredito" />
+                    <p:selectOneMenu value="#{clinicaController.lancamentoCartao}">                        
+                        <f:selectItems value="#{clinicaController.lancamentosCartao}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.tipo}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_valorIndicacao}" for="valorIndicacao" />
+                    <p:inputText id="valorIndicacao" value="#{clinicaController.selected.valorIndicacao}" title="#{bundle.CreateClinicaTitle_valorIndicacao}" />
+
+                    <h:outputLabel value="#{bundle.CreateClinicaLabel_numFichaAutomatico}" for="numFichaAutomatico" />
+                    <p:selectOneMenu value="#{clinicaController.numFichaAutomatico}">                        
+                        <f:selectItems value="#{clinicaController.numFichaAutomaticos}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.valor}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <f:facet name="contato">                        
+                        <h:outputText>#{bundle.TitleContato}</h:outputText>                       
+                    </f:facet>
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_email}" for="email" />
+                    <p:inputText id="email" value="#{clinicaController.contato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_cel}" for="cel" />
+                    <p:inputMask id="cel" value="#{clinicaController.contato.cel}" title="#{bundle.CreateContatoTitle_cel}" mask="(99)99999-9999"/>
+
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_tel}" for="tel" />
+                    <p:inputMask id="tel" value="#{clinicaController.contato.tel}" title="#{bundle.CreateContatoTitle_tel}" mask="(99)9999-9999"/>
+
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_telOpc}" for="telOpc" />
+                    <p:inputMask id="telOpc" value="#{clinicaController.contato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" mask="(99)9999-9999"/>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <f:facet name="endereco">                        
+                        <h:outputText>#{bundle.TitleEndereco}</h:outputText>                       
+                    </f:facet>
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_cep}" for="cep" />
+                    <p:inputMask id="cep" value="#{clinicaController.endereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" mask="99.999-99"/>
+
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_estado}" for="estado" />
+                    <p:inputText id="estado" value="#{clinicaController.endereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_cidade}" for="cidade" />
+                    <p:inputText id="cidade" value="#{clinicaController.endereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_rua}" for="rua" />
+                    <p:inputText id="rua" value="#{clinicaController.endereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_numero}" for="numero" />
+                    <p:inputText id="numero" value="#{clinicaController.endereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_bairro}" for="bairro" />
+                    <p:inputText id="bairro" value="#{clinicaController.endereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                    <h:outputLabel value="#{bundle.CreateEnderecoLabel_complemento}" for="complemento" />
+                    <p:inputText id="complemento" value="#{clinicaController.endereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                </h:panelGrid>
+                <br />
+                <br />
+                <h:commandLink action="#{clinicaController.create}" value="#{bundle.CreateClinicaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{clinicaController.prepareList}" value="#{bundle.CreateClinicaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateClinicaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

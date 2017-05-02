@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login Dentista</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    <h:body>
+        <div id="todoLogin">
+            <div id="loginDiv">
+                <div id="formularioContainer" >
+                    <div id="containerLogo">
+                        <div id="logoDiv">
+                            <h:graphicImage id="logoLogin" library="images" name="logociasorriso.jpg"/>
+                        </div>
+                    </div>
+                    <div id="wrapLogin">
+                        <form method="post" action="j_security_check" >
+                            <p>
+                                <span>Usuário:</span>
+                                <br />
+                                <input type="text"  name= "j_username" />
+                            </p>
+                            <p>
+                                <span>Senha:</span>
+                                <br />
+                                <input type="password"  name= "j_password" />
+                            </p>
+                            <p>
+                                <input id="botaoLogin" type="submit" value="Entrar"/>
+                            </p>
+                        </form>
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+            <div id="botLogin">
+                <p>DESENVOLVIDO POR MIM</p>
+            </div>
+        </div>
+    </h:body>
+</html>
+

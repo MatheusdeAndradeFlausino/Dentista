@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewAnamneseTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_id}"/>
+                    <h:outputText value="#{anamneseController.selected.id}" title="#{bundle.ViewAnamneseTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_isHemorragia}"/>
+                    <h:outputText value="#{anamneseController.selected.isHemorragia}" title="#{bundle.ViewAnamneseTitle_isHemorragia}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_isDiabetico}"/>
+                    <h:outputText value="#{anamneseController.selected.isDiabetico}" title="#{bundle.ViewAnamneseTitle_isDiabetico}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_isPressaoAlta}"/>
+                    <h:outputText value="#{anamneseController.selected.isPressaoAlta}" title="#{bundle.ViewAnamneseTitle_isPressaoAlta}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_isCardiaco}"/>
+                    <h:outputText value="#{anamneseController.selected.isCardiaco}" title="#{bundle.ViewAnamneseTitle_isCardiaco}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_isGestante}"/>
+                    <h:outputText value="#{anamneseController.selected.isGestante}" title="#{bundle.ViewAnamneseTitle_isGestante}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_isPressaoBaixa}"/>
+                    <h:outputText value="#{anamneseController.selected.isPressaoBaixa}" title="#{bundle.ViewAnamneseTitle_isPressaoBaixa}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_observacao}"/>
+                    <h:outputText value="#{anamneseController.selected.observacao}" title="#{bundle.ViewAnamneseTitle_observacao}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_status}"/>
+                    <h:outputText value="#{anamneseController.selected.status}" title="#{bundle.ViewAnamneseTitle_status}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_idPaciente}"/>
+                    <h:outputText value="#{anamneseController.selected.idPaciente}" title="#{bundle.ViewAnamneseTitle_idPaciente}"/>
+                    <h:outputText value="#{bundle.ViewAnamneseLabel_idProfissional}"/>
+                    <h:outputText value="#{anamneseController.selected.idProfissional}" title="#{bundle.ViewAnamneseTitle_idProfissional}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{anamneseController.destroyAndView}" value="#{bundle.ViewAnamneseDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewAnamneseEditLink}"/>
+                <br />
+                <h:commandLink action="#{anamneseController.prepareCreate}" value="#{bundle.ViewAnamneseCreateLink}" />
+                <br />
+                <h:commandLink action="#{anamneseController.prepareList}" value="#{bundle.ViewAnamneseShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewAnamneseIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

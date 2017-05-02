@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMensalidadeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:panelGrid columns="2">
+
+                        <h:outputLabel value="#{bundle.EditMensalidadeLabel_idPaciente}" />
+                        <h:panelGroup>
+                            <h:inputText readonly="true" value="#{mensalidadeController.filtro.paciente.idPessoa.nome}" id="nomePaciente"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{mensalidadeController.pacienteSelecionado}" process="@this" update="nomePaciente"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateAgendamentoLabel_status}" />
+                        <h:selectOneMenu value="#{mensalidadeController.filtro.status}">                        
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{mensalidadeController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </h:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{mensalidadeController.pesquisar}"/>
+                </h:panelGroup>
+                <p:dataTable emptyMessage="#{bundle.ListMensalidadeEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
+                             paginatorPosition="bottom" id="tabelaList" var="mensalidade" value="#{mensalidadeController.mensalidades}">
+
+                    <p:column headerText="#{bundle.ListMensalidadeTitle_idPaciente}">
+                        <h:outputText value="#{mensalidade.idPaciente.idPessoa.nome}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.ListContatoTitle_cel}">
+                        <h:outputText value="#{mensalidade.idPaciente.idPessoa.idContato.cel}" />
+                    </p:column>               
+
+                    <p:column headerText="#{bundle.ListEspecialidadeTitle_status}">
+                        <h:outputText value="#{mensalidade.status}" />
+                    </p:column>
+
+                    <p:column headerText="#{bundle.Acoes}">
+                        <h:commandLink action="#{mensalidadeController.prepareView(mensalidade)}" value="#{bundle.ListMensalidadeViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{mensalidadeController.prepareEdit(mensalidade)}" value="#{bundle.ListMensalidadeEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{mensalidadeController.destroy(mensalidade)}" value="#{bundle.ListMensalidadeDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <br />
+                <h:commandLink action="#{mensalidadeController.prepareCreate}" value="#{bundle.ListMensalidadeCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListMensalidadeIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

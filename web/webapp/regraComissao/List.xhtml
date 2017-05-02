@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListRegraComissaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="#{bundle.CreateRegraComissaoLabel_descricao}" for="descricao" />
+                        <p:inputText id="descricao" value="#{regraComissaoController.filtro.descricao}" title="#{bundle.CreateRegraComissaoTitle_descricao}" />
+
+                        <p:outputLabel value="#{bundle.CreateProfissionalLabel_idClinica}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{regraComissaoController.filtro.clinica.nome}" id="nomeClinica"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{regraComissaoController.clinicaSelecionadaFiltro}" process="@this" update="nomeClinica"/>
+                            </p:commandButton> 
+                        </p:panel>
+                        
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_status}"  />
+                        <p:selectOneMenu value="#{regraComissaoController.filtro.status}">
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{regraComissaoController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{regraComissaoController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" actionListener="#{regraComissaoController.limpar}" />
+                </h:panelGroup>
+                <p:dataTable value="#{regraComissaoController.regrasComissao}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListRegraComissaoEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
+                    <f:facet name="{Exporters}">
+                        <div style="float:right">
+                            <h:commandLink value="#{bundle.XLS}" >
+                                <p:dataExporter type="xls" target="tabelaList" fileName="Profissionais" />
+                            </h:commandLink>
+                            <h:outputText value =" " />
+                            <h:commandLink value="#{bundle.PDF}" >                              
+                                <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{pacienteController.processarPDF}" target="tabelaList" fileName="Profissionais"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRegraComissaoTitle_descricao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descricao}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRegraComissaoTitle_idClinica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idClinica.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListProcedimentoTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                    <p:column exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.Acoes}"/>
+                        </f:facet>
+                        <h:commandLink action="#{regraComissaoController.prepareView(item)}" value="#{bundle.ListRegraComissaoViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{regraComissaoController.prepareEdit(item)}" value="#{bundle.ListRegraComissaoEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{regraComissaoController.destroy(item)}" value="#{bundle.ListRegraComissaoDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:column>
+                    </p:dataTable>
+                    <br />
+                    <h:commandLink action="#{regraComissaoController.prepareCreate}" value="#{bundle.ListRegraComissaoCreateLink}"/>
+                    <br />
+                    <br />
+                    <h:link outcome="/index" value="#{bundle.ListRegraComissaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

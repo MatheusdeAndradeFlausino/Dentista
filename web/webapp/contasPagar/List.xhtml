@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListContasPagarTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">
+                        <p:panel>
+                            <p:outputLabel value="#{bundle.De}" />
+                            <p:calendar value="#{contasPagarController.filtro.dataInicial}" pattern="dd/MM/yyyy" />
+                        </p:panel>
+                        <p:panel>
+                            <p:outputLabel value="#{bundle.Ate}"  />
+                            <p:calendar value="#{contasPagarController.filtro.dataFinal}" pattern="dd/MM/yyyy" />
+                        </p:panel>
+
+                        <p:outputLabel value="#{bundle.CreateContasPagarLabel_idFornecedor}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{contasPagarController.filtro.fornecedor.nome}" id="nomeFornecedor"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchFornecedorController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{contasPagarController.fornecedorSelecionadoFilter}" process="@this" update="nomeFornecedor nomeProfissional"/>
+                            </p:commandButton> 
+                        </p:panel>
+
+                        <p:outputLabel value="#{bundle.CreateContasPagarLabel_idProfissional}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{contasPagarController.filtro.profissional.idPessoa.nome}" id="nomeProfissional"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{contasPagarController.profissionalSelecionadoFilter}" process="@this" update="nomeProfissional nomeFornecedor"/>
+                            </p:commandButton> 
+                        </p:panel>
+
+                        <p:outputLabel value="#{bundle.CreateContasPagarLabel_idCentroCusto}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{contasPagarController.filtro.centroCusto.descricao}" id="centroCusto"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchCentroCustoController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{contasPagarController.centroCustoSelecionadoFilter}" process="@this" update="centroCusto"/>
+                            </p:commandButton> 
+                        </p:panel>
+
+                        <p:outputLabel value="#{bundle.CreateContasPagarLabel_idClinica}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{contasPagarController.filtro.clinica.nome}" id="nomeClinica"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searcClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{contasPagarController.clinicaSelecionadaFilter}" process="@this" update="nomeClinica"/>
+                            </p:commandButton> 
+                        </p:panel>
+
+                        <p:outputLabel value="#{bundle.CreateProcedimentoLabel_status}"  />
+                        <p:selectOneMenu value="#{contasPagarController.filtro.status}">
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{contasPagarController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList tabelaLote" actionListener="#{contasPagarController.pesquisar}" >
+                       
+                    </p:commandButton>
+                    <p:commandButton id="btn_reset" value="#{bundle.Limpar}" actionListener="#{contasPagarController.limpar}" update="panelFilter"/>
+                </h:panelGroup>
+                <p:dataTable value="#{contasPagarController.contasPagar}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListContasPagarEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
+                    <f:facet name="{Exporters}">
+                        <div style="float:right">
+                            <h:commandLink value="#{bundle.XLS}" >
+                                <p:dataExporter type="xls" target="tabelaList" fileName="ContasPagar" />
+                            </h:commandLink>
+                            <h:outputText value =" " />
+                            <h:commandLink value="#{bundle.PDF}" >                              
+                                <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{contasPagarController.processarPDF}" target="tabelaList" fileName="ContasPagar"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>                  
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_dataVencimento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dataVencimento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_tipoConta}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoConta}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_valor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.valor}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.CreateProcedimentoLabel_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_numDocumento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numDocumento}"/>
+                    </p:column>                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_idClinica}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idClinica.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_idProfissional}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idProfissional}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_idFornecedor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idFornecedor}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContasPagarTitle_idCentroCusto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCentroCusto.descricao}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.Acoes}"/>
+                        </f:facet>
+                        <h:commandLink action="#{contasPagarController.prepareView(item)}" value="#{bundle.ListContasPagarViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{contasPagarController.prepareEdit(item)}" value="#{bundle.ListContasPagarEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{contasPagarController.destroy(item)}" value="#{bundle.ListContasPagarDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{contasPagarController.efetuarPagamento(item)}" value="#{bundle.EfetuarPagamento}" update="tabelaList" rendered="#{contasPagarController.ContaAPagar(item)}">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.ConfirmarPagamento}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGroup id="tabelaLote">
+                    <p:fieldset legend="#{bundle.Lote}" rendered="#{contasPagarController.contasPagar.size() > 0}">
+                        <p:outputLabel value="#{contasPagarController.valorLote()}" />
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{contasPagarController.efetuarPagamentoLote}" value="#{bundle.EfetuarPagamentoLote}" update="tabelaList tabelaLote" >
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.ConfirmarPagamento}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:fieldset>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{contasPagarController.prepareCreate}" value="#{bundle.ListContasPagarCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListContasPagarIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

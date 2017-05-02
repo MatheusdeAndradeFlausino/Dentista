@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditEspecialidadeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form id="form">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditEspecialidadeLabel_descricao}" for="descricao" />
+                    <p:inputTextarea rows="4" cols="30" id="descricao" value="#{especialidadeController.selected.descricao}" title="#{bundle.EditEspecialidadeTitle_descricao}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateEspecialidadeLabel_tipoComissionamento}" />
+                    <p:selectOneMenu value="#{especialidadeController.selected.tipoComissionamento}">                        
+                        <f:selectItems value="#{especialidadeController.tiposComissionamento}" var="a"
+                                       itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>                        
+                    </p:selectOneMenu> 
+                                       
+                    <h:outputLabel value="#{bundle.EditEspecialidadeLabel_status}" />
+                    <p:selectOneMenu value="#{especialidadeController.selected.status}">                        
+                        <f:selectItems value="#{especialidadeController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>                        
+                    </p:selectOneMenu>                 
+                    
+                </h:panelGrid>
+                <p:panel header="#{bundle.AddClinicaEspecialidade}" style="width: 600px;" id="inserirEspecialidade">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="#{bundle.CreateProfissionalLabel_idClinica}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{especialidadeController.especialidadeClinica.idClinica.nome}" id="nomeClinica"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{especialidadeController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                            </p:commandButton>
+                            <p:commandButton value="#{bundle.Limpar}" actionListener="#{especialidadeController.limparClinica()}" process="@this" update="nomeClinica"/>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateEspecialidadeLabel_tipoComissionamento}" />
+                        <p:selectOneMenu value="#{especialidadeController.especialidadeClinica.tipoComissionamento}">                        
+                            <f:selectItems value="#{especialidadeController.tiposComissionamento}" var="a"
+                                           itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>                        
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="#{bundle.AberturaFuncionario}" />
+                        <p:selectOneMenu value="#{especialidadeController.especialidadeClinica.aberturaFuncionario}">                        
+                            <f:selectItems value="#{especialidadeController.aberturas}" var="a"
+                                           itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>                        
+                        </p:selectOneMenu>
+
+                        <p:commandButton id="btn_reset" value="#{bundle.Limpar}" type="reset"/>
+                        <p:commandButton id="btn_edit" value="#{bundle.ViewProcedimentoEditLink}" rendered="#{especialidadeController.isBotaoEditar}" update="especialidades inserirEspecialidade" action="#{especialidadeController.reinit}" />
+                        <p:commandButton id="btn_add" value="#{bundle.Add}" update="especialidades @parent" action="#{especialidadeController.reinit}" rendered="#{not especialidadeController.isBotaoEditar}">
+                            <p:collector value="#{especialidadeController.especialidadeClinica}" addTo="#{especialidadeController.especialidadesClinica}" unique="false" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+                <p:outputPanel id="especialidades">
+                    <p:dataTable value="#{especialidadeController.especialidadesClinica}" var="especialidade" id="especialidadesTabela">
+
+                        <p:column headerText="#{bundle.CreateProfissionalTitle_idClinica}">
+                            <h:outputText value="#{especialidade.idClinica.nome}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateEspecialidadeTitle_tipoComissionamento}">                                
+                            <h:outputText value="#{especialidade.tipoComissionamento}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.AberturaFuncionario}">                                
+                            <h:outputText value="#{especialidade.aberturaFuncionario}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.Acao}">
+                            <p:commandLink value="#{bundle.ViewEspecialidadeEditLink}" action="#{especialidadeController.selecionarEdit(especialidade)}" update=":form:inserirEspecialidade" />
+                            <p:outputLabel value="  "/>
+                            <p:commandLink value="#{bundle.ViewAgendamentoDestroyLink}" update=":form:especialidades" process=":form:especialidades">
+                                <p:collector value="#{especialidade}" removeFrom="#{especialidadeController.especialidadesClinica}" unique="true"/>
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:outputPanel>
+                <h:commandLink action="#{especialidadeController.update}" value="#{bundle.EditEspecialidadeSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditEspecialidadeViewLink}"/>
+                <br />
+                <h:commandLink action="#{especialidadeController.prepareList}" value="#{bundle.EditEspecialidadeShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditEspecialidadeIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

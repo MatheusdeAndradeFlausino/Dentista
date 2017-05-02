@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">                     
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_login}" />
+                        <p:inputText value="#{usuarioController.filtro.login}"/>
+
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_email}" />
+                        <p:inputText value="#{usuarioController.filtro.email}"/>
+
+                        <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_idClinica}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{usuarioController.filtro.clinica.nome}" id="nomeClinica"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{usuarioController.clinicaSelecionadaFilter}" process="@this" update="nomeClinica"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateGrupoUsuarioLabel_grupo}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{usuarioController.filtro.grupo.nome}" id="nomeGrupo"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchGrupoController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{usuarioController.grupoSelecionadoFilter}" process="@this" update="nomeGrupo"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{usuarioController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{usuarioController.limpar}"/>
+                </h:panelGroup>
+                <p:dataTable value="#{usuarioController.usuarios}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListUsuarioEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
+                    <f:facet name="{Exporters}">
+                        <div style="float:right">
+                            <h:commandLink value="#{bundle.XLS}" >
+                                <p:dataExporter type="xls" target="tabelaList" fileName="Usuarios" />
+                            </h:commandLink>
+                            <h:outputText value =" " />
+                            <h:commandLink value="#{bundle.PDF}" >                              
+                                <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{usuarioController.processarPDF}" target="tabelaList" fileName="Usuarios"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsuarioTitle_login}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.login}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsuarioTitle_email}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.email}"/>
+                    </p:column>                        
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsuarioTitle_isRestricaoHorario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isRestricaoHorario}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUsuarioTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                    <p:column exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.Acoes}"/>
+                        </f:facet>
+                        <h:commandLink action="#{usuarioController.prepareView(item)}" value="#{bundle.ListUsuarioViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{usuarioController.prepareEdit(item)}" value="#{bundle.ListUsuarioEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{usuarioController.destroy(item)}" value="#{bundle.ListUsuarioDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{usuarioController.prepareEditPassword(item)}" value="#{bundle.EditPassword}"/>
+                    </p:column>
+                </p:dataTable>
+                <br />
+                <h:commandLink action="#{usuarioController.prepareCreate}" value="#{bundle.ListUsuarioCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListUsuarioIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

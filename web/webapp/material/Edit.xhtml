@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditMaterialTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                   
+                    <h:outputLabel value="#{bundle.EditMaterialLabel_descricao}" for="descricao" />
+                    <p:inputTextarea rows="4" cols="30" id="descricao" value="#{materialController.selected.descricao}" title="#{bundle.EditMaterialTitle_descricao}" />
+                   
+                    <h:outputLabel value="#{bundle.EditMaterialLabel_apelido}" for="apelido" />
+                    <p:inputText id="apelido" value="#{materialController.selected.apelido}" title="#{bundle.EditMaterialTitle_apelido}" />
+                    
+                    <h:outputLabel value="#{bundle.EditMaterialLabel_saldo}" for="saldo" />
+                    <p:inputText id="saldo" value="#{materialController.selected.saldo}" title="#{bundle.EditMaterialTitle_saldo}" />
+                    
+                    <h:outputLabel value="#{bundle.EditMaterialLabel_minimo}" for="minimo" />
+                    <p:inputText id="minimo" value="#{materialController.selected.minimo}" title="#{bundle.EditMaterialTitle_minimo}" />
+                    
+                    <h:outputLabel value="#{bundle.EditMaterialLabel_maximo}" for="maximo" />
+                    <p:inputText id="maximo" value="#{materialController.selected.maximo}" title="#{bundle.EditMaterialTitle_maximo}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_idClinica}"  />
+                    <h:panelGroup>
+                        <p:inputText readonly="true" value="#{materialController.selected.idClinica.nome}" id="nomeClinica"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{materialController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{materialController.limparClinica()}" process="@this" update="nomeClinica"/>
+                    </h:panelGroup>
+                    
+                    <h:outputLabel value="#{bundle.EditMaterialLabel_status}" for="status" />
+                    <h:selectOneMenu value="#{materialController.selected.status}">                        
+                        <f:selectItems value="#{materialController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>                        
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{materialController.update}" value="#{bundle.EditMaterialSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditMaterialViewLink}"/>
+                <br />
+                <h:commandLink action="#{materialController.prepareList}" value="#{bundle.EditMaterialShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditMaterialIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

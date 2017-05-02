@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewRegraComissaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewRegraComissaoLabel_descricao}"/>
+                    <h:outputText value="#{regraComissaoController.selected.descricao}" title="#{bundle.ViewRegraComissaoTitle_descricao}"/>
+                    
+                    <h:outputText value="#{bundle.ViewRegraComissaoLabel_idClinica}"/>
+                    <h:outputText value="#{regraComissaoController.selected.idClinica}" title="#{bundle.ViewRegraComissaoTitle_idClinica}"/>
+                </h:panelGrid>
+                <h3>#{bundle.AdicionarRegra}</h3>
+                <h:panelGrid columns="6" >
+                    <ui:repeat var="regra" value="#{regraComissaoController.regras}">
+                        <h:outputText value="#{bundle.ViewRegraLabel_idEspecialidade}"/>
+                        <h:outputText value="#{regra.idEspecialidade.descricao}" title="#{bundle.ViewRegraTitle_idEspecialidade}"/>
+                        
+                        <h:outputText value="#{bundle.ViewRegraLabel_porcentagem}"/>
+                        <h:outputText value="#{regra.porcentagem}" title="#{bundle.ViewRegraTitle_porcentagem}"/>
+                        
+                        <h:outputText value="#{bundle.ViewRegraLabel_isTotalBruto}"/>
+                        <h:outputText value="#{regra.isTotalBruto}" title="#{bundle.ViewRegraTitle_isTotalBruto}"/>
+                    </ui:repeat> 
+                </h:panelGrid>
+                <h3>#{bundle.AdicionarRegraEspecial}</h3>
+                <h:panelGrid columns="10" >
+                    <ui:repeat var="regraEspecial" value="#{regraComissaoController.regrasEspeciais}">
+                        <h:outputText value="#{bundle.ViewRegraEspecialLabel_idProcedimento}"/>
+                        <h:outputText value="#{regraEspecial.idProcedimento.descricao}" title="#{bundle.ViewRegraEspecialTitle_idProcedimento}"/>
+                        
+                        <h:outputText value="#{bundle.ViewRegraLabel_idEspecialidade}"/>
+                        <h:outputText value="#{regraEspecial.idProcedimento.idEspecialidade.descricao}" title="#{bundle.ViewRegraTitle_idEspecialidade}"/>
+                        
+                        <h:outputText value="#{bundle.ViewRegraEspecialLabel_idTabela}"/>
+                        <h:outputText value="#{regraEspecial.idProcedimento.idTabela.descricao}" title="#{bundle.ViewRegraEspecialTitle_idTabela}"/>
+                        
+                        <h:outputText value="#{bundle.ViewRegraEspecialLabel_valor}"/>
+                        <h:outputText value="#{regraEspecial.valor}" title="#{bundle.ViewRegraEspecialTitle_valor}"/>
+                        
+                        <h:outputText value="#{bundle.ViewRegraEspecialLabel_tipoComissao}"/>
+                        <h:outputText value="#{regraEspecial.tipoComissao}" title="#{bundle.ViewRegraEspecialTitle_tipoComissao}"/>
+                    </ui:repeat> 
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{regraComissaoController.destroyAndView}" value="#{bundle.ViewRegraComissaoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewRegraComissaoEditLink}"/>
+                <br />
+                <h:commandLink action="#{regraComissaoController.prepareCreate}" value="#{bundle.ViewRegraComissaoCreateLink}" />
+                <br />
+                <h:commandLink action="#{regraComissaoController.prepareList}" value="#{bundle.ViewRegraComissaoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewRegraComissaoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

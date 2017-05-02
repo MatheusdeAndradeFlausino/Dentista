@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{bundle.SearchRegraComissao}</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <h:panelGroup>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreateRegraComissaoLabel_idClinica}" />
+                    <p:panel>
+                        <h:inputText readonly="true" value="#{searchRegraComissaoController.filtro.clinica.nome}" id="nomeClinica"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" actionListener="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{searchRegraComissaoController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                        </p:commandButton> 
+                    </p:panel>
+                   
+                    <p:outputLabel value="#{bundle.CreateRegraComissaoLabel_descricao}" />
+                    <p:inputText value="#{searchRegraComissaoController.filtro.descricao}" title="#{bundle.CreateRegraComissaoTitle_descricao}" />
+                    
+                    <p:outputLabel value="#{bundle.CreatePacienteLabel_status}"  />
+                    <h:selectOneMenu value="#{searchRegraComissaoController.filtro.status}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                        <f:selectItems value="#{searchRegraComissaoController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </h:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="result" action="#{searchRegraComissaoController.pesquisar}"/>
+            </h:panelGroup>
+            <p:dataTable emptyMessage="#{bundle.ListRegraComissaoEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" id="result" var="regraComissao" value="#{searchRegraComissaoController.regrasComissao}">
+
+                <p:column headerText="#{bundle.ListRegraComissaoTitle_idClinica}">
+                    <h:outputText value="#{regraComissao.idClinica.nome}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.ListRegraComissaoTitle_descricao}">
+                    <h:outputText value="#{regraComissao.descricao}" />
+                </p:column>              
+
+                <p:column headerText="#{bundle.ListPacienteTitle_status}">
+                    <h:outputText value="#{regraComissao.status}" />
+                </p:column>
+                
+                <p:column headerText="#{bundle.Acao}">
+                    <p:commandButton value="#{bundle.Escolher}" process="@this" action="#{searchRegraComissaoController.selecionar(regraComissao)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

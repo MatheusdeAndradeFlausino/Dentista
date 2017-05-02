@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewContatoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewContatoLabel_id}"/>
+                    <h:outputText value="#{contatoController.selected.id}" title="#{bundle.ViewContatoTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewContatoLabel_email}"/>
+                    <h:outputText value="#{contatoController.selected.email}" title="#{bundle.ViewContatoTitle_email}"/>
+                    <h:outputText value="#{bundle.ViewContatoLabel_cel}"/>
+                    <h:outputText value="#{contatoController.selected.cel}" title="#{bundle.ViewContatoTitle_cel}"/>
+                    <h:outputText value="#{bundle.ViewContatoLabel_tel}"/>
+                    <h:outputText value="#{contatoController.selected.tel}" title="#{bundle.ViewContatoTitle_tel}"/>
+                    <h:outputText value="#{bundle.ViewContatoLabel_telOpc}"/>
+                    <h:outputText value="#{contatoController.selected.telOpc}" title="#{bundle.ViewContatoTitle_telOpc}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{contatoController.destroyAndView}" value="#{bundle.ViewContatoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewContatoEditLink}"/>
+                <br />
+                <h:commandLink action="#{contatoController.prepareCreate}" value="#{bundle.ViewContatoCreateLink}" />
+                <br />
+                <h:commandLink action="#{contatoController.prepareList}" value="#{bundle.ViewContatoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewContatoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

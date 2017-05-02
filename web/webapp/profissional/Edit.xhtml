@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditProfissionalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <p:wizard flowListener="#{profissionalController.onFlowProcess}" nextLabel="#{bundle.Next}" backLabel="#{bundle.Previous}" style="width:400px;">
+                    <p:tab title="#{bundle.Pessoal}" disabled="false">
+                        <p:panel header="#{bundle.DadosPessoaisText}">
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_nome}" for="nome" />
+                                <p:inputText id="nome" value="#{profissionalController.pessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" required="true" requiredMessage="#{bundle.CreatePessoaRequiredMessage_nome}"/>
+
+                                <h:outputLabel value="#{bundle.dataNascimento}" />
+                                <p:inputMask value="#{profissionalController.pessoa.dataNascimento}" title="#{bundle.dataNascimento}" mask="99/99/9999" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputMask>
+                                
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_cpf}" for="cpf" />
+                                <p:inputMask id="cpf" value="#{profissionalController.pessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" mask="999.999.999-99" validator="cpfValidator" validatorMessage="#{bundle.CPFInvalido}">
+                                    <p:ajax event="blur" update="messagePanel"/>
+                                </p:inputMask>
+
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_rg}" for="rg" />
+                                <p:inputText id="rg" value="#{profissionalController.pessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+
+                                <p:outputLabel value="#{bundle.CreatePessoaLabel_sexo}" />
+                                <p:selectOneMenu value="#{profissionalController.pessoa.sexo}">                        
+                                    <f:selectItems value="#{profissionalController.sexos}" var="a"
+                                                   itemValue="#{a.abrev}" itemLabel="#{a.tipo}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.Profissional}" >
+                        <p:panel header="#{bundle.informacoesProfissional}">
+                            <h:panelGrid columns="2">    
+
+                                <h:outputLabel value="#{bundle.EditProfissionalLabel_profissao}" for="profissao" />
+                                <p:inputText id="profissao" value="#{profissionalController.selected.profissao}" title="#{bundle.EditProfissionalTitle_profissao}" />
+
+                                <h:outputLabel value="#{bundle.EditProfissionalLabel_banco}" for="banco" />
+                                <p:inputText id="banco" value="#{profissionalController.selected.banco}" title="#{bundle.EditProfissionalTitle_banco}" />
+
+                                <h:outputLabel value="#{bundle.EditProfissionalLabel_agencia}" for="agencia" />
+                                <p:inputText id="agencia" value="#{profissionalController.selected.agencia}" title="#{bundle.EditProfissionalTitle_agencia}" />
+
+                                <h:outputLabel value="#{bundle.EditProfissionalLabel_contaCorrente}" for="contaCorrente" />
+                                <p:inputText id="contaCorrente" value="#{profissionalController.selected.contaCorrente}" title="#{bundle.EditProfissionalTitle_contaCorrente}" />
+
+                                <h:outputLabel value="#{bundle.EditProfissionalLabel_status}" for="status" />
+                                <p:selectOneMenu value="#{profissionalController.selected.status}">                        
+                                    <f:selectItems value="#{profissionalController.status}" var="a"
+                                                   itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="#{bundle.CreateProfissionalLabel_idClinica}" />
+                                <h:panelGroup>
+                                    <p:inputText readonly="true" value="#{profissionalController.clinica.nome}" id="nomeClinica"/>
+                                    <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                        <p:ajax event="dialogReturn" listener="#{profissionalController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                                    </p:commandButton>
+                                </h:panelGroup>
+
+                                <h:outputLabel value="#{bundle.EditProfissionalLabel_idRegraComissao}" />
+                                <h:panelGroup>
+                                    <p:inputText readonly="true" value="#{profissionalController.selected.idRegraComissao.descricao}" id="nomeRegraComissao"/>
+                                    <p:commandButton value="#{bundle.Pesquisar}" action="#{searchRegraComissaoController.abrirDialogo()}" process="@this" update="@none">
+                                        <p:ajax event="dialogReturn" listener="#{profissionalController.regraComissaoSelecionada}" process="@this" update="nomeRegraComissao"/>
+                                    </p:commandButton>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.TitleContato}" disabled="false">
+                        <p:panel header="#{bundle.TitleContato}">
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_email}" for="email" />
+                                <p:inputText id="email" value="#{profissionalController.contato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_cel}" for="cel" />
+                                <p:inputMask id="cel" value="#{profissionalController.contato.cel}" title="#{bundle.CreateContatoTitle_cel}" mask="(99)99999-9999"/>
+
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_tel}" for="tel" />
+                                <p:inputMask id="tel" value="#{profissionalController.contato.tel}" title="#{bundle.CreateContatoTitle_tel}" mask="(99)9999-9999"/>
+
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_telOpc}" for="telOpc" />
+                                <p:inputMask id="telOpc" value="#{profissionalController.contato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" mask="(99)9999-9999"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.TitleEndereco}" disabled="false"> 
+                        <p:panel header="#{bundle.TitleEndereco}">
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_cep}" for="cep" />
+                                <p:inputMask id="cep" value="#{profissionalController.endereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" mask="99.999-99"/>
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_estado}" for="estado" />
+                                <p:inputText id="estado" value="#{profissionalController.endereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_cidade}" for="cidade" />
+                                <p:inputText id="cidade" value="#{profissionalController.endereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_rua}" for="rua" />
+                                <p:inputText id="rua" value="#{profissionalController.endereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_numero}" for="numero" />
+                                <p:inputText id="numero" value="#{profissionalController.endereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_bairro}" for="bairro" />
+                                <p:inputText id="bairro" value="#{profissionalController.endereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_complemento}" for="complemento" />
+                                <p:inputText id="complemento" value="#{profissionalController.endereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+                <h:commandLink action="#{profissionalController.update}" value="#{bundle.EditProfissionalSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditProfissionalViewLink}"/>
+                <br />
+                <h:commandLink action="#{profissionalController.prepareList}" value="#{bundle.EditProfissionalShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditProfissionalIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

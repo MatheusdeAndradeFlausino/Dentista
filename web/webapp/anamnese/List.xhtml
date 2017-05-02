@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListAnamneseTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">
+                        <h:outputLabel value="#{bundle.CreateAnamneseLabel_idPaciente}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{anamneseController.filtro.paciente.idPessoa.nome}" id="nomePaciente"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none" styleClass="botaoPesquisar">
+                                <p:ajax event="dialogReturn" listener="#{anamneseController.pacienteSelecionadoFilter}" process="@this" update="nomePaciente"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+                        
+                        <h:outputLabel value="#{bundle.CreateMensalidadeLabel_idPaciente}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{anamneseController.filtro.profissional.idPessoa.nome}" id="nomeProfissional"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{anamneseController.profissionalSelecionadoFilter}" process="@this" update="nomeProfissional"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_status}" />
+                        <p:selectOneMenu value="#{anamneseController.filtro.status}">
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{anamneseController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{anamneseController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{anamneseController.limpar}"/>
+                </h:panelGroup>
+
+                <p:dataTable value="#{anamneseController.anamneses}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListAnamneseEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
+                    <f:facet name="{Exporters}">
+                        <div style="float:right">
+                            <h:commandLink value="#{bundle.XLS}" >
+                                <p:dataExporter type="xls" target="tabelaList" fileName="Anamneses" />
+                            </h:commandLink>
+                            <h:outputText value =" " />
+                            <h:commandLink value="#{bundle.PDF}" >                              
+                                <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{anamneseController.processarPDF}" target="tabelaList" fileName="Anamneses"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_idPaciente}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPaciente.idPessoa.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_idProfissional}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idProfissional.idPessoa.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_isHemorragia}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isHemorragia}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_isDiabetico}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isDiabetico}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_isPressaoAlta}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isPressaoAlta}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_isCardiaco}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isCardiaco}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_isGestante}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isGestante}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_isPressaoBaixa}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.isPressaoBaixa}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAgendamentoTitle_data}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.data}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListAnamneseTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                    
+                    <p:column exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.Acoes}"/>
+                        </f:facet>
+                        <h:commandLink action="#{anamneseController.prepareView(item)}" value="#{bundle.ListAnamneseViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{anamneseController.prepareEdit(item)}" value="#{bundle.ListAnamneseEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{anamneseController.destroy(item)}" value="#{bundle.ListAnamneseDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>                
+                <br />
+                <h:commandLink action="#{anamneseController.prepareCreate}" value="#{bundle.ListAnamneseCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListAnamneseIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewFornecedorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGroup id="PaineisFornecedor">
+
+                    <h:panelGrid columns="2" rendered="#{(not fornecedorController.renderizarFORMEmpresas()) and (not fornecedorController.renderizarFORMPessoas())}">
+                        <h:outputText value="#{bundle.CreateFornecedorLabel_descricao}" />
+                        <h:inputTextarea rows="4" cols="30" disabled="true" id="descricao" value="#{fornecedorController.selected.descricao}" title="#{bundle.CreateFornecedorTitle_descricao}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMPessoas()}">
+                        <h:outputText value="#{bundle.CreatePessoaLabel_nome}" />
+                        <h:outputText id="nome" value="#{fornecedorController.selected.idPessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                        <h:outputText value="#{bundle.CreatePessoaLabel_cpf}" />
+                        <h:outputText id="cpf" value="#{fornecedorController.selected.idPessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" />
+
+                        <h:outputText value="#{bundle.CreatePessoaLabel_rg}"  />
+                        <h:outputText id="rg" value="#{fornecedorController.selected.idPessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMEmpresas()}">
+                        <h:outputText value="#{bundle.CreateEmpresaLabel_razaoSocial}" />
+                        <h:outputText id="razaoSocial" value="#{fornecedorController.selected.idEmpresa.razaoSocial}" title="#{bundle.CreateEmpresaTitle_razaoSocial}" />
+
+                        <h:outputText value="#{bundle.CreateEmpresaLabel_nomeFantasia}" />
+                        <h:outputText id="nomeFantasia" value="#{fornecedorController.selected.idEmpresa.nomeFantasia}" title="#{bundle.CreateEmpresaTitle_nomeFantasia}" />
+
+                        <h:outputText value="#{bundle.CreateEmpresaLabel_cnpj}" />
+                        <h:outputText id="cnpj" value="#{fornecedorController.selected.idEmpresa.cnpj}" title="#{bundle.CreateEmpresaTitle_cnpj}" />
+
+                        <h:outputText value="#{bundle.CreateEmpresaLabel_inscricaoEstadual}" />
+                        <h:outputText id="inscricaoEstadual" value="#{fornecedorController.selected.idEmpresa.inscricaoEstadual}" title="#{bundle.CreateEmpresaTitle_inscricaoEstadual}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMEmpresas() or fornecedorController.renderizarFORMPessoas()}">
+                        <f:facet name="contato">                        
+                            <h:outputText>#{bundle.TitleContato}</h:outputText>                       
+                        </f:facet>
+                        <h:outputText value="#{bundle.CreateContatoLabel_email}" />
+                        <h:outputText id="email" value="#{fornecedorController.contato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                        <h:outputText value="#{bundle.CreateContatoLabel_cel}" />
+                        <h:outputText id="cel" value="#{fornecedorController.contato.cel}" title="#{bundle.CreateContatoTitle_cel}" />
+
+                        <h:outputText value="#{bundle.CreateContatoLabel_tel}" />
+                        <h:outputText id="tel" value="#{fornecedorController.contato.tel}" title="#{bundle.CreateContatoTitle_tel}" />
+
+                        <h:outputText value="#{bundle.CreateContatoLabel_telOpc}" />
+                        <h:outputText id="telOpc" value="#{fornecedorController.contato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMEmpresas() or fornecedorController.renderizarFORMPessoas()}">
+                        <f:facet name="endereco">                        
+                            <h:outputText>#{bundle.TitleEndereco}</h:outputText>                       
+                        </f:facet>
+                        <h:outputText value="#{bundle.CreateEnderecoLabel_cep}" />
+                        <h:outputText value="#{fornecedorController.endereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" />
+
+                        <h:outputText value="#{bundle.CreateEnderecoLabel_estado}" />
+                        <h:outputText value="#{fornecedorController.endereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                        <h:outputText value="#{bundle.CreateEnderecoLabel_cidade}" />
+                        <h:outputText value="#{fornecedorController.endereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                        <h:outputText value="#{bundle.CreateEnderecoLabel_rua}" />
+                        <h:outputText value="#{fornecedorController.endereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                        <h:outputText value="#{bundle.CreateEnderecoLabel_numero}" />
+                        <h:outputText value="#{fornecedorController.endereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                        <h:outputText value="#{bundle.CreateEnderecoLabel_bairro}" />
+                        <h:outputText value="#{fornecedorController.endereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                        <h:outputText value="#{bundle.EditFornecedorLabel_status}" />
+                        <h:outputText value="#{fornecedorController.selected.status}" title="#{bundle.EditFornecedorTitle_status}" />
+                    </h:panelGrid>
+                </h:panelGroup>:
+                <br />          
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewFornecedorEditLink}"/>
+                <br />
+                <h:commandLink action="#{fornecedorController.prepareCreate}" value="#{bundle.ViewFornecedorCreateLink}" />
+                <br />
+                <h:commandLink action="#{fornecedorController.prepareList}" value="#{bundle.ViewFornecedorShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewFornecedorIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{bundle.SearchGrupo}</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGroup id="panelFilter">
+                <p:panelGrid columns="2">                     
+                    <h:outputLabel value="#{bundle.CreateBandeiraLabel_descricao}" />
+                    <p:inputText value="#{searchGrupoController.filtro.descricao}"/>
+
+                    <p:outputLabel value="#{bundle.CreatePacienteLabel_status}" />
+                    <p:selectOneMenu value="#{searchGrupoController.filtro.status}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                        <f:selectItems value="#{searchGrupoController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="result" action="#{searchGrupoController.pesquisar}"/>
+                <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{searchGrupoController.limpar}"/>
+            </h:panelGroup>
+            <p:dataTable emptyMessage="#{bundle.ListGrupoEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" id="result" var="grupo" value="#{searchGrupoController.grupos}">
+
+                <p:column headerText="#{bundle.CreateGrupoTitle_nome}">
+                    <h:outputText value="#{grupo.nome}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.CreateGrupoTitle_status}">
+                    <h:outputText value="#{grupo.status}" />
+                </p:column>  
+                
+                <p:column headerText="#{bundle.Acao}">
+                    <p:commandButton value="#{bundle.Escolher}" process="@this" action="#{searchGrupoController.selecionar(grupo)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

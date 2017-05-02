@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditOrcamentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditOrcamentoLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{orcamentoController.selected.id}" title="#{bundle.EditOrcamentoTitle_id}" required="true" requiredMessage="#{bundle.EditOrcamentoRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditOrcamentoLabel_isEnviarSMS}" for="isEnviarSMS" />
+                    <h:inputText id="isEnviarSMS" value="#{orcamentoController.selected.isEnviarSMS}" title="#{bundle.EditOrcamentoTitle_isEnviarSMS}" />
+                    <h:outputLabel value="#{bundle.EditOrcamentoLabel_data}" for="data" />
+                    <h:inputText id="data" value="#{orcamentoController.selected.data}" title="#{bundle.EditOrcamentoTitle_data}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditOrcamentoLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{orcamentoController.selected.status}" title="#{bundle.EditOrcamentoTitle_status}" />
+                    <h:outputLabel value="#{bundle.EditOrcamentoLabel_idPaciente}" for="idPaciente" />
+                    <h:selectOneMenu id="idPaciente" value="#{orcamentoController.selected.idPaciente}" title="#{bundle.EditOrcamentoTitle_idPaciente}" >
+                        <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditOrcamentoLabel_idProfissional}" for="idProfissional" />
+                    <h:selectOneMenu id="idProfissional" value="#{orcamentoController.selected.idProfissional}" title="#{bundle.EditOrcamentoTitle_idProfissional}" >
+                        <f:selectItems value="#{profissionalController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{orcamentoController.update}" value="#{bundle.EditOrcamentoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditOrcamentoViewLink}"/>
+                <br />
+                <h:commandLink action="#{orcamentoController.prepareList}" value="#{bundle.EditOrcamentoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditOrcamentoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

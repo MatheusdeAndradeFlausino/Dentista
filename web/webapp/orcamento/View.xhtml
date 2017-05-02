@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewOrcamentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewOrcamentoLabel_id}"/>
+                    <h:outputText value="#{orcamentoController.selected.id}" title="#{bundle.ViewOrcamentoTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewOrcamentoLabel_isEnviarSMS}"/>
+                    <h:outputText value="#{orcamentoController.selected.isEnviarSMS}" title="#{bundle.ViewOrcamentoTitle_isEnviarSMS}"/>
+                    <h:outputText value="#{bundle.ViewOrcamentoLabel_data}"/>
+                    <h:outputText value="#{orcamentoController.selected.data}" title="#{bundle.ViewOrcamentoTitle_data}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewOrcamentoLabel_status}"/>
+                    <h:outputText value="#{orcamentoController.selected.status}" title="#{bundle.ViewOrcamentoTitle_status}"/>
+                    <h:outputText value="#{bundle.ViewOrcamentoLabel_idPaciente}"/>
+                    <h:outputText value="#{orcamentoController.selected.idPaciente}" title="#{bundle.ViewOrcamentoTitle_idPaciente}"/>
+                    <h:outputText value="#{bundle.ViewOrcamentoLabel_idProfissional}"/>
+                    <h:outputText value="#{orcamentoController.selected.idProfissional}" title="#{bundle.ViewOrcamentoTitle_idProfissional}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{orcamentoController.destroyAndView}" value="#{bundle.ViewOrcamentoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewOrcamentoEditLink}"/>
+                <br />
+                <h:commandLink action="#{orcamentoController.prepareCreate}" value="#{bundle.ViewOrcamentoCreateLink}" />
+                <br />
+                <h:commandLink action="#{orcamentoController.prepareList}" value="#{bundle.ViewOrcamentoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewOrcamentoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

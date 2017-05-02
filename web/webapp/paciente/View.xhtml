@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewPacienteTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.CreatePessoaLabel_nome}" />
+                    <h:outputText id="nome" value="#{pacienteController.selected.idPessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                    <h:outputText value="#{bundle.CreatePessoaLabel_cpf}"/>
+                    <h:outputText value="#{pacienteController.selected.idPessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" />
+
+                    <h:outputText value="#{bundle.CreatePessoaLabel_rg}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+
+                    <h:outputText value="#{bundle.CreatePessoaLabel_sexo}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.sexo}" title="#{bundle.CreatePessoaTitle_sexo}" />
+               
+                    <h:outputText value="#{bundle.CreatePacienteLabel_numFicha}" />
+                    <h:outputText  value="#{pacienteController.selected.numFicha}" title="#{bundle.CreatePacienteTitle_numFicha}" />
+
+                    <h:outputText value="#{bundle.CreatePacienteLabel_observacao}" />
+                    <h:inputTextarea rows="4" cols="30" value="#{pacienteController.selected.observacao}" title="#{bundle.CreatePacienteTitle_observacao}" />
+
+                    <h:outputText value="#{bundle.CreatePacienteLabel_status}" />
+                    <h:outputText value="#{pacienteController.selected.status}" title="#{bundle.CreatePacienteTitle_status}" />
+                
+                    <h:outputText value="#{bundle.CreateContatoLabel_email}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idContato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_cel}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idContato.cel}" title="#{bundle.CreateContatoTitle_cel}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_tel}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idContato.tel}" title="#{bundle.CreateContatoTitle_tel}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_telOpc}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idContato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" />
+               
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_cep}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_estado}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_cidade}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_rua}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_numero}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_bairro}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_complemento}" />
+                    <h:outputText value="#{pacienteController.selected.idPessoa.idEndereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{pacienteController.destroyAndView}" value="#{bundle.ViewPacienteDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewPacienteEditLink}"/>
+                <br />
+                <h:commandLink action="#{pacienteController.prepareCreate}" value="#{bundle.ViewPacienteCreateLink}" />
+                <br />
+                <h:commandLink action="#{pacienteController.prepareList}" value="#{bundle.ViewPacienteShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewPacienteIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPessoaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{pessoaController.selected.id}" title="#{bundle.EditPessoaTitle_id}" required="true" requiredMessage="#{bundle.EditPessoaRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_nome}" for="nome" />
+                    <h:inputText id="nome" value="#{pessoaController.selected.nome}" title="#{bundle.EditPessoaTitle_nome}" required="true" requiredMessage="#{bundle.EditPessoaRequiredMessage_nome}"/>
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_cpf}" for="cpf" />
+                    <h:inputText id="cpf" value="#{pessoaController.selected.cpf}" title="#{bundle.EditPessoaTitle_cpf}" />
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_rg}" for="rg" />
+                    <h:inputText id="rg" value="#{pessoaController.selected.rg}" title="#{bundle.EditPessoaTitle_rg}" />
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_sexo}" for="sexo" />
+                    <h:inputText id="sexo" value="#{pessoaController.selected.sexo}" title="#{bundle.EditPessoaTitle_sexo}" />
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_idContato}" for="idContato" />
+                    <h:selectOneMenu id="idContato" value="#{pessoaController.selected.idContato}" title="#{bundle.EditPessoaTitle_idContato}" >
+                        <f:selectItems value="#{contatoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditPessoaLabel_idEndereco}" for="idEndereco" />
+                    <h:selectOneMenu id="idEndereco" value="#{pessoaController.selected.idEndereco}" title="#{bundle.EditPessoaTitle_idEndereco}" >
+                        <f:selectItems value="#{enderecoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{pessoaController.update}" value="#{bundle.EditPessoaSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditPessoaViewLink}"/>
+                <br />
+                <h:commandLink action="#{pessoaController.prepareList}" value="#{bundle.EditPessoaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditPessoaIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

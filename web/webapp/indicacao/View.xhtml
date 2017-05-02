@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewIndicacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewIndicacaoLabel_id}"/>
+                    <h:outputText value="#{indicacaoController.selected.id}" title="#{bundle.ViewIndicacaoTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewIndicacaoLabel_valor}"/>
+                    <h:outputText value="#{indicacaoController.selected.valor}" title="#{bundle.ViewIndicacaoTitle_valor}"/>
+                    <h:outputText value="#{bundle.ViewIndicacaoLabel_idPaciente}"/>
+                    <h:outputText value="#{indicacaoController.selected.idPaciente}" title="#{bundle.ViewIndicacaoTitle_idPaciente}"/>
+                    <h:outputText value="#{bundle.ViewIndicacaoLabel_idProfissional}"/>
+                    <h:outputText value="#{indicacaoController.selected.idProfissional}" title="#{bundle.ViewIndicacaoTitle_idProfissional}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{indicacaoController.destroyAndView}" value="#{bundle.ViewIndicacaoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewIndicacaoEditLink}"/>
+                <br />
+                <h:commandLink action="#{indicacaoController.prepareCreate}" value="#{bundle.ViewIndicacaoCreateLink}" />
+                <br />
+                <h:commandLink action="#{indicacaoController.prepareList}" value="#{bundle.ViewIndicacaoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewIndicacaoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

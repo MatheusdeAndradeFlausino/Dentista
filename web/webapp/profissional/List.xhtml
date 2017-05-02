@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListProfissionalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="#{bundle.CreatePessoaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{profissionalController.filtro.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                        <p:outputLabel value="#{bundle.CreateProfissionalLabel_idClinica}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{profissionalController.filtro.clinica.nome}" id="nomeClinica"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{profissionalController.clinicaSelecionadaFiltro}" process="@this" update="nomeClinica"/>
+                            </p:commandButton> 
+                        </p:panel>
+                        <p:outputLabel value="#{bundle.CreateProfissionalLabel_profissao}" for="profissao" />
+                        <p:inputText id="profissao" value="#{profissionalController.filtro.profissao}" title="#{bundle.CreatePacienteTitle_numFicha}" />
+
+                        <p:outputLabel value="#{bundle.CreatePessoaLabel_cpf}" for="cpf" />
+                        <p:inputText id="cpf" value="#{profissionalController.filtro.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" />
+
+                        <p:outputLabel value="#{bundle.CreatePessoaLabel_rg}" for="rg" />
+                        <p:inputText id="rg" value="#{profissionalController.filtro.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_status}"  />
+                        <p:selectOneMenu value="#{profissionalController.filtro.status}">
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{profissionalController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{profissionalController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" actionListener="#{profissionalController.limpar}" />
+                </h:panelGroup>
+
+                <p:dataTable value="#{profissionalController.profissionais}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListProfissionalEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
+                    <f:facet name="{Exporters}">
+                        <div style="float:right">
+                            <h:commandLink value="#{bundle.XLS}" >
+                                <p:dataExporter type="xls" target="tabelaList" fileName="Profissionais" />
+                            </h:commandLink>
+                            <h:outputText value =" " />
+                            <h:commandLink value="#{bundle.PDF}" >                              
+                                <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{pacienteController.processarPDF}" target="tabelaList" fileName="Profissionais"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListPessoaTitle_nome}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPessoa.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListPessoaTitle_cpf}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPessoa.cpf}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContatoTitle_cel}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPessoa.idContato.cel}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListProfissionalTitle_profissao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.profissao}"/>
+                    </p:column>                                              
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListProfissionalTitle_idClinica}"/>
+                        </f:facet>
+                        <h:outputText value="#{clinicaController.getNomeClinica(item.idClinica)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListProfissionalTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                    <p:column exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.Acoes}"/>
+                        </f:facet>
+                        <h:commandLink action="#{profissionalController.prepareView(item)}" value="#{bundle.ListProfissionalViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{profissionalController.prepareEdit(item)}" value="#{bundle.ListProfissionalEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{profissionalController.destroy(item)}" value="#{bundle.ListProfissionalDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>                
+                <br />
+                <h:commandLink action="#{profissionalController.prepareCreate}" value="#{bundle.ListProfissionalCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListProfissionalIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

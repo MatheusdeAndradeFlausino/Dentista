@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditProcedimentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form id="form">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_descricao}" for="descricao" />
+                    <p:inputTextarea rows="4" cols="30" id="descricao" value="#{procedimentoController.selected.descricao}" title="#{bundle.CreateProcedimentoTitle_descricao}" />
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_valorPadrao}" for="valorPadrao" />
+                    <p:inputText id="valorPadrao" value="#{procedimentoController.selected.valorPadrao}" title="#{bundle.CreateProcedimentoTitle_valorPadrao}" />
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_isGerarComissao}" />
+                    <p:selectOneMenu value="#{procedimentoController.selected.isGerarComissao}">                        
+                        <f:selectItems value="#{procedimentoController.afirmacoes}" var="a"
+                                       itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_isGerarAtendimento}"  />
+                    <p:selectOneMenu value="#{procedimentoController.selected.isGerarAtendimento}">                        
+                        <f:selectItems value="#{procedimentoController.afirmacoes}" var="a"
+                                       itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_isGerarLaboratorio}" />
+                    <p:selectOneMenu value="#{procedimentoController.selected.isGerarLaboratorio}">                        
+                        <f:selectItems value="#{procedimentoController.afirmacoes}" var="a"
+                                       itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
+                    </p:selectOneMenu>
+                    
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_status}" />
+                    <p:selectOneMenu value="#{procedimentoController.selected.status}">                        
+                        <f:selectItems value="#{procedimentoController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_idTabela}"  />
+                    <h:panelGroup>
+                        <p:inputText readonly="true" value="#{procedimentoController.selected.idTabela.descricao}" id="nomeTabela"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchTabelaProcedimentoController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{procedimentoController.tabelaSelecionada}" process="@this" update="nomeTabela"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{procedimentoController.limparTabela()}" process="@this" update="nomeTabela"/>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_idEspecialidade}" />
+                    <h:panelGroup>
+                        <p:inputText readonly="true" value="#{procedimentoController.selected.idEspecialidade.descricao}" id="nomeEspecialidade"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchEspecialidadeController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{procedimentoController.especialidadeSelecionada}" process="@this" update="nomeEspecialidade"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{procedimentoController.limparEspecialidade()}" process="@this" update="nomeEspecialidade"/>
+                    </h:panelGroup>
+
+                </h:panelGrid>
+                <p:separator />
+                <p:panel id="inserirProcedimento" header="#{bundle.AddClinicaProcedimento}" style="width: 600px;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="#{bundle.CreateProfissionalLabel_idClinica}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{procedimentoController.procedimentoClinica.idClinica.nome}" id="nomeClinica"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{procedimentoController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                            </p:commandButton>
+                            <p:commandButton value="#{bundle.Limpar}" actionListener="#{procedimentoController.limparClinica()}" process="@this" update="nomeClinica"/>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateChequeLabel_valor}" />
+                        <h:inputText id="valor" value="#{procedimentoController.procedimentoClinica.valor}" title="#{bundle.CreateChequeTitle_valor}" />
+
+                        <p:commandButton id="btn_reset" value="#{bundle.Limpar}" action="#{procedimentoController.reinit}" update="procedimentos inserirProcedimento" />
+                        <p:commandButton id="btn_edit" value="#{bundle.ViewProcedimentoEditLink}" rendered="#{procedimentoController.isBotaoEditar}" update="procedimentos inserirProcedimento" action="#{procedimentoController.reinit}" />
+                        <p:commandButton id="btn_add" value="#{bundle.Add}" rendered="#{not procedimentoController.isBotaoEditar}" update="procedimentos inserirProcedimento" action="#{procedimentoController.reinitCriar}" >
+                            <p:collector value="#{procedimentoController.procedimentoClinica}" addTo="#{procedimentoController.procedimentosClinica}" unique="false" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+                <p:separator />
+                <p:outputPanel id="procedimentos">
+                    <p:dataTable value="#{procedimentoController.procedimentosClinica}" var="procedimento" id="especialidadesTabela">
+
+                        <p:column headerText="#{bundle.CreateProfissionalTitle_idClinica}">
+                            <h:outputText value="#{procedimento.idClinica.nome}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateEspecialidadeTitle_tipoComissionamento}">                                
+                            <h:outputText value="#{procedimento.valor}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.Acoes}">
+                            <p:commandLink value="#{bundle.ViewProcedimentoEditLink}" action="#{procedimentoController.selecionarEdit(procedimento)}" update=":form:inserirProcedimento" />
+                            <p:outputLabel value="  "/>
+                            <p:commandLink value="#{bundle.ViewProcedimentoDestroyLink}" update=":form:procedimentos" process=":form:procedimentos" action="#{procedimentoController.deletarEdit(procedimento)}" >
+                                <p:collector value="#{procedimento}" removeFrom="#{procedimentoController.procedimentosClinica}" unique="true"/>
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:outputPanel>
+                <h:commandLink action="#{procedimentoController.update}" value="#{bundle.EditProcedimentoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditProcedimentoViewLink}"/>
+                <br />
+                <h:commandLink action="#{procedimentoController.prepareList}" value="#{bundle.EditProcedimentoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditProcedimentoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

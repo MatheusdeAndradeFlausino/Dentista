@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateContatoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">                    
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_email}" for="email" />
+                    <h:inputText id="email" value="#{contatoController.selected.email}" title="#{bundle.CreateContatoTitle_email}" />
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_cel}" for="cel" />
+                    <h:inputText id="cel" value="#{contatoController.selected.cel}" title="#{bundle.CreateContatoTitle_cel}" />
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_tel}" for="tel" />
+                    <h:inputText id="tel" value="#{contatoController.selected.tel}" title="#{bundle.CreateContatoTitle_tel}" />
+                    <h:outputLabel value="#{bundle.CreateContatoLabel_telOpc}" for="telOpc" />
+                    <h:inputText id="telOpc" value="#{contatoController.selected.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{contatoController.create}" value="#{bundle.CreateContatoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{contatoController.prepareList}" value="#{bundle.CreateContatoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateContatoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

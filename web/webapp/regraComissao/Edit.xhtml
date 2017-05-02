@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditRegraComissaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form id="form">
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="#{bundle.CreateRegraComissaoLabel_idClinica}" />
+                    <h:panelGroup>
+                        <h:inputText readonly="true" value="#{regraComissaoController.selected.idClinica.nome}" id="nomeClinica"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{regraComissaoController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{regraComissaoController.limparClinica()}" process="@this" update="nomeClinica"/>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateRegraComissaoLabel_descricao}" for="descricao" />
+                    <h:inputTextarea rows="4" cols="30" id="descricao" value="#{regraComissaoController.selected.descricao}" title="#{bundle.CreateRegraComissaoTitle_descricao}" />
+
+                    <h:outputLabel value="#{bundle.CreateProcedimentoLabel_status}" />
+                    <p:selectOneMenu value="#{regraComissaoController.selected.status}">                        
+                        <f:selectItems value="#{regraComissaoController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+                <p:panel header="#{bundle.AdicionarRegra}" style="width: 600px;" id="panelRegras">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="#{bundle.CreateProcedimentoLabel_idEspecialidade}" />
+                        <h:panelGroup>
+                            <h:inputText readonly="true" value="#{regraComissaoController.regra.idEspecialidade.descricao}" id="nomeEspecialidade"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchEspecialidadeController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{regraComissaoController.especialidadeSelecionada}" process="@this" update="nomeEspecialidade"/>
+                            </p:commandButton>
+                            <p:commandButton value="#{bundle.Limpar}" actionListener="#{regraComissaoController.limparEspecialidade()}" process="@this" update="nomeEspecialidade"/>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateRegraLabel_porcentagem}" />
+                        <h:inputText id="porcentagem" value="#{regraComissaoController.regra.porcentagem}" title="#{bundle.CreateRegraTitle_porcentagem}" />
+
+                        <h:outputLabel value="#{bundle.CreateRegraLabel_isTotalBruto}" />
+                        <p:selectOneMenu value="#{regraComissaoController.regra.isTotalBruto}">                        
+                            <f:selectItems value="#{regraComissaoController.afirmacoes}" var="a"
+                                           itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
+                        </p:selectOneMenu>
+
+                        <p:commandButton id="btn_reset_regra" value="#{bundle.Limpar}" type="reset" update="regras panelRegras"/>
+                        <p:commandButton id="btn_edit_regra" value="#{bundle.ViewRegraComissaoEditLink}" rendered="#{regraComissaoController.isBotaoEditar}" update="regras panelRegras" action="#{regraComissaoController.reinit}" />
+                        <p:commandButton id="btn_add_regra" value="#{bundle.Add}" update="regras panelRegras" action="#{regraComissaoController.reinitCriar}" >
+                            <p:collector value="#{regraComissaoController.regra}" addTo="#{regraComissaoController.regras}" unique="false" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+                <p:separator />
+                <p:outputPanel id="regras">
+                    <p:dataTable value="#{regraComissaoController.regras}" var="regra" id="regrasTabela" style="width: 600px;">
+
+                        <p:column headerText="#{bundle.CreateProcedimentoLabel_idEspecialidade}">
+                            <h:outputText value="#{regra.idEspecialidade.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateRegraLabel_porcentagem}">                                
+                            <h:outputText value="#{regra.porcentagem}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateRegraLabel_isTotalBruto}">                                
+                            <h:outputText value="#{regra.isTotalBruto}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.Acao}">
+                            <p:commandLink value="#{bundle.ViewRegraComissaoEditLink}" action="#{regraComissaoController.selecionarEdit(regra)}" update=":form:panelRegras" />
+                            <p:outputLabel value="  "/>
+                            <p:commandLink value="#{bundle.ViewAgendamentoDestroyLink}" update=":form:regras" process=":form:regras" action="#{regraComissaoController.deletarEdit(regra)}">
+                                <p:collector value="#{regra}" removeFrom="#{regraComissaoController.regras}" unique="true"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+
+                <p:panel header="#{bundle.AdicionarRegraEspecial}" style="width: 600px;" id="panelRegrasEspeciais">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel value="#{bundle.CreateRegraEspecialLabel_idProcedimento}" />
+                        <h:panelGroup>
+                            <h:inputText readonly="true" value="#{regraComissaoController.regraEspecial.idProcedimento.descricao}" id="nomeProcedimento"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProcedimentoController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{regraComissaoController.procedimentoSelecionado}" process="@this" update="nomeProcedimento" />
+                            </p:commandButton>
+                            <p:commandButton value="#{bundle.Limpar}" actionListener="#{regraComissaoController.limparProcedimento()}" process="@this" update="nomeProcedimento"/>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateRegraEspecialLabel_valor}" />
+                        <h:inputText id="valor" value="#{regraComissaoController.regraEspecial.valor}" title="#{bundle.CreateRegraEspecialTitle_valor}" />
+
+                        <h:outputLabel value="#{bundle.CreateRegraEspecialLabel_tipoComissao}" />
+                        <p:selectOneMenu value="#{regraComissaoController.regraEspecial.tipoComissao}">                        
+                            <f:selectItems value="#{regraComissaoController.comissoes}" var="a"
+                                           itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>
+                        </p:selectOneMenu>
+
+                        <p:commandButton id="btn_reset" value="#{bundle.Limpar}" type="reset" update="regrasEspeciais panelRegrasEspeciais"/>
+                        <p:commandButton id="btn_edit" value="#{bundle.ViewRegraComissaoEditLink}" rendered="#{regraComissaoController.isBotaoEditarEspecial}" update="regrasEspeciais panelRegrasEspeciais" action="#{regraComissaoController.reinitEspecial}" />
+                        <p:commandButton id="btn_add" value="#{bundle.Add}" update="regrasEspeciais panelRegrasEspeciais" action="#{regraComissaoController.reinitEspecialCriar}" >
+                            <p:collector value="#{regraComissaoController.regraEspecial}" addTo="#{regraComissaoController.regrasEspeciais}" unique="false" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+                <p:separator />
+                <p:outputPanel id="regrasEspeciais">
+                    <p:dataTable value="#{regraComissaoController.regrasEspeciais}" style="width: 600px;" var="regraEspecial" id="regrasEspeciaisTabela">
+
+                        <p:column headerText="#{bundle.CreateRegraEspecialLabel_idProcedimento}">
+                            <h:outputText value="#{regraEspecial.idProcedimento.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateRegraEspecialLabel_idEspecialidade}">
+                            <h:outputText value="#{regraEspecial.idProcedimento.idEspecialidade.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateRegraEspecialLabel_idTabela}">
+                            <h:outputText value="#{regraEspecial.idProcedimento.idTabela.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateRegraEspecialLabel_valor}">                                
+                            <h:outputText value="#{regraEspecial.valor}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.CreateRegraEspecialLabel_tipoComissao}">                                
+                            <h:outputText value="#{regraEspecial.tipoComissao}" />
+                        </p:column>
+
+                        <p:column headerText="#{bundle.Acao}">
+                            <p:commandLink value="#{bundle.ViewRegraComissaoEditLink}" action="#{regraComissaoController.selecionarEditEspecial(regraEspecial)}" update=":form:panelregrasEspeciais" />
+                            <p:outputLabel value="  "/>
+                            <p:commandLink value="#{bundle.ViewAgendamentoDestroyLink}" update=":form:regrasEspeciais" process=":form:regrasEspeciais" action="#{regraComissaoController.deletarEditEspecial(regraEspecial)}">
+                                <p:collector value="#{regraEspecial}" removeFrom="#{regraComissaoController.regrasEspeciais}" unique="true"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <h:commandLink action="#{regraComissaoController.update}" value="#{bundle.EditRegraComissaoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditRegraComissaoViewLink}"/>
+                <br />
+                <h:commandLink action="#{regraComissaoController.prepareList}" value="#{bundle.EditRegraComissaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditRegraComissaoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

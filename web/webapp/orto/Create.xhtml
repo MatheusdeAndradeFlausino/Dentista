@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateOrtoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateOrtoLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{ortoController.selected.id}" title="#{bundle.CreateOrtoTitle_id}" required="true" requiredMessage="#{bundle.CreateOrtoRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateOrtoLabel_dataInicio}" for="dataInicio" />
+                    <h:inputText id="dataInicio" value="#{ortoController.selected.dataInicio}" title="#{bundle.CreateOrtoTitle_dataInicio}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateOrtoLabel_dataFinal}" for="dataFinal" />
+                    <h:inputText id="dataFinal" value="#{ortoController.selected.dataFinal}" title="#{bundle.CreateOrtoTitle_dataFinal}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateOrtoLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{ortoController.selected.status}" title="#{bundle.CreateOrtoTitle_status}" />
+                    <h:outputLabel value="#{bundle.CreateOrtoLabel_idPaciente}" for="idPaciente" />
+                    <h:selectOneMenu id="idPaciente" value="#{ortoController.selected.idPaciente}" title="#{bundle.CreateOrtoTitle_idPaciente}" >
+                        <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{ortoController.create}" value="#{bundle.CreateOrtoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{ortoController.prepareList}" value="#{bundle.CreateOrtoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateOrtoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

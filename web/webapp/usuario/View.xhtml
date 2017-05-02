@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                   
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_login}"/>
+                    <h:outputText value="#{usuarioController.selected.login}" title="#{bundle.ViewUsuarioTitle_login}"/>
+                   
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_email}"/>
+                    <h:outputText value="#{usuarioController.selected.email}" title="#{bundle.ViewUsuarioTitle_email}"/>
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_isRestricaoHorario}"/>
+                    <h:outputText value="#{usuarioController.selected.isRestricaoHorario}" title="#{bundle.ViewUsuarioTitle_isRestricaoHorario}"/>                   
+                   
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_status}"/>
+                    <h:outputText value="#{usuarioController.selected.status}" title="#{bundle.ViewUsuarioTitle_status}"/>
+                    
+                </h:panelGrid>
+                <h:panelGrid columns="3">                                        
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioDomingo}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioDomingo}" title="#{bundle.ViewUsuarioTitle_horaInicioDomingo}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalDomingo}" title="#{bundle.ViewUsuarioTitle_horaFinalDomingo}"/>                    
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioSegunda}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioSegunda}" title="#{bundle.ViewUsuarioTitle_horaInicioSegunda}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalSegunda}" title="#{bundle.ViewUsuarioTitle_horaFinalSegunda}"/>
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioTerca}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioTerca}" title="#{bundle.ViewUsuarioTitle_horaInicioTerca}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalTerca}" title="#{bundle.ViewUsuarioTitle_horaFinalTerca}"/>
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioQuarta}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioQuarta}" title="#{bundle.ViewUsuarioTitle_horaInicioQuarta}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalQuarta}" title="#{bundle.ViewUsuarioTitle_horaFinalQuarta}"/>
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioQuinta}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioQuinta}" title="#{bundle.ViewUsuarioTitle_horaInicioQuinta}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalQuinta}" title="#{bundle.ViewUsuarioTitle_horaFinalQuinta}"/>
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioSexta}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioSexta}" title="#{bundle.ViewUsuarioTitle_horaInicioSexta}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalSexta}" title="#{bundle.ViewUsuarioTitle_horaFinalSexta}"/>
+                    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_horaInicioSabado}"/>
+                    <h:outputText value="#{usuarioController.selected.horaInicioSabado}" title="#{bundle.ViewUsuarioTitle_horaInicioSabado}"/>
+                    <h:outputText value="#{usuarioController.selected.horaFinalSabado}" title="#{bundle.ViewUsuarioTitle_horaFinalSabado}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usuarioController.destroyAndView}" value="#{bundle.ViewUsuarioDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewUsuarioEditLink}"/>
+                <br />
+                <h:commandLink action="#{usuarioController.prepareCreate}" value="#{bundle.ViewUsuarioCreateLink}" />
+                <br />
+                <h:commandLink action="#{usuarioController.prepareList}" value="#{bundle.ViewUsuarioShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewUsuarioIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

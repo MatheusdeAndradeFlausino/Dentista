@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateMovimentacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_idMaterial}" />
+                    <h:panelGroup>
+                        <p:inputText readonly="true" value="#{movimentacaoController.selected.idMaterial.descricao}" id="nomeMaterial"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchMaterialController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{movimentacaoController.materialSelecionado}" process="@this" update="nomeMaterial"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{movimentacaoController.limparMaterial()}" process="@this" update="nomeMaterial"/>
+                    </h:panelGroup>                  
+                    
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_tipoMovimentacao}" />
+                    <p:selectOneMenu value="#{movimentacaoController.selected.tipoMovimentacao}">                        
+                        <f:selectItems value="#{movimentacaoController.tiposMovimentacao}" var="a"
+                                       itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>
+                    </p:selectOneMenu>
+                    
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_quantidade}" for="quantidade" />
+                    <p:inputText id="quantidade" value="#{movimentacaoController.selected.quantidade}" title="#{bundle.CreateMovimentacaoTitle_quantidade}" /> 
+                    
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{movimentacaoController.create}" value="#{bundle.CreateMovimentacaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{movimentacaoController.prepareList}" value="#{bundle.CreateMovimentacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateMovimentacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

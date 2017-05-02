@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewMensalidadeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    
+                    <h:outputText value="#{bundle.ViewMensalidadeLabel_idPaciente}"/>
+                    <h:outputText value="#{mensalidadeController.selected.idPaciente.idPessoa.nome}" title="#{bundle.ViewMensalidadeTitle_idPaciente}"/>
+                    
+                    <h:outputText value="#{bundle.ViewMensalidadeLabel_valor}"/>
+                    <h:outputText value="#{mensalidadeController.selected.valor}" title="#{bundle.ViewMensalidadeTitle_valor}"/>
+                                        
+                    <h:outputText value="#{bundle.ViewMensalidadeLabel_quantidadeMeses}"/>
+                    <h:outputText value="#{mensalidadeController.selected.quantidadeMeses}" title="#{bundle.ViewMensalidadeTitle_quantidadeMeses}"/>
+                    
+                    <h:outputText value="#{bundle.EditMensalidadeLabel_quantidadeMesesPagos}"/>
+                    <h:outputText value="#{mensalidadeController.selected.quantidadeMesesPagos}" title="#{bundle.EditMensalidadeTitle_quantidadeMesesPagos}"/>
+                    
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{mensalidadeController.destroyAndView}" value="#{bundle.ViewMensalidadeDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewMensalidadeEditLink}"/>
+                <br />
+                <h:commandLink action="#{mensalidadeController.prepareCreate}" value="#{bundle.ViewMensalidadeCreateLink}" />
+                <br />
+                <h:commandLink action="#{mensalidadeController.prepareList}" value="#{bundle.ViewMensalidadeShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewMensalidadeIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

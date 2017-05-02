@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditFornecedorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGroup>
+                    <p:selectOneMenu value="#{fornecedorController.despesa}">                        
+                        <f:selectItems value="#{fornecedorController.despesas}" var="a"
+                                       itemValue="#{a}" itemLabel="#{a.tipo}"/>
+                        <f:ajax render="PaineisFornecedor" event="change"/>
+                    </p:selectOneMenu>                    
+                </h:panelGroup>
+                <h:panelGroup id="PaineisFornecedor">
+
+                    <h:panelGrid columns="2" rendered="#{(not fornecedorController.renderizarFORMEmpresas()) and (not fornecedorController.renderizarFORMPessoas())}">
+                        <h:outputLabel value="#{bundle.CreateFornecedorLabel_descricao}" for="descricao" />
+                        <p:inputTextarea rows="4" cols="30" id="descricao" value="#{fornecedorController.selected.descricao}" title="#{bundle.CreateFornecedorTitle_descricao}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMPessoas()}">
+                        <h:outputLabel value="#{bundle.CreatePessoaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{fornecedorController.pessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                        <h:outputLabel value="#{bundle.CreatePessoaLabel_cpf}" for="cpf" />
+                        <p:inputMask id="cpf" value="#{fornecedorController.pessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" mask="999.999.999-99" validator="cpfValidator" validatorMessage="#{bundle.CPFInvalido}" >
+                            <p:ajax event="blur" update="messagePanel"/>
+                        </p:inputMask>
+
+                        <h:outputLabel value="#{bundle.CreatePessoaLabel_rg}" for="rg" />
+                        <p:inputText id="rg" value="#{fornecedorController.pessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMEmpresas()}">
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_razaoSocial}" for="razaoSocial" />
+                        <p:inputText id="razaoSocial" value="#{fornecedorController.empresa.razaoSocial}" title="#{bundle.CreateEmpresaTitle_razaoSocial}" />
+
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_nomeFantasia}" for="nomeFantasia" />
+                        <p:inputText id="nomeFantasia" value="#{fornecedorController.empresa.nomeFantasia}" title="#{bundle.CreateEmpresaTitle_nomeFantasia}" />
+
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_cnpj}" for="cnpj" />
+                        <p:inputMask id="cnpj" value="#{fornecedorController.empresa.cnpj}" title="#{bundle.CreateEmpresaTitle_cnpj}" mask="99.999.999/9999-99" validator="cnpjValidator" validatorMessage="#{bundle.CNPJInvalido}">
+                            <p:ajax event="blur" update="messagePanel"/>
+                        </p:inputMask>
+
+                        <h:outputLabel value="#{bundle.CreateEmpresaLabel_inscricaoEstadual}" for="inscricaoEstadual" />
+                        <p:inputText id="inscricaoEstadual" value="#{fornecedorController.empresa.inscricaoEstadual}" title="#{bundle.CreateEmpresaTitle_inscricaoEstadual}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMEmpresas() or fornecedorController.renderizarFORMPessoas()}">
+                        <f:facet name="contato">                        
+                            <h:outputText>#{bundle.TitleContato}</h:outputText>                       
+                        </f:facet>
+                        <h:outputLabel value="#{bundle.CreateContatoLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{fornecedorController.contato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                        <h:outputLabel value="#{bundle.CreateContatoLabel_cel}" for="cel" />
+                        <p:inputMask id="cel" value="#{fornecedorController.contato.cel}" title="#{bundle.CreateContatoTitle_cel}" mask="(99)99999-9999"/>
+
+                        <h:outputLabel value="#{bundle.CreateContatoLabel_tel}" for="tel" />
+                        <p:inputMask id="tel" value="#{fornecedorController.contato.tel}" title="#{bundle.CreateContatoTitle_tel}" mask="(99)9999-9999"/>
+
+                        <h:outputLabel value="#{bundle.CreateContatoLabel_telOpc}" for="telOpc" />
+                        <p:inputMask id="telOpc" value="#{fornecedorController.contato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" mask="(99)9999-9999"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.renderizarFORMEmpresas() or fornecedorController.renderizarFORMPessoas()}">
+                        <f:facet name="endereco">                        
+                            <h:outputText>#{bundle.TitleEndereco}</h:outputText>                       
+                        </f:facet>
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_cep}" for="cep" />
+                        <p:inputMask id="cep" value="#{fornecedorController.endereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" mask="99.999-999"/>
+
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{fornecedorController.endereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_cidade}" for="cidade" />
+                        <p:inputText id="cidade" value="#{fornecedorController.endereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_rua}" for="rua" />
+                        <p:inputText id="rua" value="#{fornecedorController.endereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{fornecedorController.endereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_bairro}" for="bairro" />
+                        <p:inputText id="bairro" value="#{fornecedorController.endereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                        <h:outputLabel value="#{bundle.CreateEnderecoLabel_complemento}" for="complemento" />
+                        <p:inputText id="complemento" value="#{fornecedorController.endereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid>
+                        <h:outputLabel value="#{bundle.EditFornecedorLabel_status}" for="status" />
+                        <p:selectOneMenu value="#{fornecedorController.statusPadrao}">                        
+                            <f:selectItems value="#{fornecedorController.status}" var="a"
+                                           itemValue="#{a}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </h:panelGroup>
+                <h:commandLink action="#{fornecedorController.update}" value="#{bundle.EditFornecedorSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditFornecedorViewLink}"/>
+                <br />
+                <h:commandLink action="#{fornecedorController.prepareList}" value="#{bundle.EditFornecedorShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditFornecedorIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewProcedimentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_descricao}"/>
+                    <h:outputText value="#{procedimentoController.selected.descricao}" title="#{bundle.ViewProcedimentoTitle_descricao}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_valorPadrao}"/>
+                    <h:outputText value="#{procedimentoController.selected.valorPadrao}" title="#{bundle.ViewProcedimentoTitle_valorPadrao}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_isGerarComissao}"/>
+                    <h:outputText value="#{procedimentoController.selected.isGerarComissao}" title="#{bundle.ViewProcedimentoTitle_isGerarComissao}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_isGerarAtendimento}"/>
+                    <h:outputText value="#{procedimentoController.selected.isGerarAtendimento}" title="#{bundle.ViewProcedimentoTitle_isGerarAtendimento}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_isGerarLaboratorio}"/>
+                    <h:outputText value="#{procedimentoController.selected.isGerarLaboratorio}" title="#{bundle.ViewProcedimentoTitle_isGerarLaboratorio}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_status}"/>
+                    <h:outputText value="#{procedimentoController.selected.status}" title="#{bundle.ViewProcedimentoTitle_status}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_idTabela}"/>
+                    <h:outputText value="#{procedimentoController.selected.idTabela.descricao}" title="#{bundle.ViewProcedimentoTitle_idTabela}"/>
+
+                    <h:outputText value="#{bundle.ViewProcedimentoLabel_idEspecialidade}"/>
+                    <h:outputText value="#{procedimentoController.selected.idEspecialidade.descricao}" title="#{bundle.ViewProcedimentoTitle_idEspecialidade}"/>
+                </h:panelGrid>
+                #{bundle.ClinicasAssociadasProcedimento}
+                <h:panelGrid columns="4">
+                    <ui:repeat var="procedimentoClinica" value="#{procedimentoController.procedimentosClinica}">
+                        <h:outputText value="#{bundle.ViewProcedimentoClinicaLabel_idClinica}"/>
+                        <h:outputText value="#{procedimentoClinica.idClinica.nome}" title="#{bundle.ViewProcedimentoClinicaTitle_idClinica}"/>
+                        
+                        <h:outputText value="#{bundle.EditChequeLabel_valor}"/>
+                        <h:outputText value="#{procedimentoClinica.valor}" title="#{bundle.EditChequeTitle_valor}"/>
+                    </ui:repeat> 
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{procedimentoController.destroyAndView}" value="#{bundle.ViewProcedimentoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewProcedimentoEditLink}"/>
+                <br />
+                <h:commandLink action="#{procedimentoController.prepareCreate}" value="#{bundle.ViewProcedimentoCreateLink}" />
+                <br />
+                <h:commandLink action="#{procedimentoController.prepareList}" value="#{bundle.ViewProcedimentoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewProcedimentoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

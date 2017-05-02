@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListAgendamentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">                     
+                        
+                        <h:outputLabel value="#{bundle.CreateAgendamentoLabel_idPaciente}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{agendamentoController.filtro.paciente.idPessoa.nome}" id="nomePaciente"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{agendamentoController.pacienteSelecionadoFilter}" process="@this" update="nomePaciente"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+
+                        <h:outputLabel value="#{bundle.CreateAgendamentoLabel_idProfissional}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{agendamentoController.filtro.profissional.idPessoa.nome}" id="nomeProfissional"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{agendamentoController.profissionalSelecionadoFilter}" process="@this" update="nomeProfissional"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+                        
+                        <h:outputLabel value="#{bundle.CreateProcedimentoClinicaLabel_idProcedimento}" />
+                        <h:panelGroup>
+                            <p:inputText readonly="true" value="#{agendamentoController.filtro.procedimento.descricao}" id="nomeProcedimento"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProcedimentoController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{agendamentoController.procedimentoSelecionadoFilter}" process="@this" update="nomeProcedimento"/>
+                            </p:commandButton>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_status}" />
+                        <p:selectOneMenu value="#{agendamentoController.filtro.status}">
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{agendamentoController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="schedule" action="#{agendamentoController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{agendamentoController.limpar}"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:schedule id="schedule" locale="br" value="#{agendamentoController.eventModel}" widgetVar="myschedule" timeZone="GMT-3" style="width:400px;">                       
+                        <p:ajax event="eventSelect" listener="#{agendamentoController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                        <p:ajax event="eventMove" listener="#{agendamentoController.onEventMove}"  />
+                    </p:schedule> 
+                    <p:dialog widgetVar="eventDialog" header="#{bundle.DetalhesAgendamento}" showEffect="clip" hideEffect="clip">
+                        <h:panelGrid id="eventDetails" columns="2">
+                            <p:outputLabel for="title" value="#{bundle.Paciente}" />
+                            <p:outputLabel id="title" value="#{agendamentoController.evento.title}"/>
+
+                            <p:outputLabel for="from" value="#{bundle.CreateAgendamentoLabel_data}" />
+                            <p:outputLabel id="from" value="#{agendamentoController.evento.startDate}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </p:outputLabel>
+
+                            <p:outputLabel  value="#{bundle.CreateAgendamentoLabel_tempoAtendimento}" />
+                            <p:outputLabel  value="#{agendamentoController.evento.data.tempoAtendimento}" />
+
+                            <p:outputLabel  value="#{bundle.CreateAgendamentoLabel_idProfissional}" />
+                            <p:outputLabel  value="#{agendamentoController.evento.data.idProfissional.idPessoa.nome}" />
+
+                            <p:outputLabel  value="#{bundle.CreateProcedimentoClinicaLabel_idProcedimento}" />
+                            <p:outputLabel  value="#{agendamentoController.evento.data.idProcedimento.descricao}" />
+                            
+                            <p:outputLabel  value="#{bundle.CreateAgendamentoLabel_status}" />
+                            <p:outputLabel  value="#{agendamentoController.evento.data.status}" />
+                           
+                            <p:commandButton id="editButton" value="#{bundle.EditAgendamentoTitle}" actionListener="#{agendamentoController.editarAgendamento}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                        </h:panelGrid>
+                    </p:dialog> 
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{agendamentoController.prepareCreate}" value="#{bundle.ListAgendamentoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListAgendamentoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    <script type="text/javascript">
+    PrimeFaces.locales['br'] = {
+        closeText: 'Fechar',
+        prevText: 'Próximo',
+        nextText: 'Anterior',
+        currentText: 'Atual',
+        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+            'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+            'Jul','Ago','Set','Out','Nov','Dez'],
+        dayNames: ['Domingo','Segunda','Terça','Qua','Quinta','Segunda','Terça'],
+        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+        dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+        weekHeader: 'Semana',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        month: 'Mês',
+        week: 'Semana',
+        day: 'Dia',
+        allDayText : 'Todo o Dia'
+    };
+</script>
+</html>

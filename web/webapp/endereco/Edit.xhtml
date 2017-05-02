@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditEnderecoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{enderecoController.selected.id}" title="#{bundle.EditEnderecoTitle_id}" required="true" requiredMessage="#{bundle.EditEnderecoRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_cep}" for="cep" />
+                    <h:inputText id="cep" value="#{enderecoController.selected.cep}" title="#{bundle.EditEnderecoTitle_cep}" />
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_estado}" for="estado" />
+                    <h:inputText id="estado" value="#{enderecoController.selected.estado}" title="#{bundle.EditEnderecoTitle_estado}" />
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_cidade}" for="cidade" />
+                    <h:inputText id="cidade" value="#{enderecoController.selected.cidade}" title="#{bundle.EditEnderecoTitle_cidade}" />
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_rua}" for="rua" />
+                    <h:inputText id="rua" value="#{enderecoController.selected.rua}" title="#{bundle.EditEnderecoTitle_rua}" />
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_numero}" for="numero" />
+                    <h:inputText id="numero" value="#{enderecoController.selected.numero}" title="#{bundle.EditEnderecoTitle_numero}" />
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_bairro}" for="bairro" />
+                    <h:inputText id="bairro" value="#{enderecoController.selected.bairro}" title="#{bundle.EditEnderecoTitle_bairro}" />
+                    <h:outputLabel value="#{bundle.EditEnderecoLabel_complemento}" for="complemento" />
+                    <h:inputText id="complemento" value="#{enderecoController.selected.complemento}" title="#{bundle.EditEnderecoTitle_complemento}" />
+                </h:panelGrid>
+                <h:commandLink action="#{enderecoController.update}" value="#{bundle.EditEnderecoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditEnderecoViewLink}"/>
+                <br />
+                <h:commandLink action="#{enderecoController.prepareList}" value="#{bundle.EditEnderecoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditEnderecoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

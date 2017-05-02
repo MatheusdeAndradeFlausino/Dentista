@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateContaAvulsaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateContaAvulsaLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{contaAvulsaController.selected.id}" title="#{bundle.CreateContaAvulsaTitle_id}" required="true" requiredMessage="#{bundle.CreateContaAvulsaRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateContaAvulsaLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{contaAvulsaController.selected.valor}" title="#{bundle.CreateContaAvulsaTitle_valor}" />
+                    <h:outputLabel value="#{bundle.CreateContaAvulsaLabel_isGerarIndicacao}" for="isGerarIndicacao" />
+                    <h:inputText id="isGerarIndicacao" value="#{contaAvulsaController.selected.isGerarIndicacao}" title="#{bundle.CreateContaAvulsaTitle_isGerarIndicacao}" />
+                    <h:outputLabel value="#{bundle.CreateContaAvulsaLabel_idProcedimento}" for="idProcedimento" />
+                    <h:selectOneMenu id="idProcedimento" value="#{contaAvulsaController.selected.idProcedimento}" title="#{bundle.CreateContaAvulsaTitle_idProcedimento}" >
+                        <f:selectItems value="#{procedimentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateContaAvulsaLabel_idEspecialidade}" for="idEspecialidade" />
+                    <h:selectOneMenu id="idEspecialidade" value="#{contaAvulsaController.selected.idEspecialidade}" title="#{bundle.CreateContaAvulsaTitle_idEspecialidade}" >
+                        <f:selectItems value="#{especialidadeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateContaAvulsaLabel_idPaciente}" for="idPaciente" />
+                    <h:selectOneMenu id="idPaciente" value="#{contaAvulsaController.selected.idPaciente}" title="#{bundle.CreateContaAvulsaTitle_idPaciente}" >
+                        <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{contaAvulsaController.create}" value="#{bundle.CreateContaAvulsaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{contaAvulsaController.prepareList}" value="#{bundle.CreateContaAvulsaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateContaAvulsaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

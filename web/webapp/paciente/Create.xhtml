@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePacienteTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <p:growl id="growl" sticky="true" showDetail="true"/>
+                <p:wizard flowListener="#{pacienteController.onFlowProcess}" nextLabel="#{bundle.Next}" backLabel="#{bundle.Previous}" style="width:400px;">
+                    <p:tab title="#{bundle.Pessoal}" disabled="false">
+                        <p:panel header="#{bundle.DadosPessoaisText}">
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_nome}" for="nome" />
+                                <p:inputText id="nome" value="#{pacienteController.pessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" required="true" requiredMessage="#{bundle.CreatePessoaRequiredMessage_nome}"/>
+
+                                <h:outputLabel value="#{bundle.dataNascimento}" />
+                                <p:inputMask value="#{pacienteController.pessoa.dataNascimento}" title="#{bundle.dataNascimento}" mask="99/99/9999" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputMask>
+
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_cpf}" for="cpf" />
+                                <p:inputMask id="cpf" value="#{pacienteController.pessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" mask="999.999.999-99" validator="cpfValidator" validatorMessage="#{bundle.CPFInvalido}">
+                                    <p:ajax event="blur" update="messagePanel"/>
+                                </p:inputMask>
+
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_rg}" for="rg" />
+                                <p:inputText id="rg" value="#{pacienteController.pessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+
+                                <h:outputLabel value="#{bundle.CreatePessoaLabel_sexo}" />
+                                <p:selectOneMenu value="#{pacienteController.pessoa.sexo}">                        
+                                    <f:selectItems value="#{pacienteController.sexos}" var="a"
+                                                   itemValue="#{a.abrev}" itemLabel="#{a.tipo}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.Paciente}" >
+                        <p:panel header="#{bundle.InformacoesPaciente}">
+                            <h:panelGrid columns="2">                                
+                                <h:outputLabel value="#{bundle.CreatePacienteLabel_numFicha}" for="numFicha" />
+                                <p:inputText id="numFicha" value="#{pacienteController.selected.numFicha}" title="#{bundle.CreatePacienteTitle_numFicha}" />
+
+                                <h:outputLabel value="#{bundle.CreatePacienteLabel_observacao}" for="observacao" />
+                                <p:inputTextarea rows="4" cols="30" id="observacao" value="#{pacienteController.selected.observacao}" title="#{bundle.CreatePacienteTitle_observacao}" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.TitleContato}" >
+                        <p:panel header="#{bundle.TitleContato}">
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_email}" for="email" />
+                                <p:inputText id="email" value="#{pacienteController.contato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_cel}" for="cel" />
+                                <p:inputMask id="cel" value="#{pacienteController.contato.cel}" title="#{bundle.CreateContatoTitle_cel}" mask="(99)99999-9999"/>
+
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_tel}" for="tel" />
+                                <p:inputMask id="tel" value="#{pacienteController.contato.tel}" title="#{bundle.CreateContatoTitle_tel}" mask="(99)9999-9999"/>
+
+                                <h:outputLabel value="#{bundle.CreateContatoLabel_telOpc}" for="telOpc" />
+                                <p:inputMask id="telOpc" value="#{pacienteController.contato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" mask="(99)9999-9999"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="#{bundle.TitleEndereco}" > 
+                        <p:panel header="#{bundle.TitleEndereco}">
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_cep}" for="cep" />
+                                <p:inputMask id="cep" value="#{pacienteController.endereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" mask="99.999-999"/>
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_estado}" for="estado" />
+                                <p:inputText id="estado" value="#{pacienteController.endereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_cidade}" for="cidade" />
+                                <p:inputText id="cidade" value="#{pacienteController.endereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_rua}" for="rua" />
+                                <p:inputText id="rua" value="#{pacienteController.endereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_numero}" for="numero" />
+                                <p:inputText id="numero" value="#{pacienteController.endereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_bairro}" for="bairro" />
+                                <p:inputText id="bairro" value="#{pacienteController.endereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                                <h:outputLabel value="#{bundle.CreateEnderecoLabel_complemento}" for="complemento" />
+                                <p:inputText id="complemento" value="#{pacienteController.endereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+                <br />
+                <h:commandLink action="#{pacienteController.create}" value="#{bundle.CreatePacienteSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{pacienteController.prepareList}" value="#{bundle.CreatePacienteShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreatePacienteIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

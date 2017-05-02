@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditRegraEspecialTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditRegraEspecialLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{regraEspecialController.selected.id}" title="#{bundle.EditRegraEspecialTitle_id}" required="true" requiredMessage="#{bundle.EditRegraEspecialRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditRegraEspecialLabel_tipoComissao}" for="tipoComissao" />
+                    <h:inputText id="tipoComissao" value="#{regraEspecialController.selected.tipoComissao}" title="#{bundle.EditRegraEspecialTitle_tipoComissao}" />
+                    <h:outputLabel value="#{bundle.EditRegraEspecialLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{regraEspecialController.selected.valor}" title="#{bundle.EditRegraEspecialTitle_valor}" />
+                    <h:outputLabel value="#{bundle.EditRegraEspecialLabel_idTabela}" for="idTabela" />
+                    <h:selectOneMenu id="idTabela" value="#{regraEspecialController.selected.idTabela}" title="#{bundle.EditRegraEspecialTitle_idTabela}" >
+                        <f:selectItems value="#{tabelaProcedimentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditRegraEspecialLabel_idProcedimento}" for="idProcedimento" />
+                    <h:selectOneMenu id="idProcedimento" value="#{regraEspecialController.selected.idProcedimento}" title="#{bundle.EditRegraEspecialTitle_idProcedimento}" >
+                        <f:selectItems value="#{procedimentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditRegraEspecialLabel_idEspecialidade}" for="idEspecialidade" />
+                    <h:selectOneMenu id="idEspecialidade" value="#{regraEspecialController.selected.idEspecialidade}" title="#{bundle.EditRegraEspecialTitle_idEspecialidade}" >
+                        <f:selectItems value="#{especialidadeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{regraEspecialController.update}" value="#{bundle.EditRegraEspecialSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditRegraEspecialViewLink}"/>
+                <br />
+                <h:commandLink action="#{regraEspecialController.prepareList}" value="#{bundle.EditRegraEspecialShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditRegraEspecialIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

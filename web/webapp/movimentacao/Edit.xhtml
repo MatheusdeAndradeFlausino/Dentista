@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditMovimentacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_idMaterial}" />
+                    <h:outputText  value="#{movimentacaoController.selected.idMaterial.descricao}" id="nomeMaterial"/>
+
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_idClinica}" />
+                    <h:outputText  value="#{movimentacaoController.selected.idMaterial.idClinica.nome}" id="nomeClinica"/>
+
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_tipoMovimentacao}" />
+                    <p:selectOneMenu value="#{movimentacaoController.selected.tipoMovimentacao}">                        
+                        <f:selectItems value="#{movimentacaoController.tiposMovimentacao}" var="a"
+                                       itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_quantidade}" for="quantidade" />
+                    <p:inputText id="quantidade" value="#{movimentacaoController.selected.quantidade}" title="#{bundle.CreateMovimentacaoTitle_quantidade}" /> 
+                
+                    <p:outputLabel value="#{bundle.CreateAgendamentoLabel_data}" />
+                    <p:calendar id="data" value="#{movimentacaoController.selected.data}" pattern="dd/MM/yyyy HH:mm" />
+                    
+                </h:panelGrid>
+                <h:commandLink action="#{movimentacaoController.update}" value="#{bundle.EditMovimentacaoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditMovimentacaoViewLink}"/>
+                <br />
+                <h:commandLink action="#{movimentacaoController.prepareList}" value="#{bundle.EditMovimentacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditMovimentacaoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

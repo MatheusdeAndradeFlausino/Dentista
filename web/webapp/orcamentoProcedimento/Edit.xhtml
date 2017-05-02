@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditOrcamentoProcedimentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditOrcamentoProcedimentoLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{orcamentoProcedimentoController.selected.id}" title="#{bundle.EditOrcamentoProcedimentoTitle_id}" required="true" requiredMessage="#{bundle.EditOrcamentoProcedimentoRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditOrcamentoProcedimentoLabel_idOrcamento}" for="idOrcamento" />
+                    <h:selectOneMenu id="idOrcamento" value="#{orcamentoProcedimentoController.selected.idOrcamento}" title="#{bundle.EditOrcamentoProcedimentoTitle_idOrcamento}" >
+                        <f:selectItems value="#{orcamentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditOrcamentoProcedimentoLabel_idProcedimento}" for="idProcedimento" />
+                    <h:selectOneMenu id="idProcedimento" value="#{orcamentoProcedimentoController.selected.idProcedimento}" title="#{bundle.EditOrcamentoProcedimentoTitle_idProcedimento}" >
+                        <f:selectItems value="#{procedimentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{orcamentoProcedimentoController.update}" value="#{bundle.EditOrcamentoProcedimentoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditOrcamentoProcedimentoViewLink}"/>
+                <br />
+                <h:commandLink action="#{orcamentoProcedimentoController.prepareList}" value="#{bundle.EditOrcamentoProcedimentoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditOrcamentoProcedimentoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

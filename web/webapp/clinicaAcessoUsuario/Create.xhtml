@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateClinicaAcessoUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateClinicaAcessoUsuarioLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{clinicaAcessoUsuarioController.selected.id}" title="#{bundle.CreateClinicaAcessoUsuarioTitle_id}" required="true" requiredMessage="#{bundle.CreateClinicaAcessoUsuarioRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateClinicaAcessoUsuarioLabel_idClinica}" for="idClinica" />
+                    <h:selectOneMenu id="idClinica" value="#{clinicaAcessoUsuarioController.selected.idClinica}" title="#{bundle.CreateClinicaAcessoUsuarioTitle_idClinica}" >
+                        <f:selectItems value="#{clinicaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateClinicaAcessoUsuarioLabel_idUsuario}" for="idUsuario" />
+                    <h:selectOneMenu id="idUsuario" value="#{clinicaAcessoUsuarioController.selected.idUsuario}" title="#{bundle.CreateClinicaAcessoUsuarioTitle_idUsuario}" >
+                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{clinicaAcessoUsuarioController.create}" value="#{bundle.CreateClinicaAcessoUsuarioSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{clinicaAcessoUsuarioController.prepareList}" value="#{bundle.CreateClinicaAcessoUsuarioShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateClinicaAcessoUsuarioIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

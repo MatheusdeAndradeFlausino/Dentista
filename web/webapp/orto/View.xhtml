@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewOrtoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewOrtoLabel_id}"/>
+                    <h:outputText value="#{ortoController.selected.id}" title="#{bundle.ViewOrtoTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewOrtoLabel_dataInicio}"/>
+                    <h:outputText value="#{ortoController.selected.dataInicio}" title="#{bundle.ViewOrtoTitle_dataInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewOrtoLabel_dataFinal}"/>
+                    <h:outputText value="#{ortoController.selected.dataFinal}" title="#{bundle.ViewOrtoTitle_dataFinal}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewOrtoLabel_status}"/>
+                    <h:outputText value="#{ortoController.selected.status}" title="#{bundle.ViewOrtoTitle_status}"/>
+                    <h:outputText value="#{bundle.ViewOrtoLabel_idPaciente}"/>
+                    <h:outputText value="#{ortoController.selected.idPaciente}" title="#{bundle.ViewOrtoTitle_idPaciente}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{ortoController.destroyAndView}" value="#{bundle.ViewOrtoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewOrtoEditLink}"/>
+                <br />
+                <h:commandLink action="#{ortoController.prepareCreate}" value="#{bundle.ViewOrtoCreateLink}" />
+                <br />
+                <h:commandLink action="#{ortoController.prepareList}" value="#{bundle.ViewOrtoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewOrtoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

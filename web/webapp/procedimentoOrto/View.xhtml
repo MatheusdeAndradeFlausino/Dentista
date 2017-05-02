@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewProcedimentoOrtoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_id}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.id}" title="#{bundle.ViewProcedimentoOrtoTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_vencimento}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.vencimento}" title="#{bundle.ViewProcedimentoOrtoTitle_vencimento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_dataAtendimento}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.dataAtendimento}" title="#{bundle.ViewProcedimentoOrtoTitle_dataAtendimento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_observacao}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.observacao}" title="#{bundle.ViewProcedimentoOrtoTitle_observacao}"/>
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_idProcedimento}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.idProcedimento}" title="#{bundle.ViewProcedimentoOrtoTitle_idProcedimento}"/>
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_idOrto}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.idOrto}" title="#{bundle.ViewProcedimentoOrtoTitle_idOrto}"/>
+                    <h:outputText value="#{bundle.ViewProcedimentoOrtoLabel_idProfissional}"/>
+                    <h:outputText value="#{procedimentoOrtoController.selected.idProfissional}" title="#{bundle.ViewProcedimentoOrtoTitle_idProfissional}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{procedimentoOrtoController.destroyAndView}" value="#{bundle.ViewProcedimentoOrtoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewProcedimentoOrtoEditLink}"/>
+                <br />
+                <h:commandLink action="#{procedimentoOrtoController.prepareCreate}" value="#{bundle.ViewProcedimentoOrtoCreateLink}" />
+                <br />
+                <h:commandLink action="#{procedimentoOrtoController.prepareList}" value="#{bundle.ViewProcedimentoOrtoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewProcedimentoOrtoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{bundle.searchTabelaProcedimento}</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGroup>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreateTabelaProcedimentoLabel_descricao}" for="descricao" />
+                    <p:inputText id="descricao" value="#{searchTabelaProcedimentoController.filtro.descricao}" title="#{bundle.CreateTabelaProcedimentoTitle_descricao}" />
+
+                    <p:outputLabel value="#{bundle.CreateTabelaProcedimentoLabel_isConvenio}" />
+                    <p:selectOneMenu value="#{searchTabelaProcedimentoController.filtro.isConvenio}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                        <f:selectItems value="#{searchTabelaProcedimentoController.afirmacoes}" var="a"
+                                       itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
+                    </p:selectOneMenu>
+                
+                    <p:outputLabel value="#{bundle.CreateTabelaProcedimentoLabel_status}" />
+                    <p:selectOneMenu value="#{searchTabelaProcedimentoController.filtro.status}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                        <f:selectItems value="#{searchTabelaProcedimentoController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="result" action="#{searchTabelaProcedimentoController.pesquisar}"/>
+            </h:panelGroup>
+            <p:dataTable emptyMessage="#{bundle.ListTabelaProcedimentoEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" id="result" var="tabela" value="#{searchTabelaProcedimentoController.tabelasProcedimentos}">
+
+                <p:column headerText="#{bundle.CreateTabelaProcedimentoTitle_descricao}">
+                    <h:outputText value="#{tabela.descricao}" />
+                </p:column>
+                
+                <p:column headerText="#{bundle.CreateTabelaProcedimentoTitle_isConvenio}">
+                    <h:outputText value="#{tabela.isConvenio}" />
+                </p:column>               
+              
+                <p:column headerText="#{bundle.CreateTabelaProcedimentoTitle_status}">
+                    <h:outputText value="#{tabela.status}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.Acao}">
+                    <p:commandButton value="#{bundle.Escolher}" process="@this" action="#{searchTabelaProcedimentoController.selecionar(tabela)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

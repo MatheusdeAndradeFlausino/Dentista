@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListOrcamentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListOrcamentoEmpty}" rendered="#{orcamentoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{orcamentoController.items.rowCount > 0}">
+                    <h:outputText value="#{orcamentoController.pagination.pageFirstItem + 1}..#{orcamentoController.pagination.pageLastItem + 1}/#{orcamentoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{orcamentoController.previous}" value="#{bundle.Previous} #{orcamentoController.pagination.pageSize}" rendered="#{orcamentoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{orcamentoController.next}" value="#{bundle.Next} #{orcamentoController.pagination.pageSize}" rendered="#{orcamentoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{orcamentoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrcamentoTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrcamentoTitle_isEnviarSMS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.isEnviarSMS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrcamentoTitle_data}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.data}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrcamentoTitle_status}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.status}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrcamentoTitle_idPaciente}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPaciente}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrcamentoTitle_idProfissional}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idProfissional}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{orcamentoController.prepareView}" value="#{bundle.ListOrcamentoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{orcamentoController.prepareEdit}" value="#{bundle.ListOrcamentoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{orcamentoController.destroy}" value="#{bundle.ListOrcamentoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{orcamentoController.prepareCreate}" value="#{bundle.ListOrcamentoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListOrcamentoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

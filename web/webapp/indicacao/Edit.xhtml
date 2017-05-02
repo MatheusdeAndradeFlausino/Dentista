@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditIndicacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditIndicacaoLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{indicacaoController.selected.id}" title="#{bundle.EditIndicacaoTitle_id}" required="true" requiredMessage="#{bundle.EditIndicacaoRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditIndicacaoLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{indicacaoController.selected.valor}" title="#{bundle.EditIndicacaoTitle_valor}" />
+                    <h:outputLabel value="#{bundle.EditIndicacaoLabel_idPaciente}" for="idPaciente" />
+                    <h:selectOneMenu id="idPaciente" value="#{indicacaoController.selected.idPaciente}" title="#{bundle.EditIndicacaoTitle_idPaciente}" >
+                        <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditIndicacaoLabel_idProfissional}" for="idProfissional" />
+                    <h:selectOneMenu id="idProfissional" value="#{indicacaoController.selected.idProfissional}" title="#{bundle.EditIndicacaoTitle_idProfissional}" >
+                        <f:selectItems value="#{profissionalController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{indicacaoController.update}" value="#{bundle.EditIndicacaoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditIndicacaoViewLink}"/>
+                <br />
+                <h:commandLink action="#{indicacaoController.prepareList}" value="#{bundle.EditIndicacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditIndicacaoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

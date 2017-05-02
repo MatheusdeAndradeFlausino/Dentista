@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateChequeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_nomeCheque}" for="nomeCheque" />
+                    <p:inputText id="nomeCheque" value="#{chequeController.selected.nomeCheque}" title="#{bundle.CreateChequeTitle_nomeCheque}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_numCheque}" for="numCheque" />
+                    <p:inputText id="numCheque" value="#{chequeController.selected.numCheque}" title="#{bundle.CreateChequeTitle_numCheque}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_banco}" for="banco" />
+                    <p:inputText id="banco" value="#{chequeController.selected.banco}" title="#{bundle.CreateChequeTitle_banco}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_agencia}" for="agencia" />
+                    <p:inputText id="agencia" value="#{chequeController.selected.agencia}" title="#{bundle.CreateChequeTitle_agencia}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_contaCorrente}" for="contaCorrente" />
+                    <p:inputText id="contaCorrente" value="#{chequeController.selected.contaCorrente}" title="#{bundle.CreateChequeTitle_contaCorrente}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_dataEmissao}" for="dataEmissao" />
+                    <p:calendar id="dataEmissao" value="#{chequeController.selected.dataEmissao}" pattern="dd/MM/yyyy" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_dataVencimento}" for="dataVencimento" />
+                    <p:calendar id="dataVencimento" value="#{chequeController.selected.dataVencimento}" pattern="dd/MM/yyyy" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_dataBaixa}" for="dataBaixa" />
+                    <p:calendar id="dataBaixa" value="#{chequeController.selected.dataBaixa}" pattern="dd/MM/yyyy" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_valor}" for="valor" />
+                    <p:inputText id="valor" value="#{chequeController.selected.valor}" title="#{bundle.CreateChequeTitle_valor}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_isChequeBaixado}"  />
+                    <p:selectOneMenu value="#{chequeController.selected.isChequeBaixado}" title="#{bundle.CreateChequeTitle_isChequeBaixado}" >
+                        <f:selectItems value="#{chequeController.afirmacoes}" var="a"
+                                       itemLabel="#{a.valor}" itemValue="#{a.valor}"/>
+                    </p:selectOneMenu>
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_destino}" for="destino" />
+                    <p:inputTextarea rows="4" cols="30" id="destino" value="#{chequeController.selected.destino}" title="#{bundle.CreateChequeTitle_destino}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateChequeLabel_idPaciente}" />
+                    <p:panel>
+                        <p:inputText readonly="true" value="#{chequeController.selected.idPaciente.idPessoa.nome}" id="nomePaciente"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{chequeController.pacienteSelecionado}" process="@this" update="nomePaciente"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{chequeController.limparPaciente()}" process="@this" update="nomePaciente"/>
+                    </p:panel>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{chequeController.create}" value="#{bundle.CreateChequeSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{chequeController.prepareList}" value="#{bundle.CreateChequeShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateChequeIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

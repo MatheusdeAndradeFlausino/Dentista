@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewFilaEsperaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">                    
+                    <h:outputText value="#{bundle.ViewFilaEsperaLabel_dataChegada}"/>
+                    <h:outputText value="#{filaEsperaController.selected.dataChegada}" title="#{bundle.ViewFilaEsperaTitle_dataChegada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                    
+                    <h:outputText value="#{bundle.ViewFilaEsperaLabel_idPaciente}"/>
+                    <h:outputText value="#{filaEsperaController.selected.idPaciente.idPessoa.nome}" title="#{bundle.ViewFilaEsperaTitle_idPaciente}"/>
+                    
+                    <h:outputText value="#{bundle.ViewFilaEsperaLabel_idProfissional}"/>
+                    <h:outputText value="#{filaEsperaController.selected.idProfissional.idPessoa.nome}" title="#{bundle.ViewFilaEsperaTitle_idProfissional}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{filaEsperaController.destroyAndView}" value="#{bundle.ViewFilaEsperaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewFilaEsperaEditLink}"/>
+                <br />
+                <h:commandLink action="#{filaEsperaController.prepareCreate}" value="#{bundle.ViewFilaEsperaCreateLink}" />
+                <br />
+                <h:commandLink action="#{filaEsperaController.prepareList}" value="#{bundle.ViewFilaEsperaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewFilaEsperaIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

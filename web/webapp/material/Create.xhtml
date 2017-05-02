@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateMaterialTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form acceptcharset="UTF-8">
+                <h:panelGrid columns="2">
+                    
+                    <h:outputLabel value="#{bundle.CreateMaterialLabel_descricao}" for="descricao" />
+                    <p:inputTextarea rows="4" cols="30" id="descricao" value="#{materialController.selected.descricao}" title="#{bundle.CreateMaterialTitle_descricao}" />
+                   
+                    <h:outputLabel value="#{bundle.CreateMaterialLabel_apelido}" for="apelido" />
+                    <p:inputText id="apelido" value="#{materialController.selected.apelido}" title="#{bundle.CreateMaterialTitle_apelido}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateMaterialLabel_saldo}" for="saldo" />
+                    <p:inputText id="saldo" value="#{materialController.selected.saldo}" title="#{bundle.CreateMaterialTitle_saldo}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateMaterialLabel_minimo}" for="minimo" />
+                    <p:inputText id="minimo" value="#{materialController.selected.minimo}" title="#{bundle.CreateMaterialTitle_minimo}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateMaterialLabel_maximo}" for="maximo" />
+                    <p:inputText id="maximo" value="#{materialController.selected.maximo}" title="#{bundle.CreateMaterialTitle_maximo}" />
+                    
+                    <h:outputLabel value="#{bundle.CreateMovimentacaoLabel_idClinica}"  />
+                    <h:panelGroup>
+                        <p:inputText readonly="true" value="#{materialController.selected.idClinica.nome}" id="nomeClinica"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{materialController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{materialController.limparClinica()}" process="@this" update="nomeClinica"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{materialController.create}" value="#{bundle.CreateMaterialSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{materialController.prepareList}" value="#{bundle.CreateMaterialShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateMaterialIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

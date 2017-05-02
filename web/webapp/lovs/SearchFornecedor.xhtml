@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{bundle.SearchFornecedor}</title>
+    </h:head>
+    <h:body>
+         <h:form>
+            <h:panelGroup>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreatePessoaTitle_nome}/#{bundle.CreateFornecedorLabel_descricao}" for="descricao" />
+                    <p:inputText id="descricao" value="#{searchFornecedorController.filtro.nome}" title="#{bundle.CreatePessoaTitle_nome}/#{bundle.CreateFornecedorLabel_descricao}" />
+
+                    <p:outputLabel value="#{bundle.CreateFornecedorLabel_tipoDespesa}" />
+                    <p:selectOneMenu value="#{searchFornecedorController.filtro.tipoDespesa}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" /> 
+                        <f:selectItems value="#{searchFornecedorController.despesas}" var="a"
+                                       itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>
+                    </p:selectOneMenu>
+                
+                    <p:outputLabel value="#{bundle.CreateFornecedorLabel_status}" />
+                    <p:selectOneMenu value="#{searchFornecedorController.filtro.status}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                        <f:selectItems value="#{searchFornecedorController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="result" action="#{searchFornecedorController.pesquisar}"/>
+            </h:panelGroup>
+            <p:dataTable emptyMessage="#{bundle.ListFornecedorEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" id="result" var="fornecedor" value="#{searchFornecedorController.fornecedores}">
+
+                <p:column headerText="#{bundle.ListFornecedorTitle_descricao}">
+                    <h:outputText value="#{fornecedor.nome}" />
+                </p:column>
+                
+                <p:column headerText="#{bundle.ListFornecedorTitle_tipoDespesa}">
+                    <h:outputText value="#{fornecedor.tipoDespesa}" />
+                </p:column>               
+
+                <p:column headerText="#{bundle.ListFornecedorTitle_status}">
+                    <h:outputText value="#{fornecedor.status}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.Acao}">
+                    <p:commandButton value="#{bundle.Escolher}" process="@this" action="#{searchFornecedorController.selecionar(fornecedor)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

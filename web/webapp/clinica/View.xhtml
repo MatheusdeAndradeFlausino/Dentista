@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewClinicaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2" rendered="#{not clinicaController.renderizarFormCNPJ()}">
+                    <h:outputText value="#{bundle.CreatePessoaLabel_nome}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                    <h:outputText value="#{bundle.CreatePessoaLabel_cpf}"/>
+                    <h:outputText value="#{clinicaController.selected.idPessoa.cpf}" title="#{bundle.CreatePessoaTitle_cpf}" />
+
+                    <h:outputText value="#{bundle.CreatePessoaLabel_rg}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
+                
+                    <h:outputText value="#{bundle.CreateContatoLabel_email}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idContato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_cel}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idContato.cel}" title="#{bundle.CreateContatoTitle_cel}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_tel}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idContato.tel}" title="#{bundle.CreateContatoTitle_tel}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_telOpc}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idContato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" />
+               
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_cep}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_estado}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_cidade}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_rua}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_numero}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_bairro}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_complemento}" />
+                    <h:outputText value="#{clinicaController.selected.idPessoa.idEndereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                
+                </h:panelGrid>
+                <h:panelGrid columns="2" rendered="#{clinicaController.renderizarFormCNPJ()}">
+                    <h:outputText value="#{bundle.CreateEmpresaLabel_razaoSocial}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.razaoSocial}" title="#{bundle.CreateEmpresaTitle_razaoSocial}" />
+
+                    <h:outputText value="#{bundle.CreateEmpresaLabel_nomeFantasia}"/>
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.nomeFantasia}" title="#{bundle.CreateEmpresaTitle_nomeFantasia}" />
+
+                    <h:outputText value="#{bundle.CreateEmpresaLabel_cnpj}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.cnpj}" title="#{bundle.CreateEmpresaTitle_cnpj}" />
+                
+                    <h:outputText value="#{bundle.CreateContatoLabel_email}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idContato.email}" title="#{bundle.CreateContatoTitle_email}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_cel}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idContato.cel}" title="#{bundle.CreateContatoTitle_cel}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_tel}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idContato.tel}" title="#{bundle.CreateContatoTitle_tel}" />
+
+                    <h:outputText value="#{bundle.CreateContatoLabel_telOpc}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idContato.telOpc}" title="#{bundle.CreateContatoTitle_telOpc}" />
+               
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_cep}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.cep}" title="#{bundle.CreateEnderecoTitle_cep}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_estado}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_cidade}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_rua}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.rua}" title="#{bundle.CreateEnderecoTitle_rua}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_numero}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.numero}" title="#{bundle.CreateEnderecoTitle_numero}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_bairro}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.bairro}" title="#{bundle.CreateEnderecoTitle_bairro}" />
+
+                    <h:outputText value="#{bundle.CreateEnderecoLabel_complemento}" />
+                    <h:outputText value="#{clinicaController.selected.idEmpresa.idEndereco.complemento}" title="#{bundle.CreateEnderecoTitle_complemento}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_horaAbertura}"/>
+                    <h:outputText value="#{clinicaController.selected.horaAbertura}" title="#{bundle.ViewClinicaTitle_horaAbertura}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_horaFechamento}"/>
+                    <h:outputText value="#{clinicaController.selected.horaFechamento}" title="#{bundle.ViewClinicaTitle_horaFechamento}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_tempoAtendimento}"/>
+                    <h:outputText value="#{clinicaController.selected.tempoAtendimento}" title="#{bundle.ViewClinicaTitle_tempoAtendimento}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_timezone}"/>
+                    <h:outputText value="#{clinicaController.selected.timezone}" title="#{bundle.ViewClinicaTitle_timezone}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_tipoPagamentoProfissional}"/>
+                    <h:outputText value="#{clinicaController.selected.tipoPagamentoProfissional}" title="#{bundle.ViewClinicaTitle_tipoPagamentoProfissional}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_tipoLancamentoCartaoCredito}"/>
+                    <h:outputText value="#{clinicaController.selected.tipoLancamentoCartaoCredito}" title="#{bundle.ViewClinicaTitle_tipoLancamentoCartaoCredito}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_valorIndicacao}"/>
+                    <h:outputText value="#{clinicaController.selected.valorIndicacao}" title="#{bundle.ViewClinicaTitle_valorIndicacao}"/>
+                    
+                    <h:outputText value="#{bundle.ViewClinicaLabel_numFichaAutomatico}"/>
+                    <h:outputText value="#{clinicaController.selected.numFichaAutomatico}" title="#{bundle.ViewClinicaTitle_numFichaAutomatico}"/>
+                    
+                    <h:outputText value="#{bundle.CreatePacienteLabel_status}" />
+                    <h:outputText value="#{clinicaController.selected.status}" title="#{bundle.CreatePacienteTitle_status}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{clinicaController.destroyAndView}" value="#{bundle.ViewClinicaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewClinicaEditLink}"/>
+                <br />
+                <h:commandLink action="#{clinicaController.prepareCreate}" value="#{bundle.ViewClinicaCreateLink}" />
+                <br />
+                <h:commandLink action="#{clinicaController.prepareList}" value="#{bundle.ViewClinicaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewClinicaIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

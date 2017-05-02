@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{bundle.SearchMaterial}</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGroup>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreateMovimentacaoLabel_idClinica}" />
+                    <p:panel>
+                        <h:inputText readonly="true" value="#{searchMaterialController.filtro.clinica.nome}" id="nomeClinica"/>
+                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{searchMaterialController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
+                        </p:commandButton> 
+                    </p:panel>
+                    
+                    <p:outputLabel value="#{bundle.CreateMaterialLabel_descricao}" for="descricao" />
+                    <p:inputText id="descricao" value="#{searchMaterialController.filtro.descricao}" title="#{bundle.CreateMaterialTitle_descricao}" />
+
+                    <p:outputLabel value="#{bundle.CreateMaterialLabel_apelido}" for="apelido" />
+                    <p:inputText id="apelido" value="#{searchMaterialController.filtro.apelido}" title="#{bundle.CreateMaterialTitle_apelido}" />
+                
+                    <p:outputLabel value="#{bundle.CreateMaterialLabel_status}" />
+                    <p:selectOneMenu value="#{searchMaterialController.filtro.status}">
+                        <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                        <f:selectItems value="#{searchMaterialController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="Pesquisar" type="submit" update="result" action="#{searchMaterialController.pesquisar}"/>
+            </h:panelGroup>
+            <p:dataTable emptyMessage="#{bundle.ListMaterialEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" id="result" var="material" value="#{searchMaterialController.materiais}">
+                
+                <p:column headerText="#{bundle.CreateMaterialLabel_descricao}">
+                    <h:outputText value="#{material.descricao}" />
+                </p:column>
+                
+                <p:column headerText="#{bundle.CreateMaterialLabel_apelido}">
+                    <h:outputText value="#{material.apelido}" />
+                </p:column>               
+
+                <p:column headerText="#{bundle.CreateMaterialLabel_saldo}">
+                    <h:outputText value="#{material.saldo}" />
+                </p:column>
+                
+                <p:column headerText="#{bundle.CreateMaterialLabel_descricao}">
+                    <h:outputText value="#{material.idClinica.nome}" />
+                </p:column>
+                
+                <p:column headerText="#{bundle.CreateMaterialLabel_status}">
+                    <h:outputText value="#{material.status}" />
+                </p:column>
+
+                <p:column headerText="#{bundle.Acao}">
+                    <p:commandButton value="#{bundle.Escolher}" process="@this" action="#{searchMaterialController.selecionar(material)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

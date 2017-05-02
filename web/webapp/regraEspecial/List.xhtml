@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListRegraEspecialTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListRegraEspecialEmpty}" rendered="#{regraEspecialController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{regraEspecialController.items.rowCount > 0}">
+                    <h:outputText value="#{regraEspecialController.pagination.pageFirstItem + 1}..#{regraEspecialController.pagination.pageLastItem + 1}/#{regraEspecialController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{regraEspecialController.previous}" value="#{bundle.Previous} #{regraEspecialController.pagination.pageSize}" rendered="#{regraEspecialController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{regraEspecialController.next}" value="#{bundle.Next} #{regraEspecialController.pagination.pageSize}" rendered="#{regraEspecialController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{regraEspecialController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegraEspecialTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegraEspecialTitle_tipoComissao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoComissao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegraEspecialTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegraEspecialTitle_idTabela}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idTabela}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegraEspecialTitle_idProcedimento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idProcedimento}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegraEspecialTitle_idEspecialidade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idEspecialidade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{regraEspecialController.prepareView}" value="#{bundle.ListRegraEspecialViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{regraEspecialController.prepareEdit}" value="#{bundle.ListRegraEspecialEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{regraEspecialController.destroy}" value="#{bundle.ListRegraEspecialDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{regraEspecialController.prepareCreate}" value="#{bundle.ListRegraEspecialCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListRegraEspecialIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

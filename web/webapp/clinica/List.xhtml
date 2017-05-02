@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListClinicaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">        
+
+                        <p:outputLabel value="#{bundle.CreatePessoaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{clinicaController.filtro.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
+
+                        <p:outputLabel value="#{bundle.CreateEnderecoLabel_cidade}" for="cidade" />
+                        <p:inputText id="cidade" value="#{clinicaController.filtro.cidade}" title="#{bundle.CreateEnderecoTitle_cidade}" />
+
+                        <p:outputLabel value="#{bundle.CreateEnderecoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{clinicaController.filtro.estado}" title="#{bundle.CreateEnderecoTitle_estado}" />
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{clinicaController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}"  update="panelFilter" actionListener="#{clinicaController.limpar}"/>
+                </h:panelGroup>
+                <p:dataTable value="#{clinicaController.clinicas}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListClinicaEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
+                    <f:facet name="{Exporters}">
+                        <div style="float:right">
+                            <h:commandLink value="#{bundle.XLS}" >
+                                <p:dataExporter type="xls" target="tabelaList" fileName="Clinicas" />
+                            </h:commandLink>
+                            <h:outputText value =" " />
+                            <h:commandLink value="#{bundle.PDF}" >                              
+                                <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{clinicaController.processarPDF}" target="tabelaList" fileName="Clinicas"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListPessoaTitle_nome}"/>
+                        </f:facet>
+                        <h:outputText value="#{clinicaController.getNomeClinica(item)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClinicaTitle_isCpf}/#{bundle.ListEmpresaTitle_cnpj}"/>
+                        </f:facet>
+                        <h:outputText value="#{clinicaController.getCPF_CNPJ(item)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListContatoTitle_tel}"/>
+                        </f:facet>
+                        <h:outputText value="#{clinicaController.getTelefoneClinica(item)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListEnderecoTitle_estado}"/>
+                        </f:facet>
+                        <h:outputText value="#{clinicaController.getEstadoClinica(item)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListEnderecoTitle_cidade}"/>
+                        </f:facet>
+                        <h:outputText value="#{clinicaController.getCidadeClinica(item)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListProfissionalTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>                        
+                    <p:column exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.Acoes}"/>
+                        </f:facet>
+                        <h:commandLink action="#{clinicaController.prepareView(item)}" value="#{bundle.ListClinicaViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{clinicaController.prepareEdit(item)}" value="#{bundle.ListClinicaEditLink}"/>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{clinicaController.destroy(item)}" value="#{bundle.ListClinicaDestroyLink}" update="tabelaList">
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <br />
+                <h:commandLink action="#{clinicaController.prepareCreate}" value="#{bundle.ListClinicaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListClinicaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

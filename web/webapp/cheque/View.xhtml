@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewChequeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewChequeLabel_id}"/>
+                    <h:outputText value="#{chequeController.selected.id}" title="#{bundle.ViewChequeTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_nomeCheque}"/>
+                    <h:outputText value="#{chequeController.selected.nomeCheque}" title="#{bundle.ViewChequeTitle_nomeCheque}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_numCheque}"/>
+                    <h:outputText value="#{chequeController.selected.numCheque}" title="#{bundle.ViewChequeTitle_numCheque}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_banco}"/>
+                    <h:outputText value="#{chequeController.selected.banco}" title="#{bundle.ViewChequeTitle_banco}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_agencia}"/>
+                    <h:outputText value="#{chequeController.selected.agencia}" title="#{bundle.ViewChequeTitle_agencia}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_contaCorrente}"/>
+                    <h:outputText value="#{chequeController.selected.contaCorrente}" title="#{bundle.ViewChequeTitle_contaCorrente}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_dataEmissao}"/>
+                    <h:outputText value="#{chequeController.selected.dataEmissao}" title="#{bundle.ViewChequeTitle_dataEmissao}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewChequeLabel_dataVencimento}"/>
+                    <h:outputText value="#{chequeController.selected.dataVencimento}" title="#{bundle.ViewChequeTitle_dataVencimento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewChequeLabel_dataBaixa}"/>
+                    <h:outputText value="#{chequeController.selected.dataBaixa}" title="#{bundle.ViewChequeTitle_dataBaixa}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewChequeLabel_valor}"/>
+                    <h:outputText value="#{chequeController.selected.valor}" title="#{bundle.ViewChequeTitle_valor}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_isChequeBaixado}"/>
+                    <h:outputText value="#{chequeController.selected.isChequeBaixado}" title="#{bundle.ViewChequeTitle_isChequeBaixado}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_destino}"/>
+                    <h:outputText value="#{chequeController.selected.destino}" title="#{bundle.ViewChequeTitle_destino}"/>
+                    <h:outputText value="#{bundle.ViewChequeLabel_idPaciente}"/>
+                    <h:outputText value="#{chequeController.selected.idPaciente}" title="#{bundle.ViewChequeTitle_idPaciente}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{chequeController.destroyAndView}" value="#{bundle.ViewChequeDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewChequeEditLink}"/>
+                <br />
+                <h:commandLink action="#{chequeController.prepareCreate}" value="#{bundle.ViewChequeCreateLink}" />
+                <br />
+                <h:commandLink action="#{chequeController.prepareList}" value="#{bundle.ViewChequeShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewChequeIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

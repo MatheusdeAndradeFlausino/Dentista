@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateProcedimentoClinicaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateProcedimentoClinicaLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{procedimentoClinicaController.selected.id}" title="#{bundle.CreateProcedimentoClinicaTitle_id}" required="true" requiredMessage="#{bundle.CreateProcedimentoClinicaRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateProcedimentoClinicaLabel_idProcedimento}" for="idProcedimento" />
+                    <h:selectOneMenu id="idProcedimento" value="#{procedimentoClinicaController.selected.idProcedimento}" title="#{bundle.CreateProcedimentoClinicaTitle_idProcedimento}" >
+                        <f:selectItems value="#{procedimentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateProcedimentoClinicaLabel_idClinica}" for="idClinica" />
+                    <h:selectOneMenu id="idClinica" value="#{procedimentoClinicaController.selected.idClinica}" title="#{bundle.CreateProcedimentoClinicaTitle_idClinica}" >
+                        <f:selectItems value="#{clinicaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{procedimentoClinicaController.create}" value="#{bundle.CreateProcedimentoClinicaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{procedimentoClinicaController.prepareList}" value="#{bundle.CreateProcedimentoClinicaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateProcedimentoClinicaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

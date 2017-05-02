@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewBandeiraTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                     <h:outputText value="#{bundle.ViewBandeiraLabel_descricao}"/>
+                    <h:outputText value="#{bandeiraController.selected.descricao}" title="#{bundle.ViewBandeiraTitle_descricao}"/>
+                    
+                    <h:outputText value="#{bundle.ViewBandeiraLabel_bandeira}"/>
+                    <h:outputText value="#{bandeiraController.selected.bandeira}" title="#{bundle.ViewBandeiraTitle_bandeira}"/>
+                    
+                    <h:outputText value="#{bundle.ViewBandeiraLabel_tipoCartao}"/>
+                    <h:outputText value="#{bandeiraController.selected.tipoCartao}" title="#{bundle.ViewBandeiraTitle_tipoCartao}"/>
+                    
+                    <h:outputText value="#{bundle.ViewBandeiraLabel_taxa}"/>
+                    <h:outputText value="#{bandeiraController.selected.taxa}" title="#{bundle.ViewBandeiraTitle_taxa}"/>
+                    
+                    <h:outputText value="#{bundle.ViewBandeiraLabel_dia}"/>
+                    <h:outputText value="#{bandeiraController.selected.dia}" title="#{bundle.ViewBandeiraTitle_dia}"/>
+                    
+                    <h:outputText value="#{bundle.ViewCentroCustoLabel_status}"/>
+                    <h:outputText value="#{bandeiraController.selected.status}" title="#{bundle.ViewCentroCustoTitle_status}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{bandeiraController.destroyAndView}" value="#{bundle.ViewBandeiraDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewBandeiraEditLink}"/>
+                <br />
+                <h:commandLink action="#{bandeiraController.prepareCreate}" value="#{bundle.ViewBandeiraCreateLink}" />
+                <br />
+                <h:commandLink action="#{bandeiraController.prepareList}" value="#{bundle.ViewBandeiraShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewBandeiraIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
