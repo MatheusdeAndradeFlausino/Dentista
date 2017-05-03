@@ -36,6 +36,12 @@
                         </p:commandButton>
                         <p:commandButton value="#{bundle.Limpar}" actionListener="#{filaEsperaController.limparProfissional()}" process="@this" update="nomeProfissional"/>
                     </h:panelGroup>
+                    
+                    <h:outputLabel value="#{bundle.EditMotivoLabel_status}" />
+                    <p:selectOneMenu value="#{filaEsperaController.selected.status}">                        
+                        <f:selectItems value="#{filaEsperaController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
                 </h:panelGrid>
                 <h:commandLink action="#{filaEsperaController.update}" value="#{bundle.EditFilaEsperaSaveLink}"/>
                 <br />

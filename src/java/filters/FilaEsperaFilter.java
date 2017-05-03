@@ -7,6 +7,7 @@ package filters;
 
 import classes.Paciente;
 import classes.Profissional;
+import java.util.Date;
 
 /**
  *
@@ -16,6 +17,7 @@ public class FilaEsperaFilter {
  
     private Paciente paciente;
     private Profissional profissional;
+    private Date dataChegada;
 
     public Paciente getPaciente() {
         return paciente;
@@ -32,6 +34,13 @@ public class FilaEsperaFilter {
     public void setProfissional(Profissional profissional) {
         this.profissional = profissional;
     }
-       
-    
+
+    public Date getDataChegada() {
+        return dataChegada;
+    }
+
+    public void setDataChegada(Date dataChegada) {
+        this.dataChegada = dataChegada;
+    }
+          
 }

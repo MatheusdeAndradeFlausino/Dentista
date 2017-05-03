@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -49,6 +50,9 @@ public class FilaEspera implements Serializable {
     @JoinColumn(name = "idProfissional", referencedColumnName = "id")
     @ManyToOne
     private Profissional idProfissional;
+    @Size(max = 20)
+    @Column(name = "status")
+    private String status;
 
     public FilaEspera() {
     }
@@ -89,6 +93,14 @@ public class FilaEspera implements Serializable {
         this.idProfissional = idProfissional;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 0;

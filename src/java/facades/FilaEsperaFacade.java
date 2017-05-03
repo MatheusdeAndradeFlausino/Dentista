@@ -41,13 +41,19 @@ public class FilaEsperaFacade extends AbstractFacade<FilaEspera> {
         if(filtro.getProfissional()!= null)
             sql.append(" AND fe.idProfissional = :profissional");
         
+        if(filtro.getDataChegada() != null)
+            sql.append(" AND CAST(fe.dataChegada AS DATE) = :dataChegada");
+        
         Query query = getEntityManager().createQuery(sql.toString());
         
         if(filtro.getPaciente() != null)
             query.setParameter("paciente", filtro.getPaciente());
         
-        if(filtro.getProfissional()!= null)
+        if(filtro.getProfissional() != null)
             query.setParameter("profissional", filtro.getProfissional());
+        
+        if(filtro.getDataChegada() != null)
+            query.setParameter("dataChegada", filtro.getDataChegada());
         
         return query.getResultList();
     }

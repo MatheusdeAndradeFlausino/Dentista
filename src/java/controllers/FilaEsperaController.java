@@ -4,11 +4,15 @@ import classes.FilaEspera;
 import classes.Paciente;
 import classes.Profissional;
 import controllers.util.JsfUtil;
-import controllers.util.PaginationHelper;
+import enums.StatusFilaEspera;
 import facades.FilaEsperaFacade;
+import filters.FilaEsperaFilter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,8 +21,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import org.primefaces.event.SelectEvent;
 
@@ -27,11 +29,13 @@ import org.primefaces.event.SelectEvent;
 public class FilaEsperaController implements Serializable {
 
     private FilaEspera current;
-    private DataModel items = null;
+    //private DataModel items = null;
     @EJB
     private facades.FilaEsperaFacade ejbFacade;
-    private PaginationHelper pagination;
-    private int selectedItemIndex;
+    private List<FilaEspera> filasEspera;
+    private FilaEsperaFilter filtro;
+    //private PaginationHelper pagination;
+    //private int selectedItemIndex;
 
     public FilaEsperaController() {
     }
@@ -39,7 +43,7 @@ public class FilaEsperaController implements Serializable {
     public FilaEspera getSelected() {
         if (current == null) {
             current = new FilaEspera();
-            selectedItemIndex = -1;
+            //selectedItemIndex = -1;
         }
         return current;
     }
@@ -47,8 +51,26 @@ public class FilaEsperaController implements Serializable {
     private FilaEsperaFacade getFacade() {
         return ejbFacade;
     }
+    
+    public void limpar() {
+        filtro = new FilaEsperaFilter();
+    }
 
-    public PaginationHelper getPagination() {
+    public void pesquisar() {
+        filasEspera = getFacade().findByFilter(getFiltro());
+    }
+    
+    public void pacienteSelecionadoFilter(SelectEvent event){
+        Paciente paciente = (Paciente)event.getObject();
+        this.getFiltro().setPaciente(paciente);
+    }
+    
+    public void profissionalSelecionadoFilter(SelectEvent event){
+        Profissional profissional = (Profissional)event.getObject();
+        this.getFiltro().setProfissional(profissional);
+    }
+
+    /*public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
 
@@ -64,10 +86,10 @@ public class FilaEsperaController implements Serializable {
             };
         }
         return pagination;
-    }
+    }*/
 
     public String prepareList() {
-        recreateModel();
+        pesquisar();
         return "List";
     }
     
@@ -79,21 +101,22 @@ public class FilaEsperaController implements Serializable {
         getSelected().setIdProfissional(null);
     }
     
-    public String prepareView() {
-        current = (FilaEspera) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String prepareView(FilaEspera filaEspera) {
+        current = filaEspera;
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
         current = new FilaEspera();
         current.setDataChegada(new Date());
-        selectedItemIndex = -1;
+        //selectedItemIndex = -1;
         return "Create";
     }
 
     public String create() {
         try {
+            current.setStatus(StatusFilaEspera.EM_ESPERA.getStatus());
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FilaEsperaCreated"));
             return prepareCreate();
@@ -103,9 +126,9 @@ public class FilaEsperaController implements Serializable {
         }
     }
 
-    public String prepareEdit() {
-        current = (FilaEspera) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String prepareEdit(FilaEspera filaEspera) {
+        current = filaEspera;
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
@@ -120,16 +143,18 @@ public class FilaEsperaController implements Serializable {
         }
     }
 
-    public String destroy() {
-        current = (FilaEspera) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        performDestroy();
-        recreatePagination();
-        recreateModel();
+    public String destroy(FilaEspera filaEspera) {
+        try {
+            getFacade().remove(filaEspera);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("FilaEsperaDeleted"));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+        pesquisar();
         return "List";
     }
 
-    public String destroyAndView() {
+    /*public String destroyAndView() {
         performDestroy();
         recreateModel();
         updateCurrentItem();
@@ -191,7 +216,7 @@ public class FilaEsperaController implements Serializable {
         getPagination().previousPage();
         recreateModel();
         return "List";
-    }
+    }*/
 
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
@@ -215,6 +240,59 @@ public class FilaEsperaController implements Serializable {
         this.current.setIdProfissional(profissional);
     }
 
+    public List<FilaEspera> getFilasEspera() {
+        if(filasEspera == null)
+            pesquisar();
+        return filasEspera;
+    }
+
+    public void setFilasEspera(List<FilaEspera> filasEspera) {
+        this.filasEspera = filasEspera;
+    }
+
+    public FilaEsperaFilter getFiltro() {
+        if(filtro == null){
+            filtro = new FilaEsperaFilter();
+            filtro.setDataChegada(new Date());
+        }
+        return filtro;
+    }
+
+    public void setFiltro(FilaEsperaFilter filtro) {
+        this.filtro = filtro;
+    }
+    
+    public StatusFilaEspera[] getStatus(){
+        return StatusFilaEspera.values();
+    }
+    
+    public List<FilaEspera> getTodosEmEspera(){
+        List<FilaEspera> emEsperas = new LinkedList<>();
+        for (FilaEspera fila : getFilasEspera()) {
+            if(fila.getStatus().equals(StatusFilaEspera.EM_ESPERA.getStatus()))
+                emEsperas.add(fila);
+        }
+        return emEsperas;
+    }
+    
+    public List<FilaEspera> getTodosEmAtendimento(){
+        List<FilaEspera> emAtendimento = new LinkedList<>();
+        for (FilaEspera fila : getFilasEspera()) {
+            if(fila.getStatus().equals(StatusFilaEspera.EM_ATENDIMENTO.getStatus()))
+                emAtendimento.add(fila);
+        }
+        return emAtendimento;
+    }
+    
+    public List<FilaEspera> getTodosAtendido(){
+        List<FilaEspera> atendido = new LinkedList<>();
+        for (FilaEspera fila : getFilasEspera()) {
+            if(fila.getStatus().equals(StatusFilaEspera.ATENDIDO.getStatus()))
+                atendido.add(fila);
+        }
+        return atendido;
+    }
+    
     @FacesConverter(forClass = FilaEspera.class)
     public static class FilaEsperaControllerConverter implements Converter {
 

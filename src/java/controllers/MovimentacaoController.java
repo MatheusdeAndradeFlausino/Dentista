@@ -1,11 +1,9 @@
 package controllers;
 
-import classes.Clinica;
 import classes.Material;
 import classes.Movimentacao;
 import com.lowagie.text.DocumentException;
 import controllers.util.JsfUtil;
-import controllers.util.PaginationHelper;
 import enums.TipoMovimentacao;
 import facades.MaterialFacade;
 import facades.MovimentacaoFacade;
@@ -26,8 +24,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import org.primefaces.event.SelectEvent;
 import utils.PreProcessadorPDF;
