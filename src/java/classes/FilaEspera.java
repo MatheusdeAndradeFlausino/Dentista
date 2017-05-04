@@ -53,6 +53,10 @@ public class FilaEspera implements Serializable {
     @Size(max = 20)
     @Column(name = "status")
     private String status;
+    @Column(name = "tempoEspera")
+    private Integer tempoEspera;
+    @Column(name = "tempoAtendimento")
+    private Integer tempoAtendimento;
 
     public FilaEspera() {
     }
@@ -100,7 +104,23 @@ public class FilaEspera implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-   
+
+    public Integer getTempoEspera() {
+        return tempoEspera;
+    }
+
+    public void setTempoEspera(Integer tempoEspera) {
+        this.tempoEspera = tempoEspera;
+    }
+
+    public Integer getTempoAtendimento() {
+        return tempoAtendimento;
+    }
+
+    public void setTempoAtendimento(Integer tempoAtendimento) {
+        this.tempoAtendimento = tempoAtendimento;
+    }
+       
     @Override
     public int hashCode() {
         int hash = 0;

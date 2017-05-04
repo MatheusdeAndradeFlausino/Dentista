@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -34,6 +35,7 @@ public class FilaEsperaController implements Serializable {
     private facades.FilaEsperaFacade ejbFacade;
     private List<FilaEspera> filasEspera;
     private FilaEsperaFilter filtro;
+    
     //private PaginationHelper pagination;
     //private int selectedItemIndex;
 
@@ -48,6 +50,12 @@ public class FilaEsperaController implements Serializable {
         return current;
     }
 
+    @PostConstruct
+    public void init(){
+        getFiltro().setDataChegada(new Date());
+        pesquisar();
+    }
+    
     private FilaEsperaFacade getFacade() {
         return ejbFacade;
     }
@@ -58,6 +66,10 @@ public class FilaEsperaController implements Serializable {
 
     public void pesquisar() {
         filasEspera = getFacade().findByFilter(getFiltro());
+    }
+    
+    public void incrementarEspera(FilaEspera filaEspera){
+        filaEspera.setTempoEspera(filaEspera.getTempoEspera() + 1);
     }
     
     public void pacienteSelecionadoFilter(SelectEvent event){
@@ -88,6 +100,10 @@ public class FilaEsperaController implements Serializable {
         return pagination;
     }*/
 
+    public void atender(FilaEspera filaEspera){
+        filaEspera.setStatus(StatusFilaEspera.EM_ATENDIMENTO.getStatus());
+    }
+    
     public String prepareList() {
         pesquisar();
         return "List";
@@ -242,7 +258,7 @@ public class FilaEsperaController implements Serializable {
 
     public List<FilaEspera> getFilasEspera() {
         if(filasEspera == null)
-            pesquisar();
+            filasEspera = new ArrayList<>();
         return filasEspera;
     }
 
@@ -253,7 +269,6 @@ public class FilaEsperaController implements Serializable {
     public FilaEsperaFilter getFiltro() {
         if(filtro == null){
             filtro = new FilaEsperaFilter();
-            filtro.setDataChegada(new Date());
         }
         return filtro;
     }

@@ -4,38 +4,41 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListFilaEsperaTitle}"></h:outputText>
         </ui:define>
-        <h:panelGroup id="panelFilter">
-            <p:panelGrid columns="2">                     
-                <h:outputLabel value="#{bundle.CreateAgendamentoLabel_data}" />
-                <p:calendar id="data" value="#{filaEsperaController.filtro.dataChegada}" pattern="dd/MM/yyyy" />
-
-                <p:outputLabel value="#{bundle.CreateFilaEsperaLabel_idPaciente}" />
-                <p:panel>
-                    <p:inputText readonly="true" value="#{filaEsperaController.filtro.paciente}" id="nomePaciente"/>
-                    <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPaciente.abrirDialogo()}" process="@this" update="@none">
-                        <p:ajax event="dialogReturn" listener="#{filaEsperaController.pacienteSelecionadoFilter}" process="@this" update="nomePaciente"/>
-                    </p:commandButton> 
-                </p:panel>
-                
-                <p:outputLabel value="#{bundle.CreateFilaEsperaLabel_idProfissional}" />
-                <p:panel>
-                    <p:inputText readonly="true" value="#{filaEsperaController.filtro.profissional}" id="nomeProfissional"/>
-                    <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
-                        <p:ajax event="dialogReturn" listener="#{filaEsperaController.profissionalSelecionadoFilter}" process="@this" update="nomeProfissional"/>
-                    </p:commandButton> 
-                </p:panel>
-            </p:panelGrid>
-        </h:panelGroup>
         <ui:define name="body">
             <h:form styleClass="jsfcrud_list_form">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">                     
+                        <h:outputLabel value="#{bundle.CreateAgendamentoLabel_data}" />
+                        <p:calendar id="data" value="#{filaEsperaController.filtro.dataChegada}" pattern="dd/MM/yyyy" />
+
+                        <p:outputLabel value="#{bundle.CreateFilaEsperaLabel_idPaciente}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{filaEsperaController.filtro.paciente}" id="nomePaciente"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPaciente.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{filaEsperaController.pacienteSelecionadoFilter}" process="@this" update="nomePaciente"/>
+                            </p:commandButton> 
+                        </p:panel>
+
+                        <p:outputLabel value="#{bundle.CreateFilaEsperaLabel_idProfissional}" />
+                        <p:panel>
+                            <p:inputText readonly="true" value="#{filaEsperaController.filtro.profissional}" id="nomeProfissional"/>
+                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
+                                <p:ajax event="dialogReturn" listener="#{filaEsperaController.profissionalSelecionadoFilter}" process="@this" update="nomeProfissional"/>
+                            </p:commandButton> 
+                        </p:panel>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaListEspera tabelaListAtendimento tabelaListAtendidos" action="#{filaEsperaController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{filaEsperaController.limpar}"/>
                 </h:panelGroup>
                 <h1>EM ESPERA</h1>
                 <p:dataTable value="#{filaEsperaController.getTodosEmEspera()}" var="item" paginatorPosition="bottom" emptyMessage="#{bundle.ListFilaEsperaEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaListEspera">
@@ -66,21 +69,34 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
+                            <h:outputText value="#{bundle.ListFilaEsperaTitle_idPaciente}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPaciente.idPessoa.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
                             <h:outputText value="#{bundle.ListFilaEsperaTitle_idProfissional}"/>
                         </f:facet>
                         <h:outputText value="#{item.idProfissional.idPessoa.nome}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
+                            <h:outputText value="#{bundle.TempoEspera}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idProfissional.idPessoa.nome}"/>
+                        <pe:timer timeout="100000000" forward="true" format="HH:mm:ss" listener="#{filaEsperaController.incrementarEspera(item)}"/>  
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
                             <h:outputText value="#{bundle.Acoes}"/>
                         </f:facet>
-                        <h:commandLink action="#{filaEsperaController.prepareView(item)}" value="#{bundle.ListFilaEsperaViewLink}"/>
-                        <h:outputText value=" "/>
                         <h:commandLink action="#{filaEsperaController.prepareEdit(item)}" value="#{bundle.ListFilaEsperaEditLink}"/>
                         <h:outputText value=" "/>
                         <p:commandLink action="#{filaEsperaController.destroy(item)}" value="#{bundle.ListFilaEsperaDestroyLink}">
                             <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
                         </p:commandLink>
+                        <h:outputText value=" "/>
+                        <p:commandLink action="#{filaEsperaController.atender(item)}" value="#{bundle.RealizarAtendimento}" update="tabelaListEspera tabelaListAtendimento tabelaListAtendidos"/>
                     </p:column>
                 </p:dataTable>
                 <h1>EM ATENDIMENTO</h1>
