@@ -8,93 +8,11 @@ and open the template in the editor.
     Author     : valderlei
 */
 
-body{
-    font-family: Trebuchet MS, Verdana, Tahoma, Arial, Helvetica, sans-serif;
-    font-size: 10pt;
-    width: 100%;    
-    height: 100%;
-    margin:0;
-    background-color: white;
-    border-top: 4px solid activecaption;
-    min-height: 100%;
-    //border-bottom: 4px solid #207cca;
-}
-
-#loginDiv{
-    width: 92.3%;   
-    margin-top:10%;
-    background: #1e5799; /* Old browsers */
-    background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    padding: 20px 50px;
-    clear: both;
-    color: white;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-}
-
-#logoLogin{
-    width: 150px;
-    height: 157px;    
-}
-
-#botaoLogin{
-    background-color: #88bfe8;
-    color: white;
+.botaoBaixo{
     border-radius: 0px;
-    width: 100px;
+    height:35px;
 }
 
-#wrapLogin{
-    display: inline-block;
-    width: 450px;
-    position: relative;
-    display: inline-block;
-    top: 20%;
-    padding-left: 20px;
-    margin-left: 20px;
-    border-left: 2px solid white;    
-}
-
-#logoDiv{
-    display: table-cell;
-    vertical-align: middle;
-}
-
-#formularioContainer{
-    width: 700px;
-    left: 30%;
-}
-
-#containerLogo{
-    display: block;
-    float: left;
-}
-
-#todoLogin{
-    top:0px;    
-    height: auto !important;
-    min-height: 100%;
-    position: relative;  
-    background: #88bfe8; /* Old browsers */
-    background: -moz-linear-gradient(top, #88bfe8 0%, #70b0e0 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #88bfe8 0%,#70b0e0 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #88bfe8 0%,#70b0e0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
-
-#botLogin{
-    position: fixed;
-    bottom: 0px;
-    border-top: 1px solid black;
-    text-align: center;
-    color: black;
-    width: 100%;
-    font-size: 10px;
-    background-color: cornflowerblue;
-}
-
-.botaoPesquisar{
-    background-image:url("fa-search");
-    background-color: black;
+.viewLabel{
+    font-weight: bold;
 }

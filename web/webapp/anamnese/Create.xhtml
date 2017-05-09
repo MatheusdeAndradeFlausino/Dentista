@@ -14,74 +14,72 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
+            <h3>#{bundle.CreateAnamneseTitle}</h3>
+            <p:separator />
             <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_idPaciente}" for="nomePaciente" />
-                    <p:panel>
+                <h:panelGrid columns="2" >
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_idPaciente}" for="nomePaciente" styleClass="viewLabel"/>
+                    <h:panelGroup>
                         <p:inputText readonly="true" value="#{anamneseController.selected.idPaciente.idPessoa.nome}" id="nomePaciente"/>
-                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
+                        <p:commandButton title="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none" icon="fa fa-search">
                             <p:ajax event="dialogReturn" listener="#{anamneseController.pacienteSelecionado}" process="@this" update="nomePaciente"/>
                         </p:commandButton>
-                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{anamneseController.limparPaciente()}" process="@this" update="nomePaciente"/>
-                    </p:panel>
+                        <p:commandButton title="#{bundle.Limpar}" actionListener="#{anamneseController.limparPaciente()}" process="@this" update="nomePaciente" icon="fa fa-trash-o"/>
+                    </h:panelGroup>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_idProfissional}" for="idProfissional" />
-                    <p:panel>
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_idProfissional}" for="idProfissional" styleClass="viewLabel"/>
+                    <h:panelGroup>
                         <p:inputText readonly="true" value="#{anamneseController.selected.idProfissional.idPessoa.nome}" id="nomeProfissional"/>
-                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
+                        <p:commandButton title="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none" icon="fa fa-search">
                             <p:ajax event="dialogReturn" listener="#{anamneseController.profissionalSelecionado}" process="@this" update="nomeProfissional"/>
-                            <p:commandButton value="#{bundle.Limpar}" actionListener="#{anamneseController.limparProfissional()}" process="@this" update="nomeProfissional"/>
-                        </p:commandButton> 
-                    </p:panel>
+                        </p:commandButton>
+                        <p:commandButton title="#{bundle.Limpar}" actionListener="#{anamneseController.limparProfissional()}" process="@this" update="nomeProfissional" icon="fa fa-trash-o"/>
+                    </h:panelGroup>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isHemorragia}" />
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isHemorragia}" styleClass="viewLabel"/>
                     <p:selectOneMenu value="#{anamneseController.selected.isHemorragia}">                        
                         <f:selectItems value="#{anamneseController.afirmacoes}" var="a"
                                        itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isDiabetico}"/>
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isDiabetico}" styleClass="viewLabel"/>
                     <p:selectOneMenu value="#{anamneseController.selected.isDiabetico}">                        
                         <f:selectItems value="#{anamneseController.afirmacoes}" var="a"
                                        itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isPressaoAlta}" />
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isPressaoAlta}" styleClass="viewLabel"/>
                     <p:selectOneMenu value="#{anamneseController.selected.isPressaoAlta}">                        
                         <f:selectItems value="#{anamneseController.afirmacoes}" var="a"
                                        itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isCardiaco}" />
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isCardiaco}" styleClass="viewLabel"/>
                     <p:selectOneMenu value="#{anamneseController.selected.isCardiaco}">                        
                         <f:selectItems value="#{anamneseController.afirmacoes}" var="a"
                                        itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isGestante}" />
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isGestante}" styleClass="viewLabel"/>
                     <p:selectOneMenu value="#{anamneseController.selected.isGestante}">                        
                         <f:selectItems value="#{anamneseController.afirmacoes}" var="a"
                                        itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isPressaoBaixa}" />
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_isPressaoBaixa}" styleClass="viewLabel"/>
                     <p:selectOneMenu value="#{anamneseController.selected.isPressaoBaixa}">                        
                         <f:selectItems value="#{anamneseController.afirmacoes}" var="a"
                                        itemValue="#{a.valor}" itemLabel="#{a.valor}"/>
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_observacao}" for="observacao" />
+                    <h:outputLabel value="#{bundle.CreateAnamneseLabel_observacao}" for="observacao" styleClass="viewLabel"/>
                     <p:inputTextarea rows="4" cols="30" id="observacao" value="#{anamneseController.selected.observacao}" title="#{bundle.CreateAnamneseTitle_observacao}" />
-
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{anamneseController.create}" value="#{bundle.CreateAnamneseSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{anamneseController.prepareList}" value="#{bundle.CreateAnamneseShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateAnamneseIndexLink}"/>
+                <p:separator />
+                <h:panelGrid columns="2" >
+                    <p:commandButton action="#{anamneseController.create}" value="#{bundle.CreateAnamneseSaveLink}" icon="fa fa-save" style="border-radius: 0xp;height: 35px;"/>
+                    <p:commandButton action="#{anamneseController.prepareList}" value="#{bundle.CreateAnamneseShowAllLink}" style="border-radius: 0xp;height: 35px;" icon="fa fa-arrow-left" immediate="true" />
+                </h:panelGrid>                
             </h:form>
         </ui:define>
     </ui:composition>

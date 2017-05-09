@@ -53,6 +53,7 @@
                     <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="schedule" action="#{agendamentoController.pesquisar}"/>
                     <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{agendamentoController.limpar}"/>
                 </h:panelGroup>
+                <p:separator/>
                 <h:panelGroup>
                     <p:schedule id="schedule" locale="br" value="#{agendamentoController.eventModel}" widgetVar="myschedule" timeZone="GMT-3" style="width:400px;">                       
                         <p:ajax event="eventSelect" listener="#{agendamentoController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />

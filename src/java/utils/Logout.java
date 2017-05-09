@@ -94,6 +94,10 @@ public class Logout {
         }
     }
 
+    public String usuarioLogado(){
+       return ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getUserPrincipal().getName();
+    }
+    
     public void deslogar() {
         String base = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
         try {

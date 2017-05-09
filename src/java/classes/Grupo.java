@@ -8,6 +8,7 @@ package classes;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Grupo.findByNome", query = "SELECT g FROM Grupo g WHERE g.nome = :nome"),
     @NamedQuery(name = "Grupo.findByStatus", query = "SELECT g FROM Grupo g WHERE g.status = :status")})
 public class Grupo implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupo")
+    private Collection<PermissoesGrupo> permissoesGrupoCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -100,6 +103,15 @@ public class Grupo implements Serializable {
     @Override
     public String toString() {
         return nome;
+    }
+
+    @XmlTransient
+    public Collection<PermissoesGrupo> getPermissoesGrupoCollection() {
+        return permissoesGrupoCollection;
+    }
+
+    public void setPermissoesGrupoCollection(Collection<PermissoesGrupo> permissoesGrupoCollection) {
+        this.permissoesGrupoCollection = permissoesGrupoCollection;
     }
     
 }

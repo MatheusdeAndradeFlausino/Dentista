@@ -21,15 +21,15 @@
                         <h:outputLabel value="#{bundle.CreateAnamneseLabel_idPaciente}" />
                         <h:panelGroup>
                             <p:inputText readonly="true" value="#{anamneseController.filtro.paciente.idPessoa.nome}" id="nomePaciente"/>
-                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none" styleClass="botaoPesquisar">
+                            <p:commandButton title="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none" styleClass="botaoPesquisar" icon="fa fa-search">
                                 <p:ajax event="dialogReturn" listener="#{anamneseController.pacienteSelecionadoFilter}" process="@this" update="nomePaciente"/>
                             </p:commandButton>
                         </h:panelGroup>
                         
-                        <h:outputLabel value="#{bundle.CreateMensalidadeLabel_idPaciente}" />
+                        <h:outputLabel value="#{bundle.CreateAnamneseLabel_idProfissional}" />
                         <h:panelGroup>
                             <p:inputText readonly="true" value="#{anamneseController.filtro.profissional.idPessoa.nome}" id="nomeProfissional"/>
-                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none">
+                            <p:commandButton title="#{bundle.Pesquisar}" action="#{searchProfissionalController.abrirDialogo()}" process="@this" update="@none" icon="fa fa-search">
                                 <p:ajax event="dialogReturn" listener="#{anamneseController.profissionalSelecionadoFilter}" process="@this" update="nomeProfissional"/>
                             </p:commandButton>
                         </h:panelGroup>
@@ -42,18 +42,20 @@
                         </p:selectOneMenu>
 
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{anamneseController.pesquisar}"/>
-                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{anamneseController.limpar}"/>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{anamneseController.pesquisar}" icon="fa fa-search"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{anamneseController.limpar}" icon="fa fa-recycle"/>
                 </h:panelGroup>
-
+                <p:separator style="margin-bottom: 5px;margin-top: 3px;"/>
                 <p:dataTable value="#{anamneseController.anamneses}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListAnamneseEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
                     <f:facet name="{Exporters}">
                         <div style="float:right">
-                            <h:commandLink value="#{bundle.XLS}" >
+                            <h:commandLink title="#{bundle.XLS}">
+                                <p:graphicImage library="images" name="excel.png" height="22" width="25"/>
                                 <p:dataExporter type="xls" target="tabelaList" fileName="Anamneses" />
                             </h:commandLink>
                             <h:outputText value =" " />
-                            <h:commandLink value="#{bundle.PDF}" >                              
+                            <h:commandLink title="#{bundle.PDF}">
+                                <p:graphicImage library="images" name="pdf.png" height="22" width="25"/>
                                 <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{anamneseController.processarPDF}" target="tabelaList" fileName="Anamneses"/>
                             </h:commandLink>
                         </div>
@@ -110,7 +112,7 @@
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListAgendamentoTitle_data}"/>
                         </f:facet>
-                        <h:outputText value="#{item.data}"/>
+                        <h:outputText value="#{item.data}" />
                     </p:column>
                     <p:column>
                         <f:facet name="header">
@@ -119,24 +121,21 @@
                         <h:outputText value="#{item.status}"/>
                     </p:column>
                     
-                    <p:column exportable="false">
+                    <p:column exportable="false" style="width:100px;text-align:center;">
                         <f:facet name="header">
                             <h:outputText value="#{bundle.Acoes}"/>
                         </f:facet>
-                        <h:commandLink action="#{anamneseController.prepareView(item)}" value="#{bundle.ListAnamneseViewLink}"/>
+                        <p:commandButton action="#{anamneseController.prepareView(item)}" title="#{bundle.ListAnamneseViewLink}" icon="fa fa-eye"/>
                         <h:outputText value=" "/>
-                        <h:commandLink action="#{anamneseController.prepareEdit(item)}" value="#{bundle.ListAnamneseEditLink}"/>
+                        <p:commandButton action="#{anamneseController.prepareEdit(item)}" title="#{bundle.ListAnamneseEditLink}" icon="fa fa-edit"/>
                         <h:outputText value=" "/>
-                        <p:commandLink action="#{anamneseController.destroy(item)}" value="#{bundle.ListAnamneseDestroyLink}" update="tabelaList">
+                        <p:commandButton action="#{anamneseController.destroy(item)}" title="#{bundle.ListAnamneseDestroyLink}" update="tabelaList" icon="fa fa-times">
                             <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
-                        </p:commandLink>
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>                
                 <br />
-                <h:commandLink action="#{anamneseController.prepareCreate}" value="#{bundle.ListAnamneseCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListAnamneseIndexLink}"/>
+                <p:commandButton action="#{anamneseController.prepareCreate}" value="#{bundle.ListAnamneseCreateLink}" icon="fa fa-plus" style="border-radius:0px;height: 35px;"/>
             </h:form>
         </ui:define>
     </ui:composition>
