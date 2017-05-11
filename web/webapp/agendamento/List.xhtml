@@ -55,7 +55,7 @@
                 </h:panelGroup>
                 <p:separator/>
                 <h:panelGroup>
-                    <p:schedule id="schedule" locale="br" value="#{agendamentoController.eventModel}" widgetVar="myschedule" timeZone="GMT-3" style="width:400px;">                       
+                    <p:schedule id="schedule" locale="br" value="#{agendamentoController.eventModel}" widgetVar="myschedule" timeZone="GMT-3" style="width:100%;">                       
                         <p:ajax event="eventSelect" listener="#{agendamentoController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                         <p:ajax event="eventMove" listener="#{agendamentoController.onEventMove}"  />
                     </p:schedule> 

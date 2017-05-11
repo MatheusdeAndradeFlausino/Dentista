@@ -6,7 +6,9 @@
 package facades;
 
 import classes.ContasPagar;
+import enums.StatusContasPagar;
 import filters.ContasPagarFilter;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -81,6 +83,16 @@ public class ContasPagarFacade extends AbstractFacade<ContasPagar> {
             query.setParameter("dataFinal", filtro.getDataFinal());
         }
         
+        return query.getResultList();
+    }
+    
+    public List<ContasPagar> findAllContasVencidas(Date dataVencimento){
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT cp FROM ContasPagar cp WHERE cp.dataVencimento < :data AND cp.status = :pagar");
+        
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("data", dataVencimento);
+        query.setParameter("pagar", StatusContasPagar.A_PAGAR.getStatus());
         return query.getResultList();
     }
     

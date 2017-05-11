@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.PermissoesGrupo}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form" id="form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h3>#{bundle.PermissoesGrupo}</h3>
+                <p:separator />
+                <h:panelGroup id="panelFilter">
+                    <p:panelGrid columns="2">                     
+                        <h:outputLabel value="#{bundle.CreateBandeiraLabel_descricao}" />
+                        <p:inputText value="#{permissoesGrupoController.filtro.descricao}"/>
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_status}" />
+                        <p:selectOneMenu value="#{permissoesGrupoController.filtro.status}">
+                            <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
+                            <f:selectItems value="#{permissoesGrupoController.status}" var="a"
+                                           itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{permissoesGrupoController.pesquisar}" icon="fa fa-search"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{permissoesGrupoController.limpar}" icon="fa fa-recicle"/>
+                </h:panelGroup>
+                <p:dataTable value="#{permissoesGrupoController.grupos}" paginatorPosition="bottom" var="item" selectionMode="single" selection="#{permissoesGrupoController.grupo}" emptyMessage="#{bundle.ListGrupoEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" id="tabelaList" rowKey="#{item.nome}">       
+                    <p:ajax event="rowSelect"  listener="#{permissoesGrupoController.encontrarModulosPermitidosParaOGrupo()}" update=":form:painelCheckbox" />
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGrupoTitle_nome}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListGrupoTitle_status}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGroup id="painelCheckbox">
+                    <p:separator />
+                    <h:panelGrid columns="5" rendered="#{permissoesGrupoController.renderizarCamposBooleanos()}">
+                        <ui:repeat var="modulog" value="#{permissoesGrupoController.permissoes.modulosPermitidos}">
+                            <p:outputLabel value="#{modulog.nome}" style="width: 100px;"/>
+                            <p:selectBooleanCheckbox value="#{modulog.permitir}" style="width: 100px;"/>
+                        </ui:repeat>
+                    </h:panelGrid>
+                </h:panelGroup>
+                <p:separator />
+                <p:commandButton action="#{permissoesGrupoController.salvarPermissoes}" value="#{bundle.CreateAnamneseSaveLink}" icon="fa fa-save" styleClass="botaoBaixo"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

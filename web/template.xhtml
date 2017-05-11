@@ -22,64 +22,70 @@
 
             <p:layout fullPage="true">
                 <p:layoutUnit position="north" size="65"  header="#{bundle.AppName}">
-
                     <h:form id="menuForm">
                         <p:menubar>
-                            <p:menuitem value="#{bundle.Home}" outcome="/index" icon="fa fa-home"/>
-                            <p:submenu label="#{bundle.MenuCadastros}" icon="fa fa-plus">                                
-                                <p:menuitem value="Anamnese" outcome="/webapp/anamnese/List.xhtml" />
-                                <p:menuitem value="Bandeira" outcome="/webapp/bandeira/List.xhtml" />
-                                <p:menuitem value="Centro de Custo" outcome="/webapp/centroCusto/List.xhtml" />                                
-                                <p:menuitem value="Clinica" outcome="/webapp/clinica/List.xhtml" />                                
-                                <p:menuitem value="Especialidade" outcome="/webapp/especialidade/List.xhtml" />
+                            <p:menuitem value="#{bundle.Home}" outcome="/webapp/index" icon="fa fa-home"/>
+                            <p:submenu label="#{bundle.MenuCadastros}" icon="fa fa-plus" rendered="#{menuController.isSuperMenuCadastroPermitido()}">                                
+                                <p:menuitem value="Anamnese" outcome="/webapp/anamnese/List.xhtml" rendered="#{menuController.isMenuAnamnesePermitido()}"/>
+                                <p:menuitem value="Bandeira" outcome="/webapp/bandeira/List.xhtml" rendered="#{menuController.isMenuBandeiraPermitido()}"/>
+                                <p:menuitem value="Centro de Custo" outcome="/webapp/centroCusto/List.xhtml" rendered="#{menuController.isMenuCentroCustoPermitido()}"/>                                
+                                <p:menuitem value="Clinica" outcome="/webapp/clinica/List.xhtml" rendered="#{menuController.isMenuClinicaPermitido()}"/>                                
+                                <p:menuitem value="Especialidade" outcome="/webapp/especialidade/List.xhtml" rendered="#{menuController.isMenuEspecialidadePermitido()}"/>
 
-                                <p:submenu label="#{bundle.MenuEstoque}">
-                                    <p:menuitem value="Material" outcome="/webapp/material/List.xhtml" />                        
-                                    <p:menuitem value="Movimentação" outcome="/webapp/movimentacao/List.xhtml" />
+                                <p:submenu label="#{bundle.MenuEstoque}" rendered="#{menuController.isSuperMenuEstoquePermitido()}">
+                                    <p:menuitem value="Material" outcome="/webapp/material/List.xhtml" rendered="#{menuController.isMenuMaterialPermitido()}"/>                        
+                                    <p:menuitem value="Movimentação" outcome="/webapp/movimentacao/List.xhtml" rendered="#{menuController.isMenuMovimentacaoPermitido()}"/>
                                 </p:submenu>
 
-                                <p:menuitem value="Forma de Pagamento" outcome="/webapp/formaPagamento/List.xhtml" />
-                                <p:menuitem value="Fornecedor" outcome="/webapp/fornecedor/List.xhtml" />
-                                <p:menuitem value="Grupo" outcome="/webapp/grupo/List.xhtml" />
+                                <p:menuitem value="Forma de Pagamento" outcome="/webapp/formaPagamento/List.xhtml" rendered="#{menuController.isMenuFormaPagamentoPermitido()}"/>
+                                <p:menuitem value="Fornecedor" outcome="/webapp/fornecedor/List.xhtml" rendered="#{menuController.isMenuFornecedorPermitido()}"/>
+                                <p:menuitem value="Grupo" outcome="/webapp/grupo/List.xhtml" rendered="#{menuController.isMenuGrupoPermitido()}"/>
 
-                                <p:submenu label="#{bundle.MenuLaboratorio}">
-                                    <p:menuitem value="Histórico Laboratório" outcome="/webapp/historicoLaboratorio/List.xhtml" />                                
-                                    <p:menuitem value="Status do Laboratorio" outcome="/webapp/statusLaboratorio/List.xhtml" />
+                                <p:submenu label="#{bundle.MenuLaboratorio}" rendered="#{menuController.isSuperMenuLaboratorioPermitido()}">
+                                    <p:menuitem value="Histórico Laboratório" outcome="/webapp/historicoLaboratorio/List.xhtml" rendered="#{menuController.isMenuHistoricoLaboratorioPermitido()}"/>                                
+                                    <p:menuitem value="Status do Laboratorio" outcome="/webapp/statusLaboratorio/List.xhtml" rendered="#{menuController.isMenuStatusLaboratorioPermitido()}"/>
                                 </p:submenu>                           
 
-                                <p:menuitem value="Motivo" outcome="/webapp/motivo/List.xhtml" />
-                                <p:menuitem value="Paciente" outcome="/webapp/paciente/List.xhtml" />                               
-                                <p:menuitem value="Procedimento" outcome="/webapp/procedimento/List.xhtml" />                               
-                                <p:menuitem value="Profissional" outcome="/webapp/profissional/List.xhtml" />
-                                <p:menuitem value="Tabela de Procedimento" outcome="/webapp/tabelaProcedimento/List.xhtml" />
-                                <p:menuitem value="Usuario" outcome="/webapp/usuario/List.xhtml" />
+                                <p:menuitem value="Motivo" outcome="/webapp/motivo/List.xhtml" rendered="#{menuController.isMenuMotivoPermitido()}"/>
+                                <p:menuitem value="Paciente" outcome="/webapp/paciente/List.xhtml" rendered="#{menuController.isMenuPacientePermitido()}"/>                               
+                                <p:menuitem value="Procedimento" outcome="/webapp/procedimento/List.xhtml" rendered="#{menuController.isMenuProcedimentoPermitido()}"/>                               
+                                <p:menuitem value="Profissional" outcome="/webapp/profissional/List.xhtml" rendered="#{menuController.isMenuProcedimentoPermitido()}"/>
+                                <p:menuitem value="Tabela de Procedimento" outcome="/webapp/tabelaProcedimento/List.xhtml" rendered="#{menuController.isMenuTabelaProcedimentoPermitido()}"/>
+                                <p:menuitem value="Usuario" outcome="/webapp/usuario/List.xhtml" rendered="#{menuController.isMenuUsuarioPermitido()}"/>
                             </p:submenu>
 
-                            <p:submenu label="#{bundle.MenuAtendimento}" icon="fa fa-hospital-o">
-                                <p:menuitem value="Agendamento" outcome="/webapp/agendamento/List.xhtml" />
-                                <p:menuitem value="Fila de Espera" outcome="/webapp/filaEspera/List.xhtml" />
-                                <p:menuitem value="Orçamento" outcome="/webapp/orcamento/List.xhtml" />
-                                <p:menuitem value="Orçamento Procedimento" outcome="/webapp/orcamentoProcedimento/List.xhtml" />
-                                <p:menuitem value="Orto" outcome="/webapp/orto/List.xhtml" />
-                                <p:menuitem value="Procedimento Orto" outcome="/webapp/procedimentoOrto/List.xhtml" />
+                            <p:submenu label="#{bundle.MenuAtendimento}" icon="fa fa-hospital-o" rendered="#{menuController.isSuperMenuAtendimentoPermitido()}">
+                                <p:menuitem value="Agendamento" outcome="/webapp/agendamento/List.xhtml" rendered="#{menuController.isMenuAgendamentoPermitido()}"/>
+                                <p:menuitem value="Fila de Espera" outcome="/webapp/filaEspera/List.xhtml" rendered="#{menuController.isMenuFilaEsperaPermitido()}"/>
+                                <p:menuitem value="Orçamento" outcome="/webapp/orcamento/List.xhtml" rendered="#{menuController.isMenuOrcamentoPermitido()}"/>
+                                <p:menuitem value="Orçamento-Procedimento" outcome="/webapp/orcamentoProcedimento/List.xhtml" rendered="#{menuController.isMenuOrcamentoProcedimentoPermitido()}"/>
+                                <p:menuitem value="Orto" outcome="/webapp/orto/List.xhtml" rendered="#{menuController.isMenuOrtoPermitido()}"/>
+                                <p:menuitem value="Procedimento-Orto" outcome="/webapp/procedimentoOrto/List.xhtml" rendered="#{menuController.isMenuProcedimentoOrtoPermitido()}"/>
                             </p:submenu>
 
-                            <p:submenu label="#{bundle.MenuRegras}" icon="fa fa-edit">
-                                <p:menuitem value="Regra de Comissão" outcome="/webapp/regraComissao/List.xhtml" />                                
+                            <p:submenu label="#{bundle.MenuRegras}" icon="fa fa-edit" rendered="#{menuController.isSuperMenuRegrasPermitido()}">
+                                <p:menuitem value="Regra de Comissão" outcome="/webapp/regraComissao/List.xhtml" rendered="#{menuController.isMenuRegraPermitido()}"/>
+                                <p:menuitem value="Permissões dos Grupos" outcome="/webapp/permissoesgrupo/List.xhtml" rendered="#{menuController.isMenuPermissoesGrupoPermitido()}"/>
                             </p:submenu>
 
-                            <p:submenu label="#{bundle.MenuFinanceiro}" icon="fa fa-usd">
-                                <p:menuitem value="Cheque" outcome="/webapp/cheque/List.xhtml" />
-                                <p:menuitem value="Conta Avulsa" outcome="/webapp/contaAvulsa/List.xhtml" />
-                                <p:menuitem value="Contas a Pagar" outcome="/webapp/contasPagar/List.xhtml" />
-                                <p:menuitem value="Documentação" outcome="/webapp/documentacao/List.xhtml" />
-                                <p:menuitem value="Indicação" outcome="/webapp/indicacao/List.xhtml" />
-                                <p:menuitem value="Mensalidade" outcome="/webapp/mensalidade/List.xhtml" />
+                            <p:submenu label="#{bundle.MenuFinanceiro}" icon="fa fa-usd" rendered="#{menuController.isSuperMenuFinanceiroPermitido()}">
+                                <p:menuitem value="Cheque" outcome="/webapp/cheque/List.xhtml" rendered="#{menuController.isMenuChequePermitido()}"/>
+                                <p:menuitem value="Conta Avulsa" outcome="/webapp/contaAvulsa/List.xhtml" rendered="#{menuController.isMenuContaAvulsaPermitido()}"/>
+                                <p:menuitem value="Contas a Pagar" outcome="/webapp/contasPagar/List.xhtml" rendered="#{menuController.isMenuContasPagarPermitido()}"/>
+                                <p:menuitem value="Documentação" outcome="/webapp/documentacao/List.xhtml" rendered="#{menuController.isMenuDocumentacaoPermitido()}"/>
+                                <p:menuitem value="Indicação" outcome="/webapp/indicacao/List.xhtml" rendered="#{menuController.isMenuIndicacaoPermitido()}"/>
+                                <p:menuitem value="Mensalidade" outcome="/webapp/mensalidade/List.xhtml" rendered="#{menuController.isMenuMensalidadePermitido()}"/>
                             </p:submenu>
                             <p:menuitem value="#{bundle.MenuDeslogar}" style="float:right;" outcome="/logout" icon="fa fa-power-off"/>
                         </p:menubar>
-                        <h:panelGroup>
-                        </h:panelGroup>
+                        <h:panelGrid columns="4" style="position: absolute;right: 0px;top: 5px;">
+                            <p:commandButton title="#{bundle.UsuarioLogado}" icon="fa fa-user"/>
+                            <p:outputLabel value="#{Logout.usuarioLogado()}" />
+                            <p:commandButton title="#{bundle.GruposUsuario}" icon="fa fa-users"/>
+                            <p:selectOneMenu >
+                                <f:selectItems value="#{Logout.gruposUsuarioLogado}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
                     </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit position="south" size="60">

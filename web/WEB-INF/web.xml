@@ -97,14 +97,398 @@
             <form-error-page>/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
+    
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Secure Pages</web-resource-name>
+            <web-resource-name>Agendamento Permissao</web-resource-name>
             <description/>
-            <url-pattern>/webapp/*</url-pattern>
+            <url-pattern>/webapp/agendamento/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>ALL</role-name>
+            <role-name>AGENDAMENTO</role-name>
         </auth-constraint>
-    </security-constraint>    
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Anamnese Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/anamnese/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ANAMNESE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Bandeira Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/bandeira/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>BANDEIRA</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Centro de Custo Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/centroCusto/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>CENTRO_CUSTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Cheque Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/cheque/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>CHEQUE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Clinica Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/clinica/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>CLINICA</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Contas Avulsas Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/contaAvulsa/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>CONTAS_AVULSAS</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Contas Pagar Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/contasPagar/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>CONTAS_PAGAR</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Documentacao Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/documentacao/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>DOCUMENTACAO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Especialidade Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/especialidade/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ESPECIALIDADE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Fila Espera Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/filaEspera/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>FILA_ESPERA</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Forma de Pagamento Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/formaPagamento/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>FORMA_PAGAMENTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Fornecedor Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/fornecedor/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>FORNECEDOR</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Grupo Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/grupo/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>GRUPO</role-name>
+        </auth-constraint>
+    </security-constraint>  
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Historico Laboratorio Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/historicoLaboratorio/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HISTORICO_LABORATORIO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Indicacao Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/indicacao/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>INDICACAO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Material Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/material/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MATERIAL</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Mensalidade Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/mensalidade/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MENSALIDADE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Motivo Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/motivo/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MOTIVO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Movimentacao Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/movimentacao/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MOVIMENTACAO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Orcamento Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/orcamento/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ORCAMENTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Orcamento Procedimento Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/orcamentoProcedimento/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ORCAMENTO_PROCEDIMENTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Orto Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/orto/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ORTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Paciente Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/paciente/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PACIENTE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Permissoes Grupo Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/permissoesgrupo/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PERMISSOES_GRUPO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Procedimento Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/procedimento/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PROCEDIMENTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Procedimento Orto Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/procedimentoOrto/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PROCEDIMENTO_ORTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Profissional Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/profissional/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>PROFISSIONAL</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Regra Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/regraComissao/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>REGRA</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Status Laboratorio Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/statusLaboratorio/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>STATUS_LABORATORIO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Tabela de Procedimento Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/tabelaProcedimento/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>TABELA_PROCEDIMENTO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Usuario Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/usuario/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>USUARIO</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Home Permissao</web-resource-name>
+            <description/>
+            <url-pattern>/webapp/index.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>AGENDAMENTO</role-name>
+            <role-name>ANAMNESE</role-name>
+            <role-name>BANDEIRA</role-name>
+            <role-name>CENTRO_CUSTO</role-name>
+            <role-name>CHEQUE</role-name>
+            <role-name>CLINICA</role-name>
+            <role-name>CONTAS_AVULSAS</role-name>
+            <role-name>CONTAS_PAGAR</role-name>
+            <role-name>DOCUMENTACAO</role-name>
+            <role-name>ESPECIALIDADE</role-name>
+            <role-name>FILA_ESPERA</role-name>
+            <role-name>FORMA_PAGAMENTO</role-name>
+            <role-name>FORNECEDOR</role-name>
+            <role-name>GRUPO</role-name>
+            <role-name>HISTORICO_LABORATORIO</role-name>
+            <role-name>INDICACAO</role-name>
+            <role-name>MATERIAL</role-name>
+            <role-name>MENSALIDADE</role-name>
+            <role-name>MOTIVO</role-name>
+            <role-name>MOVIMENTACAO</role-name>
+            <role-name>ORCAMENTO</role-name>
+            <role-name>ORCAMENTO_PROCEDIMENTO</role-name>
+            <role-name>ORTO</role-name>
+            <role-name>PACIENTE</role-name>
+            <role-name>PERMISSOES_GRUPO</role-name>
+            <role-name>PROCEDIMENTO</role-name>
+            <role-name>PROCEDIMENTO_ORTO</role-name>
+            <role-name>PROFISSIONAL</role-name>
+            <role-name>REGRA</role-name>
+            <role-name>STATUS_LABORATORIO</role-name>
+            <role-name>TABELA_PROCEDIMENTO</role-name>
+            <role-name>USUARIO</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

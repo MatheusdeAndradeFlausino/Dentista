@@ -5,6 +5,7 @@
  */
 package classes;
 
+import enums.TipoConta;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -169,6 +171,23 @@ public class ContasPagar implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    @Transient
+    public String getNome() {
+        if (this.tipoConta.equals(TipoConta.FORNECEDOR.getTipo())) {
+            if (getIdFornecedor()!= null) {
+                return this.getIdFornecedor().getNome();
+            } else {
+                return null;
+            }
+        } else {
+            if (getIdProfissional() != null) {
+                return this.getIdProfissional().getIdPessoa().getNome();
+            } else {
+                return null;
+            }
+        }
     }
     
     @Override

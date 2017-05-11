@@ -7,6 +7,7 @@ package facades;
 
 import classes.Profissional;
 import filters.ProfissionalFilter;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -89,4 +90,15 @@ public class ProfissionalFacade extends AbstractFacade<Profissional> {
         return query.getResultList();
     }
     
+    public List<Profissional> findAllAniversariantes(Date dataAniversario){
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT p FROM Profissional p WHERE EXTRACT(DAY FROM p.idPessoa.dataNascimento) = EXTRACT(DAY FROM :dataAniversario )");
+        sql.append(" AND EXTRACT(MONTH FROM p.idPessoa.dataNascimento) = EXTRACT(MONTH FROM :dataAniversario )");
+        
+        Query query = getEntityManager().createQuery(sql.toString());
+        
+        query.setParameter("dataAniversario", dataAniversario);
+        
+        return query.getResultList();
+    }
 }

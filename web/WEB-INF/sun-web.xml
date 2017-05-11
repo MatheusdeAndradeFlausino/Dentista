@@ -8,9 +8,168 @@
         </property>
     </jsp-config>
     <security-role-mapping>
-        <role-name>ALL</role-name>
-        <group-name>RECEPCAO</group-name>
-        <group-name>ADMIN</group-name>
+        <role-name>ANAMNESE</role-name>
+        <group-name>Anamnese</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>AGENDAMENTO</role-name>
+        <group-name>Agendamento</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>BANDEIRA</role-name>
+        <group-name>Bandeira</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>ANAMNESE</role-name>
+        <group-name>Anamnese</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>CENTRO_CUSTO</role-name>
+        <group-name>Centro de Custo</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>CHEQUE</role-name>
+        <group-name>Cheque</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>CLINICA</role-name>
+        <group-name>Clínica</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>CONTAS_AVULSAS</role-name>
+        <group-name>Contas Avulsas</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>CONTAS_PAGAR</role-name>
+        <group-name>Contas a Pagar</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>DOCUMENTACAO</role-name>
+        <group-name>Documentacao</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>ESPECIALIDADE</role-name>
+        <group-name>Especialidade</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>FILA_ESPERA</role-name>
+        <group-name>Fila de Espera</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>FORMA_PAGAMENTO</role-name>
+        <group-name>Forma de Pagamento</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>FORNECEDOR</role-name>
+        <group-name>Fornecedor</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>GRUPO</role-name>
+        <group-name>Grupo</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>HISTORICO_LABORATORIO</role-name>
+        <group-name>Histórico do Laboratório</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>INDICACAO</role-name>
+        <group-name>Indicação</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>MATERIAL</role-name>
+        <group-name>Material</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>MENSALIDADE</role-name>
+        <group-name>Mensalidade</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>MOTIVO</role-name>
+        <group-name>Motivo</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>MOVIMENTACAO</role-name>
+        <group-name>Movimentação</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>ORCAMENTO</role-name>
+        <group-name>Orçamento</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>ORCAMENTO_PROCEDIMENTO</role-name>
+        <group-name>Orçamento-Procedimento</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>ORTO</role-name>
+        <group-name>Orto</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>PACIENTE</role-name>
+        <group-name>Paciente</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>PERMISSOES_GRUPO</role-name>
+        <group-name>Permissões dos Grupos</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>PROCEDIMENTO</role-name>
+        <group-name>Procedimento</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>PROCEDIMENTO_ORTO</role-name>
+        <group-name>Procedimento-Orto</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>PROFISSIONAL</role-name>
+        <group-name>Profissional</group-name>
+    </security-role-mapping>
+        
+    <security-role-mapping>
+        <role-name>REGRA</role-name>
+        <group-name>Regra</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>STATUS_LABORATORIO</role-name>
+        <group-name>Status do Laboratório</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>TABELA_PROCEDIMENTO</role-name>
+        <group-name>Tabela de Procedimentos</group-name>
+    </security-role-mapping>
+    
+    <security-role-mapping>
+        <role-name>USUARIO</role-name>
+        <group-name>Usuário</group-name>
     </security-role-mapping>
     <parameter-encoding default-charset="UTF-8" />
 </sun-web-app>

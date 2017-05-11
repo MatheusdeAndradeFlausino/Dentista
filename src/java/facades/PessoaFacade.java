@@ -28,4 +28,5 @@ public class PessoaFacade extends AbstractFacade<Pessoa> {
         super(Pessoa.class);
     }
     
+    
 }

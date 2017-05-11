@@ -7,6 +7,7 @@ package facades;
 
 import classes.Paciente;
 import filters.PacienteFilter;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -79,6 +80,18 @@ public class PacienteFacade extends AbstractFacade<Paciente> {
         
         return query.getResultList();        
         
+    }
+    
+    public List<Paciente> findAllAniversariantes(Date dataAniversario){
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT p FROM Paciente p WHERE EXTRACT(DAY FROM p.idPessoa.dataNascimento) = EXTRACT(DAY FROM :dataAniversario)");
+        sql.append(" AND EXTRACT(MONTH FROM p.idPessoa.dataNascimento) = EXTRACT(MONTH FROM :dataAniversario)");
+        
+        Query query = getEntityManager().createQuery(sql.toString());
+        
+        query.setParameter("dataAniversario", dataAniversario);
+        
+        return null;
     }
     
 }

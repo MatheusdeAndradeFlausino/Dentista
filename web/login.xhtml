@@ -7,7 +7,7 @@
 
     <ui:composition template="/templateLogin.xhtml">
         <ui:define name="content">
-            <p:panel>
+            <p:layoutUnit position="center" >
                 <form method="post" action="j_security_check" >
                     <p>
                         <span>Usuário:</span>
@@ -23,7 +23,7 @@
                         <input id="botaoLogin" type="submit" value="Entrar"/>
                     </p>
                 </form>
-            </p:panel>
+            </p:layoutUnit>
         </ui:define>
     </ui:composition>
 
