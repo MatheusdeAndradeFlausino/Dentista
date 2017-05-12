@@ -4,7 +4,6 @@ import classes.Mensalidade;
 import classes.Paciente;
 import classes.ParcelaMensalidade;
 import controllers.util.JsfUtil;
-import controllers.util.PaginationHelper;
 import enums.Afirmacao;
 import enums.StatusMensalidade;
 import facades.MensalidadeFacade;
@@ -23,8 +22,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import org.primefaces.event.SelectEvent;
 import utils.DatasEHoras;
@@ -34,13 +31,13 @@ import utils.DatasEHoras;
 public class MensalidadeController implements Serializable {
 
     private Mensalidade current;
-    private DataModel items = null;
+    //private DataModel items = null;
     @EJB
     private facades.MensalidadeFacade ejbFacade;
     @EJB
     private facades.ParcelaMensalidadeFacade ejbParcelaMensalidadeFacade;
-    private PaginationHelper pagination;
-    private int selectedItemIndex;
+    //private PaginationHelper pagination;
+    //private int selectedItemIndex;
     private MensalidadeFilter filtro;
     private List<ParcelaMensalidade> parcelasMensalidadesPagas;
     private List<ParcelaMensalidade> parcelasMensalidadesReceber;
@@ -53,7 +50,7 @@ public class MensalidadeController implements Serializable {
     public Mensalidade getSelected() {
         if (current == null) {
             current = new Mensalidade();
-            selectedItemIndex = -1;
+            //selectedItemIndex = -1;
         }
         return current;
     }
@@ -76,7 +73,7 @@ public class MensalidadeController implements Serializable {
         getSelected().setIdPaciente(null);
     }
 
-    public PaginationHelper getPagination() {
+    /*public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
 
@@ -92,11 +89,11 @@ public class MensalidadeController implements Serializable {
             };
         }
         return pagination;
-    }
+    }*/
 
     public String prepareList() {
+        pesquisar();
         filtro = new MensalidadeFilter();
-        recreateModel();
         return "List";
     }
 
@@ -121,13 +118,14 @@ public class MensalidadeController implements Serializable {
 
     public String prepareCreate() {
         current = new Mensalidade();
-        selectedItemIndex = -1;
+        //selectedItemIndex = -1;
         return "Create";
     }
 
     public String create() {
         try {
             current.setQuantidadeMesesPagos(0);
+            current.setStatus(StatusMensalidade.ATIVA.getStatus());            
             getFacade().create(current);
             for (int i = 0; i < current.getQuantidadeMeses(); i++) {
                 ParcelaMensalidade pm = new ParcelaMensalidade();
@@ -135,8 +133,8 @@ public class MensalidadeController implements Serializable {
                 pm.setPago(Afirmacao.NAO.getValor());
                 pm.setValorPago(0d);
                 pm.setDataVencimento(DatasEHoras.adicionarMesesAUmDate(current.getDataVencimento(), i));
-                getParcelaMensalidadeFacade().create(pm);
-            }
+                getParcelaMensalidadeFacade().create(pm);               
+            }          
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -189,11 +187,13 @@ public class MensalidadeController implements Serializable {
     }
 
     public String destroy(Mensalidade mensalidade) {
-        current = mensalidade;
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        performDestroy();
-        recreatePagination();
-        recreateModel();
+        try {
+            getFacade().remove(mensalidade);
+            pesquisar();
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeDeleted"));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
         return "List";
     }
 
@@ -210,7 +210,7 @@ public class MensalidadeController implements Serializable {
         this.current.setIdPaciente(paciente);
     }
 
-    public String destroyAndView() {
+    /*public String destroyAndView() {
         performDestroy();
         recreateModel();
         updateCurrentItem();
@@ -272,7 +272,7 @@ public class MensalidadeController implements Serializable {
         getPagination().previousPage();
         recreateModel();
         return "List";
-    }
+    }*/
 
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
@@ -326,10 +326,12 @@ public class MensalidadeController implements Serializable {
     }
 
     public ParcelaMensalidade getParcelaMensalidade() {
+        
         return parcelaMensalidade;
     }
 
     public void setParcelaMensalidade(ParcelaMensalidade parcelaMensalidade) {
+        
         this.parcelaMensalidade = parcelaMensalidade;
     }
 

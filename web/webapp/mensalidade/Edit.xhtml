@@ -14,10 +14,10 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
+            <h:form id="form">
+                <p:panelGrid columns="2">
 
-                    <h:outputLabel value="#{bundle.EditMensalidadeLabel_idPaciente}" />
+                    <p:outputLabel value="#{bundle.EditMensalidadeLabel_idPaciente}" />
                     <h:panelGroup>
                         <h:inputText readonly="true" value="#{mensalidadeController.selected.idPaciente.idPessoa.nome}" id="nomePaciente"/>
                         <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
@@ -29,23 +29,28 @@
                     <h:outputLabel value="#{bundle.EditMensalidadeLabel_valor}" for="valor" />
                     <h:inputText id="valor" value="#{mensalidadeController.selected.valor}" title="#{bundle.EditMensalidadeTitle_valor}" />
 
-                    <h:outputLabel value="#{bundle.EditMensalidadeLabel_dataVencimento}" for="dataVencimento" />
-                    <p:calendar id="dataVencimento" value="#{mensalidadeController.selected.dataVencimento}" pattern="MM/yyyy" />
+                    <p:outputLabel value="#{bundle.EditMensalidadeLabel_dataVencimento}" for="dataVencimento" />
+                    <p:calendar id="dataVencimento" value="#{mensalidadeController.selected.dataVencimento}" pattern="dd/MM/yyyy" />
 
-                    <h:outputLabel value="#{bundle.EditMensalidadeLabel_quantidadeMeses}" for="quantidadeMeses" />
-                    <h:inputText id="quantidadeMeses" value="#{mensalidadeController.selected.quantidadeMeses}" title="#{bundle.EditMensalidadeTitle_quantidadeMeses}" />
+                    <p:outputLabel value="#{bundle.EditMensalidadeLabel_quantidadeMeses}" for="quantidadeMeses" />
+                    <p:inputText id="quantidadeMeses" value="#{mensalidadeController.selected.quantidadeMeses}" title="#{bundle.EditMensalidadeTitle_quantidadeMeses}" />
 
-                    <h:outputLabel value="#{bundle.EditMensalidadeLabel_quantidadeMesesPagos}" for="quantidadeMesesPagos" />
-                    <h:inputText id="quantidadeMesesPagos" value="#{mensalidadeController.selected.quantidadeMesesPagos}" title="#{bundle.EditMensalidadeTitle_quantidadeMesesPagos}" />
+                    <p:outputLabel value="#{bundle.EditMensalidadeLabel_quantidadeMesesPagos}" for="quantidadeMesesPagos" />
+                    <p:inputText id="quantidadeMesesPagos" value="#{mensalidadeController.selected.quantidadeMesesPagos}" title="#{bundle.EditMensalidadeTitle_quantidadeMesesPagos}" />
 
-                </h:panelGrid>
+                    <p:outputLabel value="#{bundle.CreateAgendamentoLabel_status}" />
+                    <p:selectOneMenu value="#{mensalidadeController.selected.status}">                        
+                        <f:selectItems value="#{mensalidadeController.status}" var="a"
+                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
                 <h:panelGroup id="tabelas">
                     <p:dataTable emptyMessage="#{bundle.ListMensalidadeEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
                                  paginatorPosition="bottom" id="result1" var="mensalidade" value="#{mensalidadeController.parcelasMensalidadesReceber}">
 
                         <p:column headerText="#{bundle.ListMensalidadeTitle_idPaciente}">
                             <h:outputText value="#{mensalidade.dataVencimento}" >
-                                <f:convertDateTime pattern="MM/yyyy" timeZone="GMT-3"/>
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
 
@@ -56,13 +61,15 @@
                         <p:column headerText="#{bundle.ValorRecebido}">
                             <h:outputText value="#{mensalidade.valorPago}" />
                         </p:column>
-                        
+
                         <p:column headerText="#{bundle.ValorReceber}">
                             <h:outputText value="#{mensalidade.valorAReceber}" />
                         </p:column>
 
                         <p:column headerText="#{bundle.Acoes}">                           
-                            <p:commandButton action="#{mensalidadeController.editarParcelaMensalidade(mensalidade)}" value="#{bundle.ListMensalidadeEditLink}"  onclick="PF('eventDialog').show();"/>                        
+                            <p:commandButton value="#{bundle.ListMensalidadeEditLink}"  oncomplete="PF('eventDialog').show();" update=":form:dialogEditar" process="@this">
+                                <f:setPropertyActionListener target="#{mensalidadeController.parcelaMensalidade}" value="#{mensalidade}"/>
+                            </p:commandButton> 
                         </p:column>
                     </p:dataTable>
                     <p:dataTable emptyMessage="#{bundle.ListMensalidadeEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
@@ -70,7 +77,7 @@
 
                         <p:column headerText="#{bundle.ListMensalidadeTitle_idPaciente}">
                             <h:outputText value="#{mensalidade.dataVencimento}" >
-                                <f:convertDateTime pattern="MM/yyyy" timeZone="GMT-3"/>
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
 
@@ -81,26 +88,29 @@
                         <p:column headerText="#{bundle.ValorRecebido}">
                             <h:outputText value="#{mensalidade.valorPago}" />
                         </p:column>
-                        
+
                         <p:column headerText="#{bundle.ValorReceber}">
                             <h:outputText value="#{mensalidade.valorAReceber}" />
                         </p:column>
 
                         <p:column headerText="#{bundle.Acoes}">                           
-                            <h:commandLink action="#{mensalidadeController.editarParcelaMensalidade(mensalidade)}" type="button" value="#{bundle.ListMensalidadeEditLink}" onclick="PF('eventDialog').show();"/>                        
+                            <p:commandButton  type="button" value="#{bundle.ListMensalidadeEditLink}" onclick="PF('eventDialog').show();">
+                                <f:setPropertyActionListener target="#{mensalidadeController.editarParcelaMensalidade}" value="#{mensalidade}"/>
+                            </p:commandButton>                        
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
-                <p:dialog widgetVar="eventDialog" header="#{bundle.EditarParcelaMensalidade}" showEffect="clip" hideEffect="clip">
-                        <h:panelGrid id="eventDetails" columns="2">
-                            <p:outputLabel value="#{bundle.EditMensalidadeLabel_dataVencimento}" />
-                            <p:calendar value="#{mensalidadeController.parcelaMensalidade.dataVencimento}" pattern="MM/yyyy" />
+                <p:dialog widgetVar="eventDialog" id="dialogEditar" header="#{bundle.EditarParcelaMensalidade}" showEffect="clip" hideEffect="clip">
+                    <h:panelGrid id="eventDetails" columns="2">
+                        <p:outputLabel value="#{bundle.EditMensalidadeLabel_dataVencimento}" />
+                        <p:calendar value="#{mensalidadeController.parcelaMensalidade.dataVencimento}" pattern="dd/MM/yyyy" />
 
-                            <p:outputLabel value="#{bundle.ValorRecebido}" />
-                            <p:inputText value="#{mensalidadeController.parcelaMensalidade.valorPago}" />
-                           
-                            <p:commandButton id="editButton" value="#{bundle.ViewMensalidadeEditLink}" actionListener="#{mensalidadeController.updateParcelaMensalidade()}" onclick="PF('tabelas').update();PF('eventDialog').hide();" />
-                        </h:panelGrid>
+                        <p:outputLabel value="#{bundle.ValorRecebido}" />
+                        <p:inputText value="#{mensalidadeController.parcelaMensalidade.valorPago}" />
+
+                        <p:commandButton id="editButton" value="#{bundle.ViewMensalidadeEditLink}" actionListener="#{mensalidadeController.updateParcelaMensalidade()}" onclick="PF('tabelas').update();
+                                PF('eventDialog').hide();" />
+                    </h:panelGrid>
                 </p:dialog>
                 <h:commandLink action="#{mensalidadeController.update}" value="#{bundle.EditMensalidadeSaveLink}"/>
                 <br />
@@ -108,9 +118,7 @@
                 <h:link outcome="View" value="#{bundle.EditMensalidadeViewLink}"/>
                 <br />
                 <h:commandLink action="#{mensalidadeController.prepareList}" value="#{bundle.EditMensalidadeShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditMensalidadeIndexLink}" />
+               
             </h:form>
         </ui:define>
     </ui:composition>

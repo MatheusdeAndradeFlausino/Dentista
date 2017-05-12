@@ -59,6 +59,9 @@ public class Mensalidade implements Serializable {
     @JoinColumn(name = "idPaciente", referencedColumnName = "id")
     @ManyToOne
     private Paciente idPaciente;
+    @JoinColumn(name = "idMotivo", referencedColumnName = "id")
+    @ManyToOne
+    private Motivo idMotivo;
     @Column(name = "quantidadeMesesPagos")
     private Integer quantidadeMesesPagos;
     @Size(max = 20)
@@ -127,7 +130,15 @@ public class Mensalidade implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-       
+
+    public Motivo getIdMotivo() {
+        return idMotivo;
+    }
+
+    public void setIdMotivo(Motivo idMotivo) {
+        this.idMotivo = idMotivo;
+    }
+           
     @Override
     public int hashCode() {
         int hash = 0;

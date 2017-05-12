@@ -82,16 +82,26 @@ public class DatasEHoras {
     }
 
     public static Date adicionarMesesAUmDate(Date data, int meses) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String mesDoDate = sdf.format(data);
-        mesDoDate = mesDoDate.split("/")[1];
-        int mes = Integer.parseInt(mesDoDate) + meses;
-        Calendar c = new GregorianCalendar();
-        c.setTime(data);
-        c.set(Calendar.MONTH, mes - 1);
-        return c.getTime();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String StringDate = sdf.format(data);
+            String diaDoDate = StringDate.split("/")[0];
+            String mesDoDate = StringDate.split("/")[1];
+            String anoDoDate = StringDate.split("/")[2];
+            int sumMes = Integer.parseInt(mesDoDate) + meses;
+            int mes = sumMes % 12;
+            int ano = Integer.parseInt(anoDoDate) + (sumMes / 12);
+            if(mes == 0){
+                mes = 12;
+                ano--;
+            }
+            return sdf.parse(diaDoDate+"/"+mes+"/"+ano);
+        } catch (ParseException ex) {
+            Logger.getLogger(DatasEHoras.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
-
+   
     public static String horaAtual() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(new Date());

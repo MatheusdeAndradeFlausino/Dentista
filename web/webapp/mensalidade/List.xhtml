@@ -61,11 +61,22 @@
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
+                <p:dialog widgetVar="eventDialog" id="dialogEditar" header="#{bundle.EditarParcelaMensalidade}" showEffect="clip" hideEffect="clip">
+                    <h:panelGrid id="eventDetails" columns="2">
+                        <p:outputLabel value="#{bundle.EditMensalidadeLabel_dataVencimento}" />
+                        <p:calendar value="#{mensalidadeController.parcelaMensalidade.dataVencimento}" pattern="dd/MM/yyyy" />
+
+                        <p:outputLabel value="#{bundle.ValorRecebido}" />
+                        <p:inputText value="#{mensalidadeController.parcelaMensalidade.valorPago}" />
+
+                        <p:commandButton id="editButton" value="#{bundle.ViewMensalidadeEditLink}" actionListener="#{mensalidadeController.updateParcelaMensalidade()}" onclick="PF('tabelas').update();
+                                PF('eventDialog').hide();" >
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:dialog>
                 <br />
                 <h:commandLink action="#{mensalidadeController.prepareCreate}" value="#{bundle.ListMensalidadeCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListMensalidadeIndexLink}"/>
             </h:form>
         </ui:define>
     </ui:composition>

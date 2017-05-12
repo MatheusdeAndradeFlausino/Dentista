@@ -76,9 +76,7 @@ public class Teste implements Cloneable{
     }
     
     public static void main(String[] args) {
-       
-            System.out.println(ChaveMD5.criptografar("1234"));
-        
+               
     }
     
 }
