@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+      >
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
@@ -84,7 +84,7 @@
                             <h:outputText value="#{bundle.TempoEspera}"/>
                         </f:facet>
                         <h:outputText value="#{item.idProfissional.idPessoa.nome}"/>
-                        <pe:timer timeout="100000000" forward="true" format="HH:mm:ss" listener="#{filaEsperaController.incrementarEspera(item)}"/>  
+                        
                     </p:column>
                     <p:column>
                         <f:facet name="header">

@@ -16,3 +16,13 @@ and open the template in the editor.
 .viewLabel{
     font-weight: bold;
 }
+
+.colunaAcoes{
+    width: 100px;
+    text-align: center;
+}
+
+.colunaAcoesLov{
+    width: 50px;
+    text-align: center;
+}

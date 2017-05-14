@@ -38,7 +38,7 @@ public class MensalidadeFacade extends AbstractFacade<Mensalidade> {
         if(filtro.getPaciente() != null)
             sql.append(" AND m.idPaciente = :paciente");
         
-        if(!filtro.getStatus().isEmpty())
+        if(filtro.getStatus() != null && !filtro.getStatus().isEmpty())
             sql.append(" AND m.status = :status");
         
         Query query = getEntityManager().createQuery(sql.toString());
@@ -46,7 +46,7 @@ public class MensalidadeFacade extends AbstractFacade<Mensalidade> {
         if(filtro.getPaciente() != null)
             query.setParameter("paciente", filtro.getPaciente());
         
-        if(!filtro.getStatus().isEmpty())
+        if(filtro.getStatus() != null && !filtro.getStatus().isEmpty())
             query.setParameter("status", filtro.getStatus());
         
         return query.getResultList();

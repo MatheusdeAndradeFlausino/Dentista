@@ -52,7 +52,7 @@ public class PacienteFacade extends AbstractFacade<Paciente> {
             sql.append(" AND p.numFicha = :numFicha");
         }
         
-        if(!filtro.getStatus().isEmpty()){
+        if(filtro.getStatus() != null && !filtro.getStatus().isEmpty()){
             sql.append(" AND p.status = :status");
         }
         

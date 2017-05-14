@@ -20,10 +20,10 @@
                     <p:outputLabel value="#{bundle.EditMensalidadeLabel_idPaciente}" />
                     <h:panelGroup>
                         <h:inputText readonly="true" value="#{mensalidadeController.selected.idPaciente.idPessoa.nome}" id="nomePaciente"/>
-                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
+                        <p:commandButton title="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none" icon="fa fa-search">
                             <p:ajax event="dialogReturn" listener="#{mensalidadeController.pacienteSelecionado}" process="@this" update="nomePaciente"/>
                         </p:commandButton>
-                        <p:commandButton value="#{bundle.Limpar}" actionListener="#{mensalidadeController.limparPaciente()}" process="@this" update="nomePaciente"/>
+                        <p:commandButton title="#{bundle.Limpar}" actionListener="#{mensalidadeController.limparPaciente()}" process="@this" update="nomePaciente" icon="fa fa-trash-o"/>
                     </h:panelGroup>
 
                     <h:outputLabel value="#{bundle.EditMensalidadeLabel_valor}" for="valor" />
@@ -35,16 +35,10 @@
                     <p:outputLabel value="#{bundle.EditMensalidadeLabel_quantidadeMeses}" for="quantidadeMeses" />
                     <p:inputText id="quantidadeMeses" value="#{mensalidadeController.selected.quantidadeMeses}" title="#{bundle.EditMensalidadeTitle_quantidadeMeses}" />
 
-                    <p:outputLabel value="#{bundle.EditMensalidadeLabel_quantidadeMesesPagos}" for="quantidadeMesesPagos" />
-                    <p:inputText id="quantidadeMesesPagos" value="#{mensalidadeController.selected.quantidadeMesesPagos}" title="#{bundle.EditMensalidadeTitle_quantidadeMesesPagos}" />
-
-                    <p:outputLabel value="#{bundle.CreateAgendamentoLabel_status}" />
-                    <p:selectOneMenu value="#{mensalidadeController.selected.status}">                        
-                        <f:selectItems value="#{mensalidadeController.status}" var="a"
-                                       itemValue="#{a.status}" itemLabel="#{a.status}"/>
-                    </p:selectOneMenu>
                 </p:panelGrid>
                 <h:panelGroup id="tabelas">
+                    <h3>#{bundle.MensalidadesReceber}</h3>
+                    <p:separator />
                     <p:dataTable emptyMessage="#{bundle.ListMensalidadeEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
                                  paginatorPosition="bottom" id="result1" var="mensalidade" value="#{mensalidadeController.parcelasMensalidadesReceber}">
 
@@ -66,12 +60,17 @@
                             <h:outputText value="#{mensalidade.valorAReceber}" />
                         </p:column>
 
-                        <p:column headerText="#{bundle.Acoes}">                           
-                            <p:commandButton value="#{bundle.ListMensalidadeEditLink}"  oncomplete="PF('eventDialog').show();" update=":form:dialogEditar" process="@this">
+                        <p:column headerText="#{bundle.Acoes}" styleClass="colunaAcoes">                           
+                            <p:commandButton title="#{bundle.ListMensalidadeEditLink}"  oncomplete="PF('eventDialog').show();" update=":form:dialogEditar" process="@this" icon="fa fa-edit">
                                 <f:setPropertyActionListener target="#{mensalidadeController.parcelaMensalidade}" value="#{mensalidade}"/>
-                            </p:commandButton> 
+                            </p:commandButton>
+                            <p:commandButton title="#{bundle.EfetuarPagamento}" process="@this" icon="fa fa-money" action="#{mensalidadeController.efetuarPagamento(mensalidade)}" update=":form:tabelas">
+                                <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.EfetuarPagamento}?" icon="ui-icon-alert" />
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
+                    <h3>#{bundle.MensalidadesPagas}</h3>
+                    <p:separator />
                     <p:dataTable emptyMessage="#{bundle.ListMensalidadeEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
                                  paginatorPosition="bottom" id="result2" var="mensalidade" value="#{mensalidadeController.parcelasMensalidadesPagas}">
 
@@ -93,9 +92,9 @@
                             <h:outputText value="#{mensalidade.valorAReceber}" />
                         </p:column>
 
-                        <p:column headerText="#{bundle.Acoes}">                           
-                            <p:commandButton  type="button" value="#{bundle.ListMensalidadeEditLink}" onclick="PF('eventDialog').show();">
-                                <f:setPropertyActionListener target="#{mensalidadeController.editarParcelaMensalidade}" value="#{mensalidade}"/>
+                        <p:column headerText="#{bundle.Acoes}" styleClass="colunaAcoes">                           
+                            <p:commandButton title="#{bundle.ListMensalidadeEditLink}"  oncomplete="PF('eventDialog').show();" update=":form:dialogEditar" process="@this" icon="fa fa-edit">
+                                <f:setPropertyActionListener target="#{mensalidadeController.parcelaMensalidade}" value="#{mensalidade}"/>
                             </p:commandButton>                        
                         </p:column>
                     </p:dataTable>
@@ -115,10 +114,7 @@
                 <h:commandLink action="#{mensalidadeController.update}" value="#{bundle.EditMensalidadeSaveLink}"/>
                 <br />
                 <br />
-                <h:link outcome="View" value="#{bundle.EditMensalidadeViewLink}"/>
-                <br />
-                <h:commandLink action="#{mensalidadeController.prepareList}" value="#{bundle.EditMensalidadeShowAllLink}" immediate="true"/>
-               
+                <h:commandLink action="#{mensalidadeController.prepareList}" value="#{bundle.EditMensalidadeShowAllLink}" immediate="true"/>               
             </h:form>
         </ui:define>
     </ui:composition>

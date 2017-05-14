@@ -1,6 +1,7 @@
 package controllers;
 
 import classes.Mensalidade;
+import classes.Motivo;
 import classes.Paciente;
 import classes.ParcelaMensalidade;
 import controllers.util.JsfUtil;
@@ -13,6 +14,7 @@ import filters.MensalidadeFilter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -68,29 +70,36 @@ public class MensalidadeController implements Serializable {
     private ParcelaMensalidadeFacade getParcelaMensalidadeFacade() {
         return ejbParcelaMensalidadeFacade;
     }
-    
-    public void limparPaciente(){
+
+    public void limparPaciente() {
         getSelected().setIdPaciente(null);
+    }
+    
+    public void limparPacienteFiltro(){
+        getFiltro().setPaciente(null);
+    }
+    
+    public void limpar(){
+        setFiltro(null);
     }
 
     /*public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+     if (pagination == null) {
+     pagination = new PaginationHelper(10) {
 
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
+     @Override
+     public int getItemsCount() {
+     return getFacade().count();
+     }
 
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
-        }
-        return pagination;
-    }*/
-
+     @Override
+     public DataModel createPageDataModel() {
+     return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+     }
+     };
+     }
+     return pagination;
+     }*/
     public String prepareList() {
         pesquisar();
         filtro = new MensalidadeFilter();
@@ -116,6 +125,10 @@ public class MensalidadeController implements Serializable {
         return "View";
     }
 
+    public void prepareCancelar(Mensalidade mensalidade) {
+        this.current = mensalidade;
+    }
+
     public String prepareCreate() {
         current = new Mensalidade();
         //selectedItemIndex = -1;
@@ -125,21 +138,44 @@ public class MensalidadeController implements Serializable {
     public String create() {
         try {
             current.setQuantidadeMesesPagos(0);
-            current.setStatus(StatusMensalidade.ATIVA.getStatus());            
+            current.setStatus(StatusMensalidade.ATIVA.getStatus());
             getFacade().create(current);
-            for (int i = 0; i < current.getQuantidadeMeses(); i++) {
-                ParcelaMensalidade pm = new ParcelaMensalidade();
-                pm.setIdMensalidade(current);
-                pm.setPago(Afirmacao.NAO.getValor());
-                pm.setValorPago(0d);
-                pm.setDataVencimento(DatasEHoras.adicionarMesesAUmDate(current.getDataVencimento(), i));
-                getParcelaMensalidadeFacade().create(pm);               
-            }          
+            gerarParcelas();
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
+        }
+    }
+
+    public void gerarParcelas() {
+        try {
+            int qtdMesesPagos = current.getQuantidadeMesesPagos();
+            for (int i = 0; i < current.getQuantidadeMeses(); i++) {
+                ParcelaMensalidade pm = new ParcelaMensalidade();
+                pm.setIdMensalidade(current);
+                if (qtdMesesPagos > 0) {
+                    pm.setPago(Afirmacao.SIM.getValor());
+                    pm.setValorPago(current.getValor());
+                    qtdMesesPagos--;
+                } else {
+                    pm.setPago(Afirmacao.NAO.getValor());
+                    pm.setValorPago(0d);
+                }
+                pm.setDataVencimento(DatasEHoras.adicionarMesesAUmDate(current.getDataVencimento(), i));
+                getParcelaMensalidadeFacade().create(pm);
+            }
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+    }
+
+    public void removerTodasParcelas() {
+        List<ParcelaMensalidade> msds = parcelasMensalidadesPagas;
+        msds.addAll(parcelasMensalidadesReceber);
+        for (ParcelaMensalidade mensalidade : msds) {
+            getParcelaMensalidadeFacade().remove(mensalidade);
         }
     }
 
@@ -155,7 +191,7 @@ public class MensalidadeController implements Serializable {
                 parcelasMensalidadesReceber.add(aux1);
             }
         }
-
+        current.setQuantidadeMesesPagos(parcelasMensalidadesPagas.size());
 //        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -165,21 +201,43 @@ public class MensalidadeController implements Serializable {
     }
 
     public void updateParcelaMensalidade() {
-        if(parcelaMensalidade.getValorAReceber() == 0){
-            parcelaMensalidade.setPago(Afirmacao.SIM.getValor());
+        try {
+            if (parcelaMensalidade.getValorAReceber() == 0) {
+                parcelaMensalidade.setPago(Afirmacao.SIM.getValor());
+            } else if (parcelaMensalidade.getValorAReceber() < 0) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("ValorPagamentoMaior"));
+                prepareEdit(current);
+                return;
+            } else {
+                parcelaMensalidade.setPago(Afirmacao.NAO.getValor());
+            }
+
             getParcelaMensalidadeFacade().edit(parcelaMensalidade);
             prepareEdit(current);
-        }else{
-            getParcelaMensalidadeFacade().edit(parcelaMensalidade);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeUpdated"));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
-        JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeUpdated"));
     }
 
     public String update() {
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeUpdated"));
-            return "View";
+            int qtdMesesPagos = current.getQuantidadeMesesPagos();
+            if (qtdMesesPagos <= current.getQuantidadeMeses()) {
+                removerTodasParcelas();
+                gerarParcelas();
+                if (qtdMesesPagos == current.getQuantidadeMeses()) {
+                    current.setStatus(StatusMensalidade.QUITADA.getStatus());
+                }
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeUpdated"));
+                return prepareList();
+            } else {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("ErroClientePagouMaisParcelas"));
+                return null;
+            }
+
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -210,70 +268,96 @@ public class MensalidadeController implements Serializable {
         this.current.setIdPaciente(paciente);
     }
 
-    /*public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
+    public void motivoSelecionado(SelectEvent event) {
+        Motivo motivo = (Motivo) event.getObject();
+        this.current.setIdMotivo(motivo);
     }
 
-    private void performDestroy() {
+    public String cancelarMensalidade() {
+        current.setStatus(StatusMensalidade.CANCELADA.getStatus());
         try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeDeleted"));
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeCancelada"));
+            return "List";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
         }
     }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
+    
+    public void efetuarPagamento(ParcelaMensalidade mensalidade){
+        mensalidade.setValorPago(current.getValor());
+        this.parcelaMensalidade = mensalidade;
+        updateParcelaMensalidade();
     }
 
-    public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+    public boolean isMensalidadeAtiva(Mensalidade mensalidade) {
+        return mensalidade.getStatus().equals(StatusMensalidade.ATIVA.getStatus());
     }
 
-    private void recreateModel() {
-        items = null;
-    }
+    /*public String destroyAndView() {
+     performDestroy();
+     recreateModel();
+     updateCurrentItem();
+     if (selectedItemIndex >= 0) {
+     return "View";
+     } else {
+     // all items were removed - go back to list
+     recreateModel();
+     return "List";
+     }
+     }
 
-    private void recreatePagination() {
-        pagination = null;
-    }
+     private void performDestroy() {
+     try {
+     getFacade().remove(current);
+     JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("MensalidadeDeleted"));
+     } catch (Exception e) {
+     JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+     }
+     }
 
-    public String next() {
-        getPagination().nextPage();
-        recreateModel();
-        return "List";
-    }
+     private void updateCurrentItem() {
+     int count = getFacade().count();
+     if (selectedItemIndex >= count) {
+     // selected index cannot be bigger than number of items:
+     selectedItemIndex = count - 1;
+     // go to previous page if last page disappeared:
+     if (pagination.getPageFirstItem() >= count) {
+     pagination.previousPage();
+     }
+     }
+     if (selectedItemIndex >= 0) {
+     current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+     }
+     }
 
-    public String previous() {
-        getPagination().previousPage();
-        recreateModel();
-        return "List";
-    }*/
+     public DataModel getItems() {
+     if (items == null) {
+     items = getPagination().createPageDataModel();
+     }
+     return items;
+     }
 
+     private void recreateModel() {
+     items = null;
+     }
+
+     private void recreatePagination() {
+     pagination = null;
+     }
+
+     public String next() {
+     getPagination().nextPage();
+     recreateModel();
+     return "List";
+     }
+
+     public String previous() {
+     getPagination().previousPage();
+     recreateModel();
+     return "List";
+     }*/
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }
@@ -326,12 +410,12 @@ public class MensalidadeController implements Serializable {
     }
 
     public ParcelaMensalidade getParcelaMensalidade() {
-        
+
         return parcelaMensalidade;
     }
 
     public void setParcelaMensalidade(ParcelaMensalidade parcelaMensalidade) {
-        
+
         this.parcelaMensalidade = parcelaMensalidade;
     }
 

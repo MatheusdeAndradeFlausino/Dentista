@@ -38,4 +38,5 @@ public class ParcelaMensalidadeFacade extends AbstractFacade<ParcelaMensalidade>
         query.setParameter("mensalidade", mensalidade);
         return query.getResultList();
     }
+    
 }

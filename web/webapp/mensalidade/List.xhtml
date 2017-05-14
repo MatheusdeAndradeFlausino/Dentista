@@ -15,27 +15,30 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:panelGroup>
+                <h:panelGroup id="panelFilter">
                     <p:panelGrid columns="2">
 
-                        <h:outputLabel value="#{bundle.EditMensalidadeLabel_idPaciente}" />
+                        <p:outputLabel value="#{bundle.EditMensalidadeLabel_idPaciente}" />
                         <h:panelGroup>
-                            <h:inputText readonly="true" value="#{mensalidadeController.filtro.paciente.idPessoa.nome}" id="nomePaciente"/>
-                            <p:commandButton value="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" update="@none">
+                            <p:inputText readonly="true" value="#{mensalidadeController.filtro.paciente.idPessoa.nome}" id="nomePaciente"/>
+                            <p:commandButton title="#{bundle.Pesquisar}" action="#{searchPacienteController.abrirDialogo()}" process="@this" icon="fa fa-search" update="@none">
                                 <p:ajax event="dialogReturn" listener="#{mensalidadeController.pacienteSelecionado}" process="@this" update="nomePaciente"/>
                             </p:commandButton>
+                            <p:commandButton title="#{bundle.Limpar}" actionListener="#{mensalidadeController.limparPacienteFiltro()}" process="@this" update="nomePaciente" icon="fa fa-recycle"/>
                         </h:panelGroup>
 
-                        <h:outputLabel value="#{bundle.CreateAgendamentoLabel_status}" />
-                        <h:selectOneMenu value="#{mensalidadeController.filtro.status}">                        
+                        <p:outputLabel value="#{bundle.CreateAgendamentoLabel_status}" />
+                        <p:selectOneMenu value="#{mensalidadeController.filtro.status}">                        
                             <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
                             <f:selectItems value="#{mensalidadeController.status}" var="a"
                                            itemValue="#{a.status}" itemLabel="#{a.status}"/>
-                        </h:selectOneMenu>
+                        </p:selectOneMenu>
 
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{mensalidadeController.pesquisar}"/>
+                    <p:commandButton icon="fa fa-search" value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{mensalidadeController.pesquisar}"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{mensalidadeController.limpar}" icon="fa fa-recycle"/>
                 </h:panelGroup>
+                <p:separator />
                 <p:dataTable emptyMessage="#{bundle.ListMensalidadeEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
                              paginatorPosition="bottom" id="tabelaList" var="mensalidade" value="#{mensalidadeController.mensalidades}">
 
@@ -51,32 +54,34 @@
                         <h:outputText value="#{mensalidade.status}" />
                     </p:column>
 
-                    <p:column headerText="#{bundle.Acoes}">
-                        <h:commandLink action="#{mensalidadeController.prepareView(mensalidade)}" value="#{bundle.ListMensalidadeViewLink}"/>
+                    <p:column headerText="#{bundle.Acoes}" styleClass="colunaAcoes">
+                        <p:commandButton action="#{mensalidadeController.prepareCancelar(mensalidade)}" title="#{bundle.CancelarMensalidade}" icon="fa fa-times" rendered="#{mensalidadeController.isMensalidadeAtiva(mensalidade)}" oncomplete="PF('eventDialog').show();" process="@this"/>
                         <h:outputText value=" "/>
-                        <h:commandLink action="#{mensalidadeController.prepareEdit(mensalidade)}" value="#{bundle.ListMensalidadeEditLink}"/>
+                        <p:commandButton action="#{mensalidadeController.prepareEdit(mensalidade)}" title="#{bundle.ListMensalidadeEditLink}" icon="fa fa-edit"/>
                         <h:outputText value=" "/>
-                        <p:commandLink action="#{mensalidadeController.destroy(mensalidade)}" value="#{bundle.ListMensalidadeDestroyLink}" update="tabelaList">
+                        <p:commandButton action="#{mensalidadeController.destroy(mensalidade)}" title="#{bundle.ListMensalidadeDestroyLink}" update="tabelaList" icon="fa fa-trash-o">
                             <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
-                        </p:commandLink>
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
-                <p:dialog widgetVar="eventDialog" id="dialogEditar" header="#{bundle.EditarParcelaMensalidade}" showEffect="clip" hideEffect="clip">
+                <p:dialog widgetVar="eventDialog" id="dialogEditar"  header="#{bundle.CancelarMensalidade}" showEffect="clip" hideEffect="clip">
                     <h:panelGrid id="eventDetails" columns="2">
-                        <p:outputLabel value="#{bundle.EditMensalidadeLabel_dataVencimento}" />
-                        <p:calendar value="#{mensalidadeController.parcelaMensalidade.dataVencimento}" pattern="dd/MM/yyyy" />
+                        <p:outputLabel value="#{bundle.Motivo}:" />
+                        <h:panelGroup>
+                            <h:inputText readonly="true" value="#{mensalidadeController.selected.idMotivo.descricao}" id="descricaoMotivo"/>
+                            <p:commandButton title="#{bundle.Pesquisar}" action="#{searchMotivoController.abrirDialogo()}" process="@this" update="@none" icon="fa fa-search">
+                                <p:ajax event="dialogReturn" listener="#{mensalidadeController.motivoSelecionado}" process="@this" update="descricaoMotivo"/>
+                            </p:commandButton>
+                        </h:panelGroup>
 
-                        <p:outputLabel value="#{bundle.ValorRecebido}" />
-                        <p:inputText value="#{mensalidadeController.parcelaMensalidade.valorPago}" />
-
-                        <p:commandButton id="editButton" value="#{bundle.ViewMensalidadeEditLink}" actionListener="#{mensalidadeController.updateParcelaMensalidade()}" onclick="PF('tabelas').update();
-                                PF('eventDialog').hide();" >
-                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
+                        <p:commandButton id="editButton" value="#{bundle.CancelarMensalidade}" action="#{mensalidadeController.cancelarMensalidade()}" oncomplete="PF('tabelaList').update();PF('eventDialog').hide();" >
+                            <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.MsgCancelarMensalidade}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </h:panelGrid>
                 </p:dialog>
                 <br />
-                <h:commandLink action="#{mensalidadeController.prepareCreate}" value="#{bundle.ListMensalidadeCreateLink}"/>
+                <p:separator />
+                <p:commandButton icon="fa fa-plus" action="#{mensalidadeController.prepareCreate}" styleClass="botaoBaixo" value="#{bundle.ListMensalidadeCreateLink}"/>
             </h:form>
         </ui:define>
     </ui:composition>

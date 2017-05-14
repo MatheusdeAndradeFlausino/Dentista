@@ -78,10 +78,11 @@
                             </p:submenu>
                             <p:menuitem value="#{bundle.MenuDeslogar}" style="float:right;" outcome="/logout" icon="fa fa-power-off"/>
                         </p:menubar>
-                        <h:panelGrid columns="4" style="position: absolute;right: 0px;top: 5px;">
-                            <p:commandButton title="#{bundle.UsuarioLogado}" icon="fa fa-user"/>
+                        <h:panelGrid columns="5" style="position: absolute;right: 0px;top: 5px;">
+                            <p:commandButton title="#{bundle.UsuarioLogado}" icon="fa fa-user" style="position: relative;top: -4px;"/>
                             <p:outputLabel value="#{Logout.usuarioLogado()}" />
-                            <p:commandButton title="#{bundle.GruposUsuario}" icon="fa fa-users"/>
+                            <p:spacer width="15px" />
+                            <p:commandButton title="#{bundle.GruposUsuario}" icon="fa fa-users" style="position: relative;top: -4px;"/>
                             <p:selectOneMenu >
                                 <f:selectItems value="#{Logout.gruposUsuarioLogado}"/>
                             </p:selectOneMenu>

@@ -6,6 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>#{bundle.searchProfissional}</title>
+        <h:outputStylesheet library="css" name="style.css"/> 
     </h:head>
     <h:body>
         <h:form>
@@ -15,12 +16,12 @@
                     <p:inputText id="nome" value="#{searchProfissionalController.filtro.nome}" title="#{bundle.CreatePessoaTitle_nome}" />
 
                     <p:outputLabel value="#{bundle.CreateProfissionalLabel_idClinica}" />
-                    <p:panel>
-                        <h:inputText readonly="true" value="#{searchProfissionalController.filtro.clinica.nome}" id="nomeClinica"/>
-                        <p:commandButton value="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none">
+                    <h:panelGroup>
+                        <p:inputText readonly="true" value="#{searchProfissionalController.filtro.clinica.nome}" id="nomeClinica"/>
+                        <p:commandButton title="#{bundle.Pesquisar}" action="#{searchClinicaController.abrirDialogo()}" process="@this" update="@none" icon="fa fa-search">
                             <p:ajax event="dialogReturn" listener="#{searchProfissionalController.clinicaSelecionada}" process="@this" update="nomeClinica"/>
                         </p:commandButton> 
-                    </p:panel>
+                    </h:panelGroup>
                     <p:outputLabel value="#{bundle.CreatePacienteLabel_numFicha}" for="profissao" />
                     <p:inputText id="profissao" value="#{searchProfissionalController.filtro.profissao}" title="#{bundle.CreatePacienteTitle_numFicha}" />
 
@@ -31,14 +32,15 @@
                     <p:inputText id="rg" value="#{searchProfissionalController.filtro.rg}" title="#{bundle.CreatePessoaTitle_rg}" />
 
                     <p:outputLabel value="#{bundle.CreatePacienteLabel_status}"  />
-                    <h:selectOneMenu value="#{searchProfissionalController.filtro.status}">
+                    <p:selectOneMenu value="#{searchProfissionalController.filtro.status}">
                         <f:selectItem itemValue="" itemLabel="#{bundle.Todos}" />
                         <f:selectItems value="#{searchProfissionalController.status}" var="a"
                                        itemValue="#{a.status}" itemLabel="#{a.status}"/>
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
                 </p:panelGrid>
-                <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="result" action="#{searchProfissionalController.pesquisar}"/>
+                <p:commandButton value="#{bundle.Pesquisar}" icon="fa fa-search" type="submit" update="result" action="#{searchProfissionalController.pesquisar}"/>
             </h:panelGroup>
+            <p:separator />
             <p:dataTable emptyMessage="#{bundle.ListProfissionalEmpty}" paginator="true" rows="10" paginatorAlwaysVisible="false"
                          paginatorPosition="bottom" id="result" var="profissional" value="#{searchProfissionalController.profissionais}">
 
@@ -66,8 +68,8 @@
                     <h:outputText value="#{profissional.status}" />
                 </p:column>
 
-                <p:column headerText="#{bundle.Acao}">
-                    <p:commandButton value="#{bundle.Escolher}" process="@this" action="#{searchProfissionalController.selecionar(profissional)}"/>
+                <p:column headerText="#{bundle.Acao}" styleClass="colunaAcoesLov">
+                    <p:commandButton icon="fa fa-check" title="#{bundle.Escolher}" process="@this" action="#{searchProfissionalController.selecionar(profissional)}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
