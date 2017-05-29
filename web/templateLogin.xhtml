@@ -11,19 +11,21 @@
     </h:head>
 
     <h:body>
-        <p:panel>
-            <div id="top">
-                <ui:insert name="top">Top</ui:insert>
-            </div>
-        </p:panel>
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
-        <p:panel>
-            <div id="bottom">
-                <ui:insert name="bottom">Bottom</ui:insert>
-            </div>
-        </p:panel>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" header="Clínica Companhia do Sorriso"></p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <div id="content" class="center_content">
+                    <ui:insert name="content">Content</ui:insert>
+                </div>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="south" size="60">
+                <p style="font-size: 10px">
+                Desenvolvido por Matheus de Andrade Flausino
+                </p>
+            </p:layoutUnit>
+        </p:layout>
     </h:body>
 
 </html>

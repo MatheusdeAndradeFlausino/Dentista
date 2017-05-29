@@ -35,17 +35,19 @@
                         </p:selectOneMenu>               
 
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{bandeiraController.pesquisar}"/>
-                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{bandeiraController.limpar}"/>
+                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{bandeiraController.pesquisar}" icon="fa fa-search"/>
+                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{bandeiraController.limpar}" icon="fa fa-recycle"/>
                 </h:panelGroup>
                 <p:dataTable value="#{bandeiraController.bandeiras}"  paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListBandeiraEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList">
                     <f:facet name="{Exporters}">
                         <div style="float:right">
-                            <h:commandLink value="#{bundle.XLS}" >
+                            <h:commandLink title="#{bundle.XLS}" >
+                                <p:graphicImage library="images" name="excel.png" height="22" width="25"/>
                                 <p:dataExporter type="xls" target="tabelaList" fileName="Bandeiras" />
                             </h:commandLink>
                             <h:outputText value =" " />
-                            <h:commandLink value="#{bundle.PDF}" >                              
+                            <h:commandLink title="#{bundle.PDF}" >
+                                <p:graphicImage library="images" name="pdf.png" height="22" width="25"/>
                                 <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{bandeiraController.processarPDF}" target="tabelaList" fileName="Bandeiras"/>
                             </h:commandLink>
                         </div>
@@ -90,21 +92,17 @@
                         <f:facet name="header">
                             <h:outputText value="#{bundle.Acoes}"/>
                         </f:facet>
-                        <h:commandLink action="#{bandeiraController.prepareView(item)}" value="#{bundle.ListBandeiraViewLink}"/>
+                        <p:commandButton action="#{bandeiraController.prepareView(item)}" title="#{bundle.ListBandeiraViewLink}" icon="fa fa-eye"/>
                         <h:outputText value=" "/>
-                        <h:commandLink action="#{bandeiraController.prepareEdit(item)}" value="#{bundle.ListBandeiraEditLink}"/>
+                        <p:commandButton action="#{bandeiraController.prepareEdit(item)}" title="#{bundle.ListBandeiraEditLink}" icon="fa fa-edit"/>
                         <h:outputText value=" "/>
-                        <p:commandLink action="#{bandeiraController.destroy(item)}" value="#{bundle.ListBandeiraDestroyLink}" update="tabelaList">
+                        <p:commandButton action="#{bandeiraController.destroy(item)}" title="#{bundle.ListBandeiraDestroyLink}" update="tabelaList" icon="fa fa-times">
                             <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
-                        </p:commandLink>
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
-
                 <br />
-                <h:commandLink action="#{bandeiraController.prepareCreate}" value="#{bundle.ListBandeiraCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListBandeiraIndexLink}"/>
+                <p:commandButton icon="fa fa-plus" styleClass="botaoBaixo" action="#{bandeiraController.prepareCreate}" value="#{bundle.ListBandeiraCreateLink}"/>
             </h:form>
         </ui:define>
     </ui:composition>

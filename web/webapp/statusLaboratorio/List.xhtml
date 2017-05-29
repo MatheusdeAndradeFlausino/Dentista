@@ -27,17 +27,20 @@
                                            itemValue="#{a.status}" itemLabel="#{a.status}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{statusLaboratorioController.pesquisar}"/>
-                    <p:commandButton value="#{bundle.Limpar}" update="panelFilter" action="#{statusLaboratorioController.limpar}"/>
+                    <p:commandButton icon="fa fa-search" value="#{bundle.Pesquisar}" type="submit" update="tabelaList" action="#{statusLaboratorioController.pesquisar}"/>
+                    <p:commandButton icon="fa fa-recycle" value="#{bundle.Limpar}" update="panelFilter" action="#{statusLaboratorioController.limpar}"/>
                 </h:panelGroup>
+                <p:separator />
                 <p:dataTable value="#{statusLaboratorioController.statusLaboratorios}" paginatorPosition="bottom" var="item" emptyMessage="#{bundle.ListStatusLaboratorioEmpty}" paginator="true" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" id="tabelaList" >
                     <f:facet name="{Exporters}">
                         <div style="float:right">
-                            <h:commandLink value="#{bundle.XLS}" >
+                            <h:commandLink title="#{bundle.XLS}" >
+                                <p:graphicImage library="images" name="excel.png" height="22" width="25"/>
                                 <p:dataExporter type="xls" target="tabelaList" fileName="StatusLaboratorio" />
                             </h:commandLink>
                             <h:outputText value =" " />
-                            <h:commandLink value="#{bundle.PDF}" >                              
+                            <h:commandLink title="#{bundle.PDF}" >
+                                <p:graphicImage library="images" name="pdf.png" height="22" width="25"/>
                                 <p:dataExporter type="pdf" encoding="iso-8859-1" preProcessor="#{statusLaboratorioController.processarPDF}" target="tabelaList" fileName="StatusLaboratorio"/>
                             </h:commandLink>
                         </div>
@@ -54,24 +57,21 @@
                         </f:facet>
                         <h:outputText value="#{item.status}"/>
                     </p:column>
-                    <p:column exportable="false">
+                    <p:column exportable="false" styleClass="colunaAcoes">
                         <f:facet name="header">
                             <h:outputText value="#{bundle.Acoes}"/>
                         </f:facet>
-                        <h:commandLink action="#{statusLaboratorioController.prepareView(item)}" value="#{bundle.ListStatusLaboratorioViewLink}"/>
+                        <p:commandButton icon="fa fa-eye" action="#{statusLaboratorioController.prepareView(item)}" title="#{bundle.ListStatusLaboratorioViewLink}"/>
                         <h:outputText value=" "/>
-                        <h:commandLink action="#{statusLaboratorioController.prepareEdit(item)}" value="#{bundle.ListStatusLaboratorioEditLink}"/>
+                        <p:commandButton icon="fa fa-edit" action="#{statusLaboratorioController.prepareEdit(item)}" title="#{bundle.ListStatusLaboratorioEditLink}"/>
                         <h:outputText value=" "/>
-                        <p:commandLink action="#{statusLaboratorioController.destroy(item)}" value="#{bundle.ListStatusLaboratorioDestroyLink}" update="tabelaList">
+                        <p:commandButton icon="fa fa-times" action="#{statusLaboratorioController.destroy(item)}" title="#{bundle.ListStatusLaboratorioDestroyLink}" update="tabelaList">
                             <p:confirm header="#{bundle.Confirmacao}" message="#{bundle.VoceTemCerteza}" icon="ui-icon-alert" />
-                        </p:commandLink>
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
                 <br />
-                <h:commandLink action="#{statusLaboratorioController.prepareCreate}" value="#{bundle.ListStatusLaboratorioCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListStatusLaboratorioIndexLink}"/>
+                <p:commandButton icon="fa fa-plus" styleClass="botaoBaixo" action="#{statusLaboratorioController.prepareCreate}" value="#{bundle.ListStatusLaboratorioCreateLink}"/> 
             </h:form>
         </ui:define>
     </ui:composition>

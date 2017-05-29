@@ -47,6 +47,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${file.reference.poi-3.9.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${file.reference.cdi-api-2.0-PFD2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

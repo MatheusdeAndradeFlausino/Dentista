@@ -16,43 +16,39 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    
+
                     <h:outputLabel value="#{bundle.EditBandeiraLabel_bandeira}"  />
                     <p:selectOneMenu value="#{bandeiraController.selected.bandeira}">                        
                         <f:selectItems value="#{bandeiraController.tiposBandeiras}" var="a"
                                        itemValue="#{a.bandeira}" itemLabel="#{a.bandeira}"/>
                     </p:selectOneMenu>
-                    
+
                     <h:outputLabel value="#{bundle.EditBandeiraLabel_tipoCartao}" />
                     <p:selectOneMenu value="#{bandeiraController.selected.tipoCartao}">                        
                         <f:selectItems value="#{bandeiraController.tiposCartao}" var="a"
                                        itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>
                     </p:selectOneMenu>
-                    
+
                     <h:outputLabel value="#{bundle.EditBandeiraLabel_taxa}" />
                     <p:inputText id="taxa" value="#{bandeiraController.selected.taxa}" title="#{bundle.EditBandeiraTitle_taxa}" />
-                    
+
                     <h:outputLabel value="#{bundle.EditBandeiraLabel_dia}" />
                     <p:inputText id="dia" value="#{bandeiraController.selected.dia}" title="#{bundle.EditBandeiraTitle_dia}" />
-                    
+
                     <h:outputLabel value="#{bundle.EditCentroCustoLabel_status}" />
                     <p:selectOneMenu value="#{bandeiraController.selected.status}">                        
                         <f:selectItems value="#{bandeiraController.status}" var="a"
                                        itemValue="#{a.status}" itemLabel="#{a.status}"/>
                     </p:selectOneMenu>
-                    
+
                     <h:outputLabel value="#{bundle.EditBandeiraLabel_descricao}" for="descricao" />
                     <p:inputTextarea rows="4" cols="30" id="descricao" value="#{bandeiraController.selected.descricao}" title="#{bundle.EditBandeiraTitle_descricao}" />
                 </h:panelGrid>
-                <h:commandLink action="#{bandeiraController.update}" value="#{bundle.EditBandeiraSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditBandeiraViewLink}"/>
-                <br />
-                <h:commandLink action="#{bandeiraController.prepareList}" value="#{bundle.EditBandeiraShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditBandeiraIndexLink}" />
+                <p:separator />
+                <h:panelGrid columns="2">
+                    <p:commandButton action="#{bandeiraController.update}" value="#{bundle.EditBandeiraSaveLink}" icon="fa fa-save" styleClass="botaoBaixo"/>
+                    <p:commandButton action="#{bandeiraController.prepareList}" value="#{bundle.EditBandeiraShowAllLink}" immediate="true" icon="fa fa-arrow-left" styleClass="botaoBaixo"/>
+                </h:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

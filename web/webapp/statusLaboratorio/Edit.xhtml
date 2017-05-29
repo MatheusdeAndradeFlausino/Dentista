@@ -14,26 +14,24 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
+            <h3>#{bundle.EditStatusLaboratorioTitle}</h3>
+          
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditStatusLaboratorioLabel_descricao}" for="descricao" />
+                    <p:outputLabel value="#{bundle.EditStatusLaboratorioLabel_descricao}" for="descricao" />
                     <p:inputTextarea rows="4" cols="30" id="descricao" value="#{statusLaboratorioController.selected.descricao}" title="#{bundle.EditStatusLaboratorioTitle_descricao}" />
-                    
-                    <h:outputLabel value="#{bundle.EditStatusLaboratorioLabel_status}" for="status" />
+
+                    <p:outputLabel value="#{bundle.EditStatusLaboratorioLabel_status}"  />
                     <p:selectOneMenu value="#{statusLaboratorioController.selected.status}">                        
                         <f:selectItems value="#{statusLaboratorioController.status}" var="a"
                                        itemValue="#{a.status}" itemLabel="#{a.status}"/>
                     </p:selectOneMenu>
                 </h:panelGrid>
-                <h:commandLink action="#{statusLaboratorioController.update}" value="#{bundle.EditStatusLaboratorioSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditStatusLaboratorioViewLink}"/>
-                <br />
-                <h:commandLink action="#{statusLaboratorioController.prepareList}" value="#{bundle.EditStatusLaboratorioShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditStatusLaboratorioIndexLink}" />
+                <p:separator styleClass="separadorBotoesBaixos"/>
+                <h:panelGrid columns="2">
+                    <p:commandButton icon="fa fa-save" styleClass="botaoBaixo" action="#{statusLaboratorioController.update}" value="#{bundle.EditStatusLaboratorioSaveLink}"/>
+                    <p:commandButton icon="fa fa-arrow-left" styleClass="botaoBaixo" action="#{statusLaboratorioController.prepareList}" value="#{bundle.EditStatusLaboratorioShowAllLink}" immediate="true"/>
+                </h:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

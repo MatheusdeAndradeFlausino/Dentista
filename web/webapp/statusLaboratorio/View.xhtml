@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
@@ -15,25 +16,18 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">                    
-                    <h:outputText value="#{bundle.ViewStatusLaboratorioLabel_descricao}"/>
-                    <h:outputText value="#{statusLaboratorioController.selected.descricao}" title="#{bundle.ViewStatusLaboratorioTitle_descricao}"/>
-                    
-                    <h:outputText value="#{bundle.ViewStatusLaboratorioLabel_status}"/>
+                    <h:outputText value="#{bundle.ViewStatusLaboratorioLabel_descricao}" styleClass="viewLabel"/>
+                    <h:outputText value="#{statusLaboratorioController.selected.descricao}"  title="#{bundle.ViewStatusLaboratorioTitle_descricao}"/>
+
+                    <h:outputText value="#{bundle.ViewStatusLaboratorioLabel_status}" styleClass="viewLabel"/>
                     <h:outputText value="#{statusLaboratorioController.selected.status}" title="#{bundle.ViewStatusLaboratorioTitle_status}"/>
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{statusLaboratorioController.destroyAndView}" value="#{bundle.ViewStatusLaboratorioDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewStatusLaboratorioEditLink}"/>
-                <br />
-                <h:commandLink action="#{statusLaboratorioController.prepareCreate}" value="#{bundle.ViewStatusLaboratorioCreateLink}" />
-                <br />
-                <h:commandLink action="#{statusLaboratorioController.prepareList}" value="#{bundle.ViewStatusLaboratorioShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewStatusLaboratorioIndexLink}"/>
-
+                <p:separator styleClass="separadorBotoesBaixos"/>
+                <h:panelGrid columns="3" >
+                    <p:commandButton action="#{statusLaboratorioController.prepareEdit(statusLaboratorioController.selected)}" icon="fa fa-edit" styleClass="botaoBaixo" value="#{bundle.ViewStatusLaboratorioEditLink}"/>                
+                    <p:commandButton action="#{statusLaboratorioController.prepareCreate}" value="#{bundle.ViewStatusLaboratorioCreateLink}" icon="fa fa-plus" styleClass="botaoBaixo"/>
+                    <p:commandButton action="#{statusLaboratorioController.prepareList}" value="#{bundle.ViewStatusLaboratorioShowAllLink}" icon="fa fa-arrow-left" styleClass="botaoBaixo"/>
+                </h:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

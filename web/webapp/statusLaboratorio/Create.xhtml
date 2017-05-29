@@ -14,19 +14,17 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
+            <h3>#{bundle.CreateStatusLaboratorioTitle}</h3>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid style="margin-bottom: 40px;" columns="2">
                     <h:outputLabel value="#{bundle.CreateStatusLaboratorioLabel_descricao}" for="descricao" />
                     <p:inputTextarea rows="4" cols="30" id="descricao" value="#{statusLaboratorioController.selected.descricao}" title="#{bundle.CreateStatusLaboratorioTitle_descricao}" />
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{statusLaboratorioController.create}" value="#{bundle.CreateStatusLaboratorioSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{statusLaboratorioController.prepareList}" value="#{bundle.CreateStatusLaboratorioShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateStatusLaboratorioIndexLink}"/>
+                <p:separator />
+                <h:panelGrid columns="2" >
+                    <p:commandButton styleClass="botaoBaixo" icon="fa fa-save" action="#{statusLaboratorioController.create}" value="#{bundle.CreateStatusLaboratorioSaveLink}" />
+                    <p:commandButton styleClass="botaoBaixo" icon="fa fa-arrow-left" action="#{statusLaboratorioController.prepareList}" value="#{bundle.CreateStatusLaboratorioShowAllLink}" immediate="true"/>
+                </h:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

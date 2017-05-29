@@ -16,36 +16,33 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    
+
                     <h:outputLabel value="#{bundle.CreateBandeiraLabel_bandeira}" />
                     <p:selectOneMenu value="#{bandeiraController.selected.bandeira}">                        
                         <f:selectItems value="#{bandeiraController.tiposBandeiras}" var="a"
                                        itemValue="#{a.bandeira}" itemLabel="#{a.bandeira}"/>
                     </p:selectOneMenu>
-                    
+
                     <h:outputLabel value="#{bundle.CreateBandeiraLabel_tipoCartao}" />
                     <p:selectOneMenu value="#{bandeiraController.selected.tipoCartao}">                        
                         <f:selectItems value="#{bandeiraController.tiposCartao}" var="a"
                                        itemValue="#{a.tipo}" itemLabel="#{a.tipo}"/>
                     </p:selectOneMenu>
-                    
+
                     <h:outputLabel value="#{bundle.CreateBandeiraLabel_taxa}" for="taxa" />
                     <p:inputText id="taxa" value="#{bandeiraController.selected.taxa}" title="#{bundle.CreateBandeiraTitle_taxa}" />
-                    
+
                     <h:outputLabel value="#{bundle.CreateBandeiraLabel_dia}" for="dia" />
                     <p:inputText id="dia" value="#{bandeiraController.selected.dia}" title="#{bundle.CreateBandeiraTitle_dia}" />
-                    
+
                     <h:outputLabel value="#{bundle.CreateBandeiraLabel_descricao}" for="descricao" />
                     <p:inputTextarea rows="4" cols="30" id="descricao" value="#{bandeiraController.selected.descricao}" title="#{bundle.CreateBandeiraTitle_descricao}" />
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{bandeiraController.create}" value="#{bundle.CreateBandeiraSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{bandeiraController.prepareList}" value="#{bundle.CreateBandeiraShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateBandeiraIndexLink}"/>
+                <p:separator />
+                <h:panelGrid columns="2" >
+                    <p:commandButton action="#{bandeiraController.create}" value="#{bundle.CreateBandeiraSaveLink}" icon="fa fa-save" styleClass="botaoBaixo"/>
+                    <p:commandButton action="#{bandeiraController.prepareList}" value="#{bundle.CreateBandeiraShowAllLink}" immediate="true" icon="fa fa-arrow-left" styleClass="botaoBaixo"/>
+                </h:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

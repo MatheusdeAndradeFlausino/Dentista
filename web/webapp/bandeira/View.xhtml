@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
@@ -15,36 +16,30 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                     <h:outputText value="#{bundle.ViewBandeiraLabel_descricao}"/>
+                    <h:outputText value="#{bundle.ViewBandeiraLabel_descricao}"/>
                     <h:outputText value="#{bandeiraController.selected.descricao}" title="#{bundle.ViewBandeiraTitle_descricao}"/>
-                    
+
                     <h:outputText value="#{bundle.ViewBandeiraLabel_bandeira}"/>
                     <h:outputText value="#{bandeiraController.selected.bandeira}" title="#{bundle.ViewBandeiraTitle_bandeira}"/>
-                    
+
                     <h:outputText value="#{bundle.ViewBandeiraLabel_tipoCartao}"/>
                     <h:outputText value="#{bandeiraController.selected.tipoCartao}" title="#{bundle.ViewBandeiraTitle_tipoCartao}"/>
-                    
+
                     <h:outputText value="#{bundle.ViewBandeiraLabel_taxa}"/>
                     <h:outputText value="#{bandeiraController.selected.taxa}" title="#{bundle.ViewBandeiraTitle_taxa}"/>
-                    
+
                     <h:outputText value="#{bundle.ViewBandeiraLabel_dia}"/>
                     <h:outputText value="#{bandeiraController.selected.dia}" title="#{bundle.ViewBandeiraTitle_dia}"/>
-                    
+
                     <h:outputText value="#{bundle.ViewCentroCustoLabel_status}"/>
                     <h:outputText value="#{bandeiraController.selected.status}" title="#{bundle.ViewCentroCustoTitle_status}"/>
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{bandeiraController.destroyAndView}" value="#{bundle.ViewBandeiraDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewBandeiraEditLink}"/>
-                <br />
-                <h:commandLink action="#{bandeiraController.prepareCreate}" value="#{bundle.ViewBandeiraCreateLink}" />
-                <br />
-                <h:commandLink action="#{bandeiraController.prepareList}" value="#{bundle.ViewBandeiraShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewBandeiraIndexLink}"/>
+                <p:separator />
+                <h:panelGrid columns="3">
+                    <p:commandButton action="#{bandeiraController.prepareEdit(bandeiraController.selected)}" value="#{bundle.ViewBandeiraEditLink}" icon="fa fa-edit" styleClass="botaoBaixo"/>                
+                    <p:commandButton action="#{bandeiraController.prepareCreate}" value="#{bundle.ViewBandeiraCreateLink}" icon="fa fa-plus" styleClass="botaoBaixo"/>
+                    <p:commandButton action="#{bandeiraController.prepareList}" value="#{bundle.ViewBandeiraShowAllLink}" icon="fa fa-arrow-left" styleClass="botaoBaixo"/>
+                </h:panelGrid>
 
             </h:form>
         </ui:define>

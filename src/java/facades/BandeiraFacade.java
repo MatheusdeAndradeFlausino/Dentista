@@ -38,7 +38,7 @@ public class BandeiraFacade extends AbstractFacade<Bandeira> {
         if(filtro.getBandeira() != null && !filtro.getBandeira().isEmpty())
             sql.append(" AND b.bandeira = :bandeira");
         
-        if(filtro.getDescricao() != null && !filtro.getBandeira().isEmpty())
+        if(filtro.getDescricao() != null && !filtro.getDescricao().isEmpty())
             sql.append(" AND b.descricao LIKE :descricao");
         
         if(filtro.getTipoCartao() != null && !filtro.getTipoCartao().isEmpty())
@@ -49,7 +49,7 @@ public class BandeiraFacade extends AbstractFacade<Bandeira> {
         if(filtro.getBandeira() != null && !filtro.getBandeira().isEmpty())
             query.setParameter("bandeira", filtro.getBandeira() );
         
-        if(filtro.getDescricao() != null && !filtro.getBandeira().isEmpty())
+        if(filtro.getDescricao() != null && !filtro.getDescricao().isEmpty())
             query.setParameter("descricao", "%" + filtro.getDescricao() + "%");
         
         if(filtro.getTipoCartao() != null && !filtro.getTipoCartao().isEmpty())
